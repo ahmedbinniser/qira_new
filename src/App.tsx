@@ -1,7 +1,6 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowUpRight,
-  CheckCircle2,
   Mail,
   MapPin,
   Phone,
@@ -23,6 +22,7 @@ import { GlassNavbar } from "@/components/GlassNavbar";
 import { HeroCinematic } from "@/components/HeroCinematic";
 import { AnimatedStatCounter } from "@/components/AnimatedStatCounter";
 import { ServiceCard } from "@/components/ServiceCard";
+import { MenuCategoryPage } from "@/components/MenuCategoryPage";
 import { ProgramTabs } from "@/components/ProgramTabs";
 import { ProcessTimeline } from "@/components/ProcessTimeline";
 import { FinalCTA } from "@/components/FinalCTA";
@@ -37,6 +37,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Separator } from "@/components/ui/separator";
+
+const menuRoutePrefix = "#/menu/";
 
 function SectionHeading({
   eyebrow,
@@ -64,10 +66,41 @@ function SectionHeading({
 
 export default function App() {
   const [language, setLanguage] = useState<Language>("en");
+  const [hash, setHash] = useState(() => window.location.hash);
   const reducedMotion = useReducedMotion();
   const rootRef = useRef<HTMLDivElement>(null);
+  const activeMenuCategory = hash.startsWith(menuRoutePrefix)
+    ? menuCategories.find((category) => category.id === hash.slice(menuRoutePrefix.length)) ?? null
+    : null;
 
   useGSAPAnimations(rootRef, reducedMotion);
+
+  useEffect(() => {
+    const onHashChange = () => setHash(window.location.hash);
+
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
+
+  useEffect(() => {
+    if (activeMenuCategory) {
+      window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
+      return;
+    }
+
+    if (!hash || hash === "#") {
+      window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
+      return;
+    }
+
+    const targetId = hash.slice(1);
+    window.requestAnimationFrame(() => {
+      document.getElementById(targetId)?.scrollIntoView({
+        behavior: reducedMotion ? "auto" : "smooth",
+        block: "start",
+      });
+    });
+  }, [activeMenuCategory, hash, reducedMotion]);
 
   return (
     <div ref={rootRef} className="site-shell min-h-screen bg-[var(--background-soft)] text-[var(--text-primary)]">
@@ -78,7 +111,16 @@ export default function App() {
           reducedMotion={reducedMotion}
         />
         <main>
-          <HeroCinematic language={language} reducedMotion={reducedMotion} />
+          {activeMenuCategory ? (
+            <MenuCategoryPage
+              category={activeMenuCategory}
+              categories={menuCategories}
+              language={language}
+              reducedMotion={reducedMotion}
+            />
+          ) : (
+            <>
+              <HeroCinematic language={language} reducedMotion={reducedMotion} />
 
           <section className="relative z-10 bg-[var(--surface)] px-5 py-8 md:px-8">
             <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-4">
@@ -246,13 +288,23 @@ export default function App() {
                 {menuCategories.map((category) => {
                   const Icon = category.icon;
                   return (
-                    <article key={category.title.en} className="menu-card reveal">
+                    <a
+                      key={category.id}
+                      href={`#/menu/${category.id}`}
+                      className="menu-card reveal group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      aria-label={
+                        language === "ar"
+                          ? `افتح صفحة ${category.title[language]}`
+                          : `Open ${category.title[language]} category page`
+                      }
+                    >
                       <img src={category.image} alt="" loading="lazy" />
                       <div className="menu-card-overlay">
                         <Icon className="size-5" />
                         <h3>{category.title[language]}</h3>
+                        <ArrowUpRight className="ms-auto size-4 text-[var(--accent)] transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 rtl:-rotate-90" />
                       </div>
-                    </article>
+                    </a>
                   );
                 })}
               </div>
@@ -313,7 +365,9 @@ export default function App() {
             </div>
           </section>
 
-          <FinalCTA language={language} reducedMotion={reducedMotion} />
+              <FinalCTA language={language} reducedMotion={reducedMotion} />
+            </>
+          )}
         </main>
 
         <footer className="bg-[var(--tea)] px-5 py-12 text-qira-cream md:px-8">

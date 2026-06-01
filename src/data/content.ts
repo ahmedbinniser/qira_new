@@ -17,6 +17,7 @@ import {
   Truck,
   Users,
   Utensils,
+  type LucideIcon,
 } from "lucide-react";
 
 export type Language = "en" | "ar";
@@ -27,7 +28,7 @@ export type ServiceAudience = {
   title: LocalizedText;
   body: LocalizedText;
   image: string;
-  icon: typeof GraduationCap;
+  icon: LucideIcon;
 };
 
 export type Program = {
@@ -36,6 +37,18 @@ export type Program = {
   description: LocalizedText;
   bestFor: LocalizedText;
   benefit: LocalizedText;
+};
+
+export type MenuCategory = {
+  id: string;
+  image: string;
+  title: LocalizedText;
+  summary: LocalizedText;
+  story: LocalizedText;
+  bestFor: LocalizedText;
+  highlights: LocalizedText[];
+  examples: LocalizedText[];
+  icon: LucideIcon;
 };
 
 export const navItems = [
@@ -233,13 +246,175 @@ export const qualityPoints = [
   { icon: Users, title: { en: "School-friendly portions", ar: "حصص مناسبة للمدارس" }, body: { en: "Portions can be shaped for student age groups and daily routines.", ar: "يمكن ضبط الحصص وفق أعمار الطلاب وروتينهم اليومي." } },
 ];
 
-export const menuCategories = [
-  { image: "/images/menu-breakfast.webp", title: { en: "Breakfast boxes", ar: "صناديق الإفطار" }, icon: Coffee },
-  { image: "/images/menu-lunch.webp", title: { en: "Lunch meals", ar: "وجبات الغداء" }, icon: Utensils },
-  { image: "/images/menu-snacks.webp", title: { en: "Healthy snacks", ar: "وجبات خفيفة صحية" }, icon: Apple },
-  { image: "/images/menu-buffet.webp", title: { en: "Buffet trays", ar: "صواني البوفيه" }, icon: ChefHat },
-  { image: "/images/menu-beverages.webp", title: { en: "Beverages", ar: "المشروبات" }, icon: Sparkles },
-  { image: "/images/menu-custom.webp", title: { en: "Custom packages", ar: "باقات مخصصة" }, icon: BriefcaseBusiness },
+export const menuCategories: MenuCategory[] = [
+  {
+    id: "breakfast-boxes",
+    image: "/images/menu-breakfast.webp",
+    title: { en: "Breakfast boxes", ar: "صناديق الإفطار" },
+    summary: {
+      en: "Balanced morning boxes for schools, offices, training days, and early-shift teams.",
+      ar: "صناديق صباحية متوازنة للمدارس والمكاتب وأيام التدريب وفرق الورديات المبكرة.",
+    },
+    story: {
+      en: "Breakfast boxes are planned for easy handoff, quick distribution, and a warm first meal of the day. Portions, packaging, and combinations can be tuned for students, staff, or guests.",
+      ar: "تُصمم صناديق الإفطار لتسهيل التسليم والتوزيع السريع وتقديم بداية يوم دافئة. يمكن ضبط الحصص والتغليف والمكونات حسب الطلاب أو الموظفين أو الضيوف.",
+    },
+    bestFor: {
+      en: "Morning school routines, early meetings, training rooms, and site teams starting shifts.",
+      ar: "روتين المدارس الصباحي والاجتماعات المبكرة وقاعات التدريب وفرق المواقع في بداية الوردية.",
+    },
+    highlights: [
+      { en: "Compact packaging that travels cleanly", ar: "تغليف عملي يحافظ على ترتيب الوجبة" },
+      { en: "Age-aware or shift-aware portions", ar: "حصص مناسبة للأعمار أو طبيعة الوردية" },
+      { en: "Pairs well with fruit, dairy, dates, and juice", ar: "يتكامل مع الفاكهة والألبان والتمر والعصائر" },
+    ],
+    examples: [
+      { en: "Mini manakish with fruit and juice", ar: "مناقيش صغيرة مع فاكهة وعصير" },
+      { en: "Labneh wrap with dates", ar: "راب لبنة مع تمر" },
+      { en: "Croissant box with yogurt", ar: "صندوق كرواسون مع زبادي" },
+    ],
+    icon: Coffee,
+  },
+  {
+    id: "lunch-meals",
+    image: "/images/menu-lunch.webp",
+    title: { en: "Lunch meals", ar: "وجبات الغداء" },
+    summary: {
+      en: "Dependable lunch programs with clear portions, practical service flow, and flexible menu rotation.",
+      ar: "برامج غداء موثوقة بحصص واضحة وتدفق خدمة عملي وتدوير مرن للقوائم.",
+    },
+    story: {
+      en: "Lunch meals form the backbone of many daily programs. Qira can shape the menu around repeat delivery windows, dietary needs, and receiving conditions so lunch stays calm and consistent.",
+      ar: "تشكل وجبات الغداء أساس كثير من البرامج اليومية. يمكن لقيرة تشكيل القائمة حول مواعيد تسليم متكررة واحتياجات غذائية وبيئة استلام واضحة حتى يبقى الغداء منظمًا وثابتًا.",
+    },
+    bestFor: {
+      en: "Schools, corporate staff lunches, long workdays, and recurring operational meal plans.",
+      ar: "المدارس وغداء الموظفين وأيام العمل الطويلة وبرامج الوجبات التشغيلية المتكررة.",
+    },
+    highlights: [
+      { en: "Hot or chilled formats depending on setup", ar: "خيارات ساخنة أو مبردة حسب التجهيز" },
+      { en: "Menus can rotate weekly or monthly", ar: "إمكانية تدوير القائمة أسبوعيًا أو شهريًا" },
+      { en: "Built around repeatable delivery routines", ar: "مصممة حول روتين توصيل قابل للتكرار" },
+    ],
+    examples: [
+      { en: "Rice bowls with grilled protein", ar: "أطباق أرز مع بروتين مشوي" },
+      { en: "Pasta or baked mains with salad", ar: "باستا أو أطباق مخبوزة مع سلطة" },
+      { en: "Student-friendly lunch trays", ar: "صواني غداء مناسبة للطلاب" },
+    ],
+    icon: Utensils,
+  },
+  {
+    id: "healthy-snacks",
+    image: "/images/menu-snacks.webp",
+    title: { en: "Healthy snacks", ar: "وجبات خفيفة صحية" },
+    summary: {
+      en: "Snack options for breaks, school days, meetings, and teams that need light fuel.",
+      ar: "خيارات خفيفة للفسح وأيام المدرسة والاجتماعات والفرق التي تحتاج إلى طاقة بسيطة.",
+    },
+    story: {
+      en: "Healthy snacks keep the day moving without heavy service requirements. They can be packed individually, grouped for break stations, or added to larger breakfast and lunch programs.",
+      ar: "تساعد الوجبات الخفيفة الصحية على استمرار اليوم دون متطلبات خدمة معقدة. يمكن تغليفها فرديًا أو ترتيبها لمحطات الاستراحة أو إضافتها إلى برامج الإفطار والغداء.",
+    },
+    bestFor: {
+      en: "School breaks, meeting intervals, wellness days, and quick team refreshments.",
+      ar: "فسح المدارس وفواصل الاجتماعات وأيام العافية والضيافة السريعة للفرق.",
+    },
+    highlights: [
+      { en: "Simple grab-and-go distribution", ar: "توزيع سهل وسريع" },
+      { en: "Can support lighter daily routines", ar: "مناسبة للروتين اليومي الخفيف" },
+      { en: "Works as an add-on to larger programs", ar: "تعمل كإضافة للبرامج الأكبر" },
+    ],
+    examples: [
+      { en: "Fruit cups and granola bites", ar: "أكواب فواكه ولقيمات جرانولا" },
+      { en: "Mini sandwiches or wraps", ar: "ساندويتشات صغيرة أو راب" },
+      { en: "Yogurt, dates, and nut mixes", ar: "زبادي وتمر وخلطات مكسرات" },
+    ],
+    icon: Apple,
+  },
+  {
+    id: "buffet-trays",
+    image: "/images/menu-buffet.webp",
+    title: { en: "Buffet trays", ar: "صواني البوفيه" },
+    summary: {
+      en: "Generous trays for events, conferences, hosted meetings, and shared workplace meals.",
+      ar: "صواني وفيرة للمناسبات والمؤتمرات والاجتماعات المستضافة ووجبات العمل المشتركة.",
+    },
+    story: {
+      en: "Buffet trays bring hospitality to a room while keeping service organized. The format can support reception-style gatherings, seated meetings, or larger conference breaks.",
+      ar: "تضيف صواني البوفيه روح الضيافة إلى المكان مع الحفاظ على تنظيم الخدمة. يناسب هذا النمط الاستقبالات والاجتماعات والجلسات الكبيرة في المؤتمرات.",
+    },
+    bestFor: {
+      en: "Receptions, conference breaks, ceremonies, boardrooms, and hosted office meals.",
+      ar: "الاستقبالات واستراحات المؤتمرات والحفلات وقاعات الاجتماعات ووجبات المكاتب المستضافة.",
+    },
+    highlights: [
+      { en: "Designed for shared service and visual presence", ar: "مصممة للخدمة المشتركة والحضور البصري" },
+      { en: "Scales from small rooms to larger events", ar: "تتوسع من الغرف الصغيرة إلى الفعاليات الأكبر" },
+      { en: "Can lean traditional, modern, or mixed", ar: "يمكن أن تكون تقليدية أو عصرية أو مزيجًا بينهما" },
+    ],
+    examples: [
+      { en: "Savory pastry and sandwich trays", ar: "صواني معجنات مالحة وساندويتشات" },
+      { en: "Warm buffet mains with sides", ar: "أطباق بوفيه ساخنة مع أطباق جانبية" },
+      { en: "Dessert and coffee service trays", ar: "صواني حلويات وقهوة" },
+    ],
+    icon: ChefHat,
+  },
+  {
+    id: "beverages",
+    image: "/images/menu-beverages.webp",
+    title: { en: "Beverages", ar: "المشروبات" },
+    summary: {
+      en: "Drink service for school programs, office days, meetings, and hospitality moments.",
+      ar: "خدمة مشروبات للمدارس وأيام العمل والاجتماعات ولحظات الضيافة.",
+    },
+    story: {
+      en: "Beverages can be delivered as simple add-ons or planned as a dedicated refreshment station. Options can match the pace of the event, the age group, and the level of hospitality needed.",
+      ar: "يمكن تقديم المشروبات كإضافة بسيطة أو كمحطة ضيافة مستقلة. تُختار الخيارات حسب إيقاع المناسبة والفئة العمرية ومستوى الضيافة المطلوب.",
+    },
+    bestFor: {
+      en: "Meeting rooms, event breaks, school add-ons, and warm welcome moments.",
+      ar: "قاعات الاجتماعات واستراحات الفعاليات وإضافات المدارس ولحظات الترحيب الدافئة.",
+    },
+    highlights: [
+      { en: "Simple pairing with breakfast, lunch, or buffets", ar: "تتكامل بسهولة مع الإفطار أو الغداء أو البوفيه" },
+      { en: "Hot and chilled options can be mixed", ar: "إمكانية الجمع بين الخيارات الساخنة والباردة" },
+      { en: "Packaging can match service setting", ar: "تغليف يناسب بيئة الخدمة" },
+    ],
+    examples: [
+      { en: "Fresh juices and bottled water", ar: "عصائر طازجة ومياه معبأة" },
+      { en: "Arabic coffee and tea service", ar: "خدمة قهوة عربية وشاي" },
+      { en: "Milk, yogurt drinks, or chilled refreshments", ar: "حليب ومشروبات زبادي أو مرطبات باردة" },
+    ],
+    icon: Sparkles,
+  },
+  {
+    id: "custom-packages",
+    image: "/images/menu-custom.webp",
+    title: { en: "Custom packages", ar: "باقات مخصصة" },
+    summary: {
+      en: "Tailored packages that combine meals, snacks, drinks, packaging, and service rhythm.",
+      ar: "باقات مصممة تجمع الوجبات والوجبات الخفيفة والمشروبات والتغليف وإيقاع الخدمة.",
+    },
+    story: {
+      en: "Custom packages are useful when the brief is specific: a school term, a multi-day conference, a VIP visit, or a team that needs recurring meals across locations.",
+      ar: "تفيد الباقات المخصصة عندما تكون الحاجة محددة: فصل دراسي أو مؤتمر متعدد الأيام أو زيارة خاصة أو فريق يحتاج إلى وجبات متكررة عبر مواقع مختلفة.",
+    },
+    bestFor: {
+      en: "Complex schedules, mixed audiences, recurring programs, and special hospitality briefs.",
+      ar: "الجداول المعقدة والجماهير المتنوعة والبرامج المتكررة وطلبات الضيافة الخاصة.",
+    },
+    highlights: [
+      { en: "Combines multiple category formats", ar: "تجمع أكثر من نوع من الفئات" },
+      { en: "Can align with brand, age group, or event tone", ar: "تنسجم مع العلامة أو الفئة العمرية أو طابع المناسبة" },
+      { en: "Useful for pilots before larger rollout", ar: "مناسبة للتجارب قبل التوسع الأكبر" },
+    ],
+    examples: [
+      { en: "Weekly school meal bundle", ar: "باقة أسبوعية للوجبات المدرسية" },
+      { en: "Conference breakfast, snack, and coffee set", ar: "باقة مؤتمر للإفطار والوجبة الخفيفة والقهوة" },
+      { en: "Shift-team lunch and beverage plan", ar: "خطة غداء ومشروبات لفرق الورديات" },
+    ],
+    icon: BriefcaseBusiness,
+  },
 ];
 
 // Replace these placeholders with approved real client quotes before production.
