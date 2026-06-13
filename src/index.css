@@ -988,3 +988,54 @@
     animation: none !important;
   }
 }
+
+/* Card Spark and Shine animations when active step triggers */
+.process-step::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-25deg);
+  pointer-events: none;
+  z-index: 20;
+}
+
+.process-step[data-active]::before {
+  animation: shine-sweep 850ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.process-step[data-active] {
+  animation: card-spark 850ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes shine-sweep {
+  0% {
+    left: -150%;
+  }
+  100% {
+    left: 150%;
+  }
+}
+
+@keyframes card-spark {
+  0% {
+    border-color: rgba(241, 158, 56, 1);
+    box-shadow: 0 0 0 0px rgba(241, 158, 56, 0.8), 0 18px 45px rgba(134, 93, 75, 0.06);
+  }
+  25% {
+    border-color: #ffffff;
+    box-shadow: 0 0 35px 8px rgba(241, 158, 56, 0.55), 0 28px 70px rgba(134, 93, 75, 0.22);
+  }
+  100% {
+    border-color: rgba(241, 158, 56, 0.75);
+    box-shadow: 0 28px 70px rgba(134, 93, 75, 0.16);
+  }
+}

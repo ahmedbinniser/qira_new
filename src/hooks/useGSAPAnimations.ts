@@ -151,8 +151,8 @@ export function useGSAPAnimations(
               const processTl = gsap.timeline({
                 scrollTrigger: {
                   trigger: processSection,
-                  start: "top 78%",
-                  end: "bottom 42%",
+                  start: "top 85%",
+                  end: "bottom 30%",
                   scrub: 0.8,
                   onUpdate: (self) => {
                     const activeIndex = Math.min(
