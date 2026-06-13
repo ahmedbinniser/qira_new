@@ -604,8 +604,14 @@ export default function App() {
                       }`}
                     >
                       {/* Icon wrapper inside clay-seal circle */}
-                      <div className="mb-5 flex size-[46px] items-center justify-center rounded-full border border-[#865D4B]/22 bg-[#DEC9B2]/35 text-[#865D4B] transition-colors duration-300 group-hover:bg-[#F19E38]/18">
-                        <Icon className="size-5" />
+                      <div
+                        className={`mb-5 flex size-12 items-center justify-center rounded-full transition-all duration-300 ${
+                          index === 0
+                            ? "bg-gradient-to-br from-[#C98A61] to-[#A86543] border border-[rgba(111,75,59,0.35)] shadow-[0_8px_18px_rgba(134,93,75,0.18)] text-[#FFF8F1] group-hover:shadow-[0_12px_24px_rgba(134,93,75,0.24)]"
+                            : "bg-[#DEC9B2] border border-[rgba(134,93,75,0.28)] text-[#865D4B] group-hover:bg-[#865D4B] group-hover:text-[#FFF8F1] group-hover:border-[#865D4B]/40 group-hover:shadow-[0_8px_18px_rgba(134,93,75,0.18)]"
+                        }`}
+                      >
+                        <Icon className="size-[22px]" strokeWidth={2} />
                       </div>
 
                       <h3 className="font-display text-lg md:text-xl font-bold text-[#231F20] leading-snug">
