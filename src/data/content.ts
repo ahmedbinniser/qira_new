@@ -26,6 +26,7 @@ import {
   WorksiteJar,
   ShiftTagine,
   OfficeFinjan,
+  RosetteIcon,
 } from "@/components/PotteryIcons";
 import * as React from "react";
 
@@ -265,12 +266,54 @@ export const processSteps = [
 ];
 
 export const qualityPoints = [
-  { icon: Apple, title: { en: "Ingredient quality", ar: "جودة المكونات" }, body: { en: "Practical menus start with dependable ingredients and steady preparation standards.", ar: "تبدأ القوائم العملية بمكونات موثوقة ومعايير تحضير ثابتة." } },
-  { icon: PackageCheck, title: { en: "Packaging", ar: "التغليف" }, body: { en: "Packaging is chosen for schools, offices, events, and field teams.", ar: "يختار التغليف بما يناسب المدارس والمكاتب والمناسبات والفرق الميدانية." } },
-  { icon: Truck, title: { en: "Delivery reliability", ar: "موثوقية التوصيل" }, body: { en: "Programs are planned around repeatable receiving windows and site coordination.", ar: "تخطط البرامج حول نوافذ استلام متكررة وتنسيق موقعي واضح." } },
-  { icon: ChefHat, title: { en: "Menu flexibility", ar: "مرونة القوائم" }, body: { en: "Menus adapt by group, schedule, dietary need, and cultural preference.", ar: "تتكيف القوائم حسب المجموعة والجدول والاحتياج الغذائي والتفضيل الثقافي." } },
-  { icon: Handshake, title: { en: "Cultural fit", ar: "ملاءمة ثقافية" }, body: { en: "Arabic hospitality appears in flavor, presentation, and service manners.", ar: "تظهر الضيافة العربية في النكهة والتقديم وأسلوب الخدمة." } },
-  { icon: Users, title: { en: "School-friendly portions", ar: "حصص مناسبة للمدارس" }, body: { en: "Portions can be shaped for student age groups and daily routines.", ar: "يمكن ضبط الحصص وفق أعمار الطلاب وروتينهم اليومي." } },
+  {
+    icon: Apple,
+    title: { en: "Ingredient quality", ar: "جودة المكونات" },
+    body: {
+      en: "Menus begin with dependable ingredients and steady preparation standards.",
+      ar: "تبدأ القوائم والوجبات بمكونات موثوقة ومعايير تحضير دقيقة ومستقرة.",
+    },
+  },
+  {
+    icon: PackageCheck,
+    title: { en: "Packaging", ar: "التغليف" },
+    body: {
+      en: "Packaging is selected for schools, offices, events, and field teams.",
+      ar: "يتم اختيار التغليف وتصميمه ليناسب المدارس، والمكاتب، والفعاليات، والفرق الميدانية.",
+    },
+  },
+  {
+    icon: Truck,
+    title: { en: "Delivery reliability", ar: "موثوقية التوصيل" },
+    body: {
+      en: "Programs are planned around receiving windows, site coordination, and repeatable routines.",
+      ar: "تُخطط البرامج والوجبات بدقة لتلائم نوافذ الاستلام، وتنسيق الموقع، والمسارات التشغيلية المتكررة.",
+    },
+  },
+  {
+    icon: ChefHat,
+    title: { en: "Menu flexibility", ar: "مرونة القوائم" },
+    body: {
+      en: "Menus adapt by group, schedule, dietary need, and cultural preference.",
+      ar: "تتكيف القوائم والخيارات حسب الفئة المستهدفة، والجدول الزمني، والاحتياج الغذائي، والتفضيل الثقافي.",
+    },
+  },
+  {
+    icon: RosetteIcon,
+    title: { en: "Cultural fit", ar: "ملاءمة ثقافية" },
+    body: {
+      en: "Arabic hospitality appears in flavor, presentation, and service manners.",
+      ar: "تتجسد الضيافة العربية الأصيلة في النكهة، وطريقة التقديم، ولطافة أسلوب الخدمة.",
+    },
+  },
+  {
+    icon: GraduationCap,
+    title: { en: "School-friendly portions", ar: "حصص مناسبة للمدارس" },
+    body: {
+      en: "Portions can be shaped for student age groups and daily routines.",
+      ar: "تُصمم الحصص والوجبات بدقة لتناسب فئات أعمار الطلاب المختلفة وروتينهم المدرسي.",
+    },
+  },
 ];
 
 export const menuCategories: MenuCategory[] = [

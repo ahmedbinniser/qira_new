@@ -24,7 +24,7 @@ import { AnimatedStatCounter } from "@/components/AnimatedStatCounter";
 import { ServiceCard } from "@/components/ServiceCard";
 import { MenuCategoryPage } from "@/components/MenuCategoryPage";
 import { ProgramTabs } from "@/components/ProgramTabs";
-import { LineJarIcon } from "@/components/PotteryIcons";
+import { LineJarIcon, RosetteIcon } from "@/components/PotteryIcons";
 import { ProcessTimeline } from "@/components/ProcessTimeline";
 import { FinalCTA } from "@/components/FinalCTA";
 import { LiquidButton } from "@/components/LiquidButton";
@@ -489,28 +489,142 @@ export default function App() {
             </div>
           </section>
 
-          <section className="section-band bg-[var(--background-soft)] px-5 py-24 md:px-8">
-            <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.85fr_1.15fr]">
-              <SectionHeading
-                eyebrow={language === "ar" ? "الجودة والتشغيل" : "Quality and operations"}
-                title={language === "ar" ? "ثقة في كل نقطة تشغيل" : "Trust at Every Operating Point"}
-                body={
-                  language === "ar"
-                    ? "المشتري المؤسسي يحتاج وضوحا في المكونات والتغليف والتوصيل والمرونة، لا وعودا عامة."
-                    : "B2B buyers need clarity on ingredients, packaging, delivery, flexibility, and cultural fit, not vague promises."
-                }
-              />
-              <div className="grid gap-4 md:grid-cols-2">
-                {qualityPoints.map((point) => {
+          <section
+            id="quality"
+            className="section-band relative overflow-hidden px-5 py-28 md:px-8"
+            style={{
+              backgroundColor: "#F4EADA",
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E")`,
+            }}
+          >
+            {/* Very soft palm shadow in top-left */}
+            <div className="absolute left-[-120px] top-[-60px] w-[380px] h-[380px] pointer-events-none opacity-[0.08] blur-[16px] text-[#865D4B] rtl:hidden">
+              <svg viewBox="0 0 200 200" fill="currentColor" className="w-full h-full">
+                <path d="M10,10 Q60,90 190,190" stroke="currentColor" strokeWidth="4" fill="none" />
+                <path d="M40,35 Q100,25 150,45 Q100,55 40,35 Z" />
+                <path d="M55,50 Q125,40 175,65 Q125,75 55,50 Z" />
+                <path d="M70,65 Q150,55 195,85 Q150,95 70,65 Z" />
+                <path d="M25,20 Q15,70 45,120 Q40,70 25,20 Z" />
+                <path d="M40,45 Q30,105 70,150 Q60,105 40,45 Z" />
+                <path d="M55,70 Q45,140 95,180 Q80,140 55,70 Z" />
+              </svg>
+            </div>
+            <div className="absolute right-[-120px] top-[-60px] w-[380px] h-[380px] pointer-events-none opacity-[0.08] blur-[16px] text-[#865D4B] hidden rtl:block">
+              <svg viewBox="0 0 200 200" fill="currentColor" className="w-full h-full">
+                <path d="M190,10 Q140,90 10,190" stroke="currentColor" strokeWidth="4" fill="none" />
+                <path d="M160,35 Q100,25 50,45 Q100,55 160,35 Z" />
+                <path d="M145,50 Q75,40 25,65 Q75,75 145,50 Z" />
+                <path d="M130,65 Q50,55 5,85 Q50,95 130,65 Z" />
+                <path d="M175,20 Q185,70 155,120 Q160,70 175,20 Z" />
+                <path d="M160,45 Q170,105 130,150 Q140,105 160,45 Z" />
+                <path d="M145,70 Q155,140 105,180 Q120,140 145,70 Z" />
+              </svg>
+            </div>
+
+            {/* Faint pottery jar line-art in top-right */}
+            <div className="absolute right-10 top-12 w-48 h-48 pointer-events-none opacity-[0.10] text-[#865D4B] rtl:hidden">
+              <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.25" className="w-full h-full">
+                <path d="M35 15h30v5H35z" />
+                <path d="M38 20v5c0 5-8 8-8 18v25c0 8 6 14 14 14h12c8 0 14-6 14-14V43c0-10-8-13-8-18v-5" />
+                <path d="M30 45h40" strokeDasharray="2 3" />
+                <path d="M35 65h30" />
+                <path d="M30 30c-5 0-8 4-8 10s3 10 8 10" />
+                <path d="M70 30c5 0 8 4 8 10s-3 10-8 10" />
+              </svg>
+            </div>
+            <div className="absolute left-10 top-12 w-48 h-48 pointer-events-none opacity-[0.10] text-[#865D4B] hidden rtl:block">
+              <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.25" className="w-full h-full">
+                <path d="M35 15h30v5H35z" />
+                <path d="M38 20v5c0 5-8 8-8 18v25c0 8 6 14 14 14h12c8 0 14-6 14-14V43c0-10-8-13-8-18v-5" />
+                <path d="M30 45h40" strokeDasharray="2 3" />
+                <path d="M35 65h30" />
+                <path d="M30 30c-5 0-8 4-8 10s3 10 8 10" />
+                <path d="M70 30c5 0 8 4 8 10s-3 10-8 10" />
+              </svg>
+            </div>
+
+            {/* Subtle Hijazi-inspired vertical border pattern left/right */}
+            <div
+              className="absolute left-4 top-0 bottom-0 w-6 pointer-events-none opacity-30"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='24' viewBox='0 0 12 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 2L10 8L6 14L2 8Z' stroke='%23865D4B' stroke-width='0.75' fill='none'/%3E%3C/svg%3E")`,
+                backgroundRepeat: "repeat-y",
+                backgroundSize: "12px 24px",
+              }}
+            />
+            <div
+              className="absolute right-4 top-0 bottom-0 w-6 pointer-events-none opacity-30"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='24' viewBox='0 0 12 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 2L10 8L6 14L2 8Z' stroke='%23865D4B' stroke-width='0.75' fill='none'/%3E%3C/svg%3E")`,
+                backgroundRepeat: "repeat-y",
+                backgroundSize: "12px 24px",
+              }}
+            />
+
+            <div className="mx-auto grid max-w-[1240px] gap-12 lg:grid-cols-[0.85fr_1.15fr] relative z-10 w-full">
+              {/* Left Column: Heading and intro */}
+              <div className="reveal flex flex-col justify-start items-start text-left rtl:text-right w-full">
+                <Badge variant="warm" className="mb-5">
+                  {language === "ar" ? "الجودة والتشغيل" : "Quality & operations"}
+                </Badge>
+                <h2
+                  className="font-display font-bold text-[#231F20] tracking-tight leading-[1.05]"
+                  style={{ fontSize: "clamp(34px, 4.5vw, 60px)", letterSpacing: "-0.02em" }}
+                >
+                  {language === "ar" ? "ثقة تُبنى في كل تفصيلة" : "Trust in Every Detail of Service"}
+                </h2>
+                {/* Arabic Accent Line */}
+                <p className="font-display text-[#865D4B] text-xl md:text-2xl mt-4 font-semibold">
+                  ثقة تُبنى في كل تفصيلة
+                </p>
+
+                {/* Delicate Divider Ornament */}
+                <div className="my-6 flex items-center gap-3 w-40">
+                  <div className="h-[1px] flex-1 bg-[#DEC9B2]/60" />
+                  <div className="size-1.5 rotate-45 bg-[#865D4B]" />
+                  <div className="h-[1px] flex-1 bg-[#DEC9B2]/60" />
+                </div>
+
+                <p className="max-w-[420px] text-base leading-relaxed text-[#231F20]/75">
+                  {language === "ar"
+                    ? "يحتاج مشتري الخدمات المؤسسية لمعايير واضحة للمكونات والتغليف والتوصيل والمرونة والملاءمة الثقافية — لنضمن وصول كل وجبة بعناية واتساق."
+                    : "B2B buyers need clear standards for ingredients, packaging, delivery, flexibility, and cultural fit — so every meal arrives with care and consistency."}
+                </p>
+              </div>
+
+              {/* Right Column: Cards Grid */}
+              <div className="grid gap-5 sm:grid-cols-2 w-full">
+                {qualityPoints.map((point, index) => {
                   const Icon = point.icon;
                   return (
-                    <Card key={point.title.en} className="reveal border-[var(--border)] bg-[var(--surface-card)] shadow-sm">
-                      <CardContent className="p-5">
-                        <Icon className="mb-5 size-6 text-[var(--primary)]" />
-                        <h3 className="text-lg font-semibold">{point.title[language]}</h3>
-                        <p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{point.body[language]}</p>
-                      </CardContent>
-                    </Card>
+                    <article
+                      key={point.title.en}
+                      className={`reveal group relative overflow-hidden rounded-[20px] border border-[#865D4B]/22 bg-gradient-to-br from-[#FAEDE6]/92 to-[#F4EADA]/78 p-[28px] min-h-[190px] shadow-[0_18px_45px_rgba(134,93,75,0.08)] transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-[#F19E38]/55 hover:shadow-[0_24px_65px_rgba(134,93,75,0.14)] ${
+                        index === 0 ? "border-t-[3px] border-t-[#F19E38]" : ""
+                      }`}
+                    >
+                      {/* Icon wrapper inside clay-seal circle */}
+                      <div className="mb-5 flex size-[46px] items-center justify-center rounded-full border border-[#865D4B]/22 bg-[#DEC9B2]/35 text-[#865D4B] transition-colors duration-300 group-hover:bg-[#F19E38]/18">
+                        <Icon className="size-5" />
+                      </div>
+
+                      <h3 className="font-display text-lg md:text-xl font-bold text-[#231F20] leading-snug">
+                        {point.title[language]}
+                      </h3>
+
+                      <p className="mt-3 text-[15px] leading-[1.7] text-[#231F20]/68">
+                        {point.body[language]}
+                      </p>
+
+                      {/* Watermark inside card */}
+                      <div className="absolute bottom-[-10px] right-[-10px] w-20 h-20 opacity-[0.06] text-[#865D4B] pointer-events-none transition-all duration-500 group-hover:scale-110">
+                        {index % 2 === 0 ? (
+                          <LineJarIcon className="w-full h-full" />
+                        ) : (
+                          <RosetteIcon className="w-full h-full" />
+                        )}
+                      </div>
+                    </article>
                   );
                 })}
               </div>
