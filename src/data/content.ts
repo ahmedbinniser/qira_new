@@ -19,6 +19,15 @@ import {
   Utensils,
   type LucideIcon,
 } from "lucide-react";
+import {
+  SchoolPot,
+  HotelDallah,
+  EventBowl,
+  WorksiteJar,
+  ShiftTagine,
+  OfficeFinjan,
+} from "@/components/PotteryIcons";
+import * as React from "react";
 
 export type Language = "en" | "ar";
 
@@ -28,7 +37,7 @@ export type ServiceAudience = {
   title: LocalizedText;
   body: LocalizedText;
   image: string;
-  icon: LucideIcon;
+  icon: React.ComponentType<any>;
 };
 
 export type Program = {
@@ -37,6 +46,7 @@ export type Program = {
   description: LocalizedText;
   bestFor: LocalizedText;
   benefit: LocalizedText;
+  image: string;
 };
 
 export type MenuCategory = {
@@ -91,58 +101,58 @@ export const stats = [
 
 export const audiences: ServiceAudience[] = [
   {
-    title: { en: "Schools", ar: "المدارس" },
+    title: { en: "School Meals", ar: "وجبات المدارس" },
     body: {
-      en: "Daily meal programs with student-friendly portions, practical packaging, and menu flexibility for different age groups.",
-      ar: "برامج وجبات يومية بحصص مناسبة للطلاب وتغليف عملي ومرونة في القوائم لمختلف الأعمار.",
+      en: "Nourishing daily meals prepared with fresh ingredients, portioned carefully for children, and served with warmth.",
+      ar: "وجبات يومية مغذية تُحضّر بمكونات طازجة وحصص مدروسة بعناية تناسب الصغار، وتُقدم بكل حب.",
     },
     image: "/images/serve-schools.webp",
-    icon: GraduationCap,
+    icon: SchoolPot,
   },
   {
-    title: { en: "Hotels", ar: "الفنادق" },
+    title: { en: "Hotel Hospitality", ar: "ضيافة الفنادق" },
     body: {
-      en: "Back-of-house support, staff meals, and hospitality-aligned catering that respects guest expectations.",
-      ar: "دعم تشغيلي ووجبات للموظفين وتموين ينسجم مع معايير الضيافة وتوقعات الضيوف.",
+      en: "Consistent staff dining and back-of-house meal programs that match the hospitality standard of your brand.",
+      ar: "وجبات موظفين وخدمات مساندة تُحضّر بنفس مستوى الضيافة والاهتمام الذي تقدمونه لضيوفكم.",
     },
     image: "/images/serve-hotels.webp",
-    icon: Hotel,
+    icon: HotelDallah,
   },
   {
-    title: { en: "Events & Conferences", ar: "المناسبات والمؤتمرات" },
+    title: { en: "Gatherings & Events", ar: "اللقاءات والفعاليات" },
     body: {
-      en: "Buffet trays, packaged service, and culturally rooted menus built for punctual event flow.",
-      ar: "بوفيهات ووجبات مغلفة وقوائم بطابع ثقافي مصممة لسير المناسبات بدقة.",
+      en: "Beautifully presented sharing trays, warm buffet spreads, and bespoke catering designed to elevate every gathering.",
+      ar: "صواني مشاركة منسقة بعناية، وبوفيهات دافئة، وتموين مخصص يُعد ليزيد لقاءاتكم بهجة وحفاوة.",
     },
     image: "/images/serve-events.webp",
-    icon: CalendarDays,
+    icon: EventBowl,
   },
   {
-    title: { en: "Construction Companies", ar: "شركات المقاولات" },
+    title: { en: "Worksite Meals", ar: "وجبات مواقع العمل" },
     body: {
-      en: "Reliable staff meal plans for field teams that need consistency, speed, and clear delivery routines.",
-      ar: "خطط وجبات موثوقة لفرق العمل الميدانية التي تحتاج للاتساق والسرعة وروتين توصيل واضح.",
+      en: "Hearty, reliable meals delivered to field teams, keeping them sustained and valued throughout the day.",
+      ar: "وجبات مشبعة وموثوقة تصل إلى طواقم العمل الميدانية، لتبقيهم في كامل نشاطهم وتشعرهم بالتقدير.",
     },
     image: "/images/serve-construction.webp",
-    icon: Construction,
+    icon: WorksiteJar,
   },
   {
-    title: { en: "Security Companies", ar: "شركات الأمن" },
+    title: { en: "Shift Meals", ar: "وجبات الورديات" },
     body: {
-      en: "Shift-aware meal support for distributed teams, with simple packaging and dependable coordination.",
-      ar: "دعم وجبات يناسب الورديات والفرق الموزعة مع تغليف بسيط وتنسيق يعتمد عليه.",
+      en: "Comforting, warm meals timed perfectly for teams on rotating schedules, ensuring good food is always ready.",
+      ar: "وجبات دافئة ومريحة تصل بدقة متناهية لتناسب جداول الورديات المختلفة، لتكون اللقمة الطيبة حاضرة دائماً.",
     },
     image: "/images/serve-security.webp",
-    icon: ShieldCheck,
+    icon: ShiftTagine,
   },
   {
-    title: { en: "Corporate Offices", ar: "مكاتب الشركات" },
+    title: { en: "Office Tables", ar: "موائد المكاتب" },
     body: {
-      en: "Workplace catering that keeps teams fed without turning lunch into an operational burden.",
-      ar: "تموين للمكاتب يحافظ على راحة الفرق دون تحويل الغداء إلى عبء تشغيلي.",
+      en: "Daily lunch tables and meeting platters that bring colleagues together over shared plates and genuine hospitality.",
+      ar: "موائد غداء يومية وأطباق اجتماعات تجمع الزملاء حول لقمة تشاركية طيبة وضيافة أصيلة.",
     },
     image: "/images/serve-corporate.webp",
-    icon: Building2,
+    icon: OfficeFinjan,
   },
 ];
 
@@ -151,70 +161,75 @@ export const programs: Program[] = [
     id: "school",
     title: { en: "School Meal Programs", ar: "برامج الوجبات المدرسية" },
     description: {
-      en: "Daily breakfast, lunch, and snack programs built around student routines and school logistics.",
-      ar: "برامج إفطار وغداء ووجبات خفيفة يومية مبنية حول روتين الطلاب ولوجستيات المدارس.",
+      en: "Daily breakfast, lunch, and snack programs prepared with care for student routines and school logistics.",
+      ar: "برامج إفطار وغداء ووجبات خفيفة يومية تُحضّر بعناية لتناسب روتين الطلاب ولوجستيات المدارس.",
     },
-    bestFor: { en: "Private schools, academies, and nurseries", ar: "المدارس الخاصة والأكاديميات والحضانات" },
-    benefit: { en: "Predictable portions, packaging, and delivery windows", ar: "حصص وتغليف ونوافذ توصيل قابلة للتوقع" },
+    bestFor: { en: "Private schools, academies, and nurseries", ar: "المدارس الخاصة، والأكاديميات، والحضانات" },
+    benefit: { en: "Predictable portions, neat packaging, and reliable delivery windows", ar: "حصص مدروسة، وتغليف أنيق، ونوافذ توصيل موثوقة" },
+    image: "/images/serve-schools.webp",
   },
   {
     id: "corporate",
     title: { en: "Corporate Catering", ar: "تموين الشركات" },
     description: {
-      en: "Meeting platters, staff lunches, and executive service with a warm Saudi hospitality sensibility.",
-      ar: "أطباق اجتماعات وغداء موظفين وخدمة تنفيذية بروح ضيافة سعودية دافئة.",
+      en: "Executive lunches, meeting platters, and training day spreads served with local warmth and care.",
+      ar: "وجبات غداء تنفيذية، وأطباق لقاءات، وموائد أيام التدريب تُقدّم بحفاوة محلية واهتمام بالغ.",
     },
-    bestFor: { en: "Offices, boardrooms, and training days", ar: "المكاتب وقاعات الاجتماعات وأيام التدريب" },
-    benefit: { en: "Professional presentation with low admin overhead", ar: "تقديم احترافي مع عبء إداري منخفض" },
+    bestFor: { en: "Corporate headquarters, business gatherings, and boardrooms", ar: "المقار الرئيسية للشركات، واللقاءات المهنية، وقاعات الاجتماعات" },
+    benefit: { en: "Sophisticated styling, discrete service, and simplified scheduling", ar: "تقديم راقٍ، وخدمة لبقة، وجداول تشغيل مبسطة ومريحة" },
+    image: "/images/serve-corporate.webp",
   },
   {
     id: "events",
     title: { en: "Event Buffets", ar: "بوفيهات المناسبات" },
     description: {
-      en: "Buffet trays and service formats designed for conferences, receptions, and cultural gatherings.",
-      ar: "صواني بوفيه وأنماط خدمة مصممة للمؤتمرات والاستقبالات واللقاءات الثقافية.",
+      en: "Artisanal buffet trays, curated presentation styles, and hospitable setups designed for gatherings.",
+      ar: "صواني بوفيه ذات طابع فني، وأساليب تقديم منسقة، وتجهيزات مضيافة صُممت خصيصاً للقاءاتكم.",
     },
-    bestFor: { en: "Conferences, ceremonies, and hospitality events", ar: "المؤتمرات والحفلات وفعاليات الضيافة" },
-    benefit: { en: "Coordinated service flow and flexible menu scale", ar: "تدفق خدمة منسق ومرونة في حجم القائمة" },
+    bestFor: { en: "Cultural receptions, large gatherings, and conferences", ar: "الاستقبالات الثقافية، واللقاءات الكبرى، والمؤتمرات" },
+    benefit: { en: "Beautiful presentation, coordinated setup, and scalable menus", ar: "تقديم وحضور بهي، وتجهيز متكامل منسق، وقوائم مرنة تتسع للجميع" },
+    image: "/images/serve-events.webp",
   },
   {
     id: "staff",
     title: { en: "Staff Meal Plans", ar: "خطط وجبات الموظفين" },
     description: {
-      en: "Bulk meal programs for teams working on shifts, sites, and operational schedules.",
-      ar: "برامج وجبات بالكميات للفرق العاملة على الورديات والمواقع والجداول التشغيلية.",
+      en: "Dependable bulk meal schedules for field operations, rotating shifts, and active teams.",
+      ar: "جداول وجبات جماعية يعتمد عليها للعمليات الميدانية، والورديات المتعاقبة، والفرق النشطة.",
     },
-    bestFor: { en: "Construction, security, hospitality, and operations teams", ar: "فرق المقاولات والأمن والضيافة والتشغيل" },
-    benefit: { en: "Consistent supply planning and clear delivery support", ar: "تخطيط توريد ثابت ودعم توصيل واضح" },
+    bestFor: { en: "On-site operations, remote projects, and busy field teams", ar: "العمليات الميدانية، والمشاريع عن بُعد، وفرق العمل النشطة" },
+    benefit: { en: "Consistent daily catering, robust containers, and punctual logistics", ar: "إمداد يومي متسق، وتغليف عملي متين، ولوجستيات توصيل دقيقة" },
+    image: "/images/serve-construction.webp",
   },
   {
     id: "cultural",
     title: { en: "Custom Cultural Menus", ar: "قوائم ثقافية مخصصة" },
     description: {
-      en: "Arabic-inspired menus adapted for age group, event type, dietary preferences, and service format.",
-      ar: "قوائم مستلهمة من المطبخ العربي ومتكيفة مع العمر ونوع المناسبة والتفضيلات الغذائية ونمط الخدمة.",
+      en: "Handcrafted Saudi and Hijazi themed dining menus customized for unique brand hospitality occasions.",
+      ar: "قوائم طعام مستلهمة من المطبخ السعودي والحجازي تُصاغ خصيصاً لمناسبات ضيافة العلامات التجارية الفريدة.",
     },
-    bestFor: { en: "Schools, VIP gatherings, and brand events", ar: "المدارس واللقاءات الخاصة وفعاليات العلامات" },
-    benefit: { en: "Cultural fit without losing operational clarity", ar: "ملاءمة ثقافية دون فقدان الوضوح التشغيلي" },
+    bestFor: { en: "Themed gatherings, brand milestones, and VIP hospitality", ar: "اللقاءات ذات الطابع الخاص، وفعاليات العلامات التجارية، وضيافة كبار الشخصيات" },
+    benefit: { en: "Tailored Hijazi flavor profiles, artisanal layout, and custom detailing", ar: "نكهات حجازية أصيلة، وتنسيق يعكس الفن المحلي، وتفاصيل مخصصة لكل مناسبة" },
+    image: "/images/menu-custom.webp",
   },
 ];
 
 export const experiencePanels = [
   {
     image: "/images/experience-panel-01.webp",
-    title: { en: "Morning prep, calm rhythm", ar: "تحضير صباحي بإيقاع هادئ" },
+    title: { en: "Prepared with calm", ar: "تحضير صباحي هادئ" },
   },
   {
     image: "/images/experience-panel-02.webp",
-    title: { en: "Service that feels hosted", ar: "خدمة تشعر معها بالضيافة" },
+    title: { en: "Packed with care", ar: "تغليف تشاركي أنيق" },
   },
   {
     image: "/images/experience-panel-03.webp",
-    title: { en: "Menus built for movement", ar: "قوائم مصممة للحركة" },
+    title: { en: "Served like a guest", ar: "ضيافة تشعر بحفاوتها" },
   },
   {
     image: "/images/experience-panel-04.webp",
-    title: { en: "Warm details, practical finish", ar: "تفاصيل دافئة وإنجاز عملي" },
+    title: { en: "Made for the day’s rhythm", ar: "ملائمة لإيقاع يومك" },
   },
 ];
 
