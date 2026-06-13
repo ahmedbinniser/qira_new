@@ -236,19 +236,31 @@ export const experiencePanels = [
 export const processSteps = [
   {
     title: { en: "Discover needs", ar: "فهم الاحتياج" },
-    body: { en: "We map audience, schedule, volume, dietary needs, and delivery constraints.", ar: "نحدد الجمهور والجدول والحجم والاحتياجات الغذائية وقيود التوصيل." },
+    body: {
+      en: "We understand your audience, schedule, volume, dietary needs, and delivery rhythm.",
+      ar: "نفهم طبيعة ضيوفكم، والجدول، والكميات، والاحتياجات الغذائية الخاصة، وإيقاع التوصيل.",
+    },
   },
   {
-    title: { en: "Build menu/program", ar: "بناء القائمة والبرنامج" },
-    body: { en: "Menus are shaped around service format, cultural fit, and repeatable operations.", ar: "تصمم القوائم حول نمط الخدمة والملاءمة الثقافية وقابلية التشغيل المتكرر." },
+    title: { en: "Shape the program", ar: "تصميم البرنامج" },
+    body: {
+      en: "Menus are arranged around service format, cultural fit, portions, and repeatable operations.",
+      ar: "تُرتب القوائم والبرامج حول طريقة الخدمة والملاءمة الثقافية وتحديد الحصص وقابلية التشغيل المتكرر.",
+    },
   },
   {
     title: { en: "Prepare and package", ar: "التحضير والتغليف" },
-    body: { en: "Meals are prepared, portioned, labeled, and packaged for the receiving environment.", ar: "تحضر الوجبات وتقسم وتوسم وتغلف بما يناسب بيئة الاستلام." },
+    body: {
+      en: "Meals are prepared, portioned, labeled, and packed with care for the receiving environment.",
+      ar: "تُحضّر الوجبات، وتُقسّم، وتوضع الملصقات، وتُغلّف بكل عناية بما يناسب بيئة الاستلام التشغيلية.",
+    },
   },
   {
     title: { en: "Deliver and support", ar: "التوصيل والدعم" },
-    body: { en: "Delivery routines, feedback, and adjustments keep the program reliable over time.", ar: "تحافظ إجراءات التوصيل والملاحظات والتعديلات على موثوقية البرنامج بمرور الوقت." },
+    body: {
+      en: "Delivery routines, feedback, and adjustments keep the program reliable over time.",
+      ar: "تضمن مسارات التوصيل اليومية وجمع الملاحظات والضبط المستمر استمرار موثوقية البرنامج التشغيلي بمرور الوقت.",
+    },
   },
 ];
 

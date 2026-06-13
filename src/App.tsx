@@ -390,23 +390,97 @@ export default function App() {
             </div>
           </section>
 
-          <section id="process" className="section-band bg-[var(--surface)] px-5 py-24 md:px-8">
-            <div className="mx-auto max-w-7xl">
-              <div className="section-heading reveal text-[var(--text-primary)]">
+          <section
+            id="process"
+            className="section-band relative overflow-hidden px-5 pt-28 pb-32 md:px-8"
+            style={{
+              backgroundColor: "#F4EADA",
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E")`,
+            }}
+          >
+            {/* Very soft palm shadow in top-left */}
+            <div className="absolute left-[-120px] top-[-60px] w-[380px] h-[380px] pointer-events-none opacity-[0.08] blur-[16px] text-[#865D4B] rtl:hidden">
+              <svg viewBox="0 0 200 200" fill="currentColor" className="w-full h-full">
+                <path d="M10,10 Q60,90 190,190" stroke="currentColor" strokeWidth="4" fill="none" />
+                <path d="M40,35 Q100,25 150,45 Q100,55 40,35 Z" />
+                <path d="M55,50 Q125,40 175,65 Q125,75 55,50 Z" />
+                <path d="M70,65 Q150,55 195,85 Q150,95 70,65 Z" />
+                <path d="M25,20 Q15,70 45,120 Q40,70 25,20 Z" />
+                <path d="M40,45 Q30,105 70,150 Q60,105 40,45 Z" />
+                <path d="M55,70 Q45,140 95,180 Q80,140 55,70 Z" />
+              </svg>
+            </div>
+            <div className="absolute right-[-120px] top-[-60px] w-[380px] h-[380px] pointer-events-none opacity-[0.08] blur-[16px] text-[#865D4B] hidden rtl:block">
+              <svg viewBox="0 0 200 200" fill="currentColor" className="w-full h-full">
+                <path d="M190,10 Q140,90 10,190" stroke="currentColor" strokeWidth="4" fill="none" />
+                <path d="M160,35 Q100,25 50,45 Q100,55 160,35 Z" />
+                <path d="M145,50 Q75,40 25,65 Q75,75 145,50 Z" />
+                <path d="M130,65 Q50,55 5,85 Q50,95 130,65 Z" />
+                <path d="M175,20 Q185,70 155,120 Q160,70 175,20 Z" />
+                <path d="M160,45 Q170,105 130,150 Q140,105 160,45 Z" />
+                <path d="M145,70 Q155,140 105,180 Q120,140 145,70 Z" />
+              </svg>
+            </div>
+
+            {/* Faint pottery jar line-art in top-right */}
+            <div className="absolute right-10 top-12 w-48 h-48 pointer-events-none opacity-[0.10] text-[#865D4B] rtl:hidden">
+              <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.25" className="w-full h-full">
+                <path d="M35 15h30v5H35z" />
+                <path d="M38 20v5c0 5-8 8-8 18v25c0 8 6 14 14 14h12c8 0 14-6 14-14V43c0-10-8-13-8-18v-5" />
+                <path d="M30 45h40" strokeDasharray="2 3" />
+                <path d="M35 65h30" />
+                <path d="M30 30c-5 0-8 4-8 10s3 10 8 10" />
+                <path d="M70 30c5 0 8 4 8 10s-3 10-8 10" />
+              </svg>
+            </div>
+            <div className="absolute left-10 top-12 w-48 h-48 pointer-events-none opacity-[0.10] text-[#865D4B] hidden rtl:block">
+              <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.25" className="w-full h-full">
+                <path d="M35 15h30v5H35z" />
+                <path d="M38 20v5c0 5-8 8-8 18v25c0 8 6 14 14 14h12c8 0 14-6 14-14V43c0-10-8-13-8-18v-5" />
+                <path d="M30 45h40" strokeDasharray="2 3" />
+                <path d="M35 65h30" />
+                <path d="M30 30c-5 0-8 4-8 10s3 10 8 10" />
+                <path d="M70 30c5 0 8 4 8 10s-3 10-8 10" />
+              </svg>
+            </div>
+
+            {/* Subtle Hijazi-inspired vertical border pattern left/right */}
+            <div
+              className="absolute left-4 top-0 bottom-0 w-6 pointer-events-none opacity-30"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='24' viewBox='0 0 12 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 2L10 8L6 14L2 8Z' stroke='%23865D4B' stroke-width='0.75' fill='none'/%3E%3C/svg%3E")`,
+                backgroundRepeat: "repeat-y",
+                backgroundSize: "12px 24px",
+              }}
+            />
+            <div
+              className="absolute right-4 top-0 bottom-0 w-6 pointer-events-none opacity-30"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='24' viewBox='0 0 12 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 2L10 8L6 14L2 8Z' stroke='%23865D4B' stroke-width='0.75' fill='none'/%3E%3C/svg%3E")`,
+                backgroundRepeat: "repeat-y",
+                backgroundSize: "12px 24px",
+              }}
+            />
+
+            <div className="mx-auto max-w-[1240px] w-full relative z-10">
+              <div className="reveal text-left rtl:text-right max-w-[760px] w-full relative z-10">
                 <Badge variant="warm" className="mb-5">
                   {language === "ar" ? "كيف نعمل" : "How it works"}
                 </Badge>
-                <h2 className="font-display text-5xl leading-tight md:text-7xl">
-                  <span className="editorial-mask block overflow-hidden">
-                    <span className="editorial-line block">
-                      {language === "ar" ? "مسار واضح من الاحتياج إلى الدعم" : "A Clear Path from Need to Support"}
-                    </span>
-                  </span>
+                <h2
+                  className="font-display font-bold text-[#231F20] tracking-tight leading-[1.05]"
+                  style={{ fontSize: "clamp(34px, 5.2vw, 72px)", letterSpacing: "-0.02em" }}
+                >
+                  {language === "ar" ? "من الحاجة إلى ضيافة يومية" : "From Need to Daily Hospitality"}
                 </h2>
-                <p className="mt-5 max-w-2xl text-base leading-8 text-[var(--text-secondary)] md:text-lg">
+                {/* Arabic Accent Line */}
+                <p className="font-display text-[#865D4B] text-lg md:text-xl mt-3.5 font-medium">
+                  من الحاجة إلى ضيافة يومية
+                </p>
+                <p className="mt-5 text-base md:text-lg leading-relaxed text-[#231F20]/75">
                   {language === "ar"
-                    ? "أربع مراحل تساعد صناع القرار على رؤية البرنامج كتشغيل يومي، وليس مجرد طلب طعام."
-                    : "Four steps help decision-makers see the program as a daily operating system, not just a food order."}
+                    ? "مسار بسيط يبدأ بفهم ضيوفكم وينتهي بتقديم برنامج ضيافة متكامل يعمل بكفاءة كل يوم."
+                    : "A simple path from understanding your guests to delivering a program that works every day."}
                 </p>
               </div>
               <div className="mt-12">

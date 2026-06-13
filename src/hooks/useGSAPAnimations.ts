@@ -159,11 +159,22 @@ export function useGSAPAnimations(
                       steps.length - 1,
                       Math.floor(self.progress * steps.length),
                     );
+                    const markers = root.querySelectorAll(".process-marker");
                     steps.forEach((step, stepIndex) => {
-                      step.toggleAttribute("data-active", stepIndex === activeIndex);
+                      const isActive = stepIndex === activeIndex;
+                      const isCompleted = stepIndex < activeIndex;
+                      step.toggleAttribute("data-active", isActive);
+                      step.toggleAttribute("data-completed", isCompleted);
+                      
+                      if (markers[stepIndex]) {
+                        markers[stepIndex].toggleAttribute("data-active", isActive);
+                        markers[stepIndex].toggleAttribute("data-completed", isCompleted);
+                      }
+
                       gsap.to(step, {
-                        scale: stepIndex === activeIndex ? 1.04 : 0.96,
-                        autoAlpha: stepIndex <= activeIndex ? 1 : 0.58,
+                        scale: isActive ? 1.02 : (isCompleted ? 1.0 : 0.98),
+                        y: isActive ? -10 : 0,
+                        autoAlpha: isActive ? 1 : (isCompleted ? 0.88 : 0.65),
                         duration: 0.28,
                         overwrite: true,
                       });
