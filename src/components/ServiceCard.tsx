@@ -9,7 +9,10 @@ export function ServiceCard({ service, language }: ServiceCardProps) {
   const Icon = service.icon;
 
   return (
-    <div className="reveal group relative overflow-hidden rounded-[12px] border border-[#865D4B]/30 bg-[#FAEDE6] text-[#232120] shadow-[0_8px_24px_rgba(134,93,75,0.04)] transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[0_16px_36px_rgba(134,93,75,0.12)]">
+    <a
+      href={`#/serve/${service.id}`}
+      className="reveal group relative overflow-hidden rounded-[12px] border border-[#865D4B]/30 bg-[#FAEDE6] text-[#232120] shadow-[0_8px_24px_rgba(134,93,75,0.04)] transition-all duration-300 ease-out hover:-translate-y-1.5 hover:shadow-[0_16px_36px_rgba(134,93,75,0.12)] block"
+    >
       {/* Subtle Qira repeating diamond pattern background */}
       <div
         className="absolute inset-0 opacity-[0.06] mix-blend-multiply pointer-events-none"
@@ -42,7 +45,7 @@ export function ServiceCard({ service, language }: ServiceCardProps) {
         <h3 className="font-display text-2xl font-semibold text-[#232120]">{service.title[language]}</h3>
         <p className="mt-3 text-sm leading-7 text-[#5E4A40]">{service.body[language]}</p>
       </div>
-    </div>
+    </a>
   );
 }
 

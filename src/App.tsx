@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowUpRight,
+  ClipboardCheck,
+  HeartHandshake,
   Mail,
   MapPin,
+  Minus,
   Phone,
+  Plus,
   ShieldCheck,
 } from "lucide-react";
 import {
@@ -22,6 +26,7 @@ import { GlassNavbar } from "@/components/GlassNavbar";
 import { HeroCinematic } from "@/components/HeroCinematic";
 import { AnimatedStatCounter } from "@/components/AnimatedStatCounter";
 import { ServiceCard } from "@/components/ServiceCard";
+import { AudiencePage } from "@/components/AudiencePage";
 import { MenuCategoryPage } from "@/components/MenuCategoryPage";
 import { ProgramTabs } from "@/components/ProgramTabs";
 import { LineJarIcon, RosetteIcon } from "@/components/PotteryIcons";
@@ -40,6 +45,50 @@ import {
 import { Separator } from "@/components/ui/separator";
 
 const menuRoutePrefix = "#/menu/";
+const audienceRoutePrefix = "#/serve/";
+
+const faqItems = [
+  {
+    question: {
+      en: "Is the program only for schools?",
+      ar: "هل يناسب البرنامج المدارس فقط؟",
+    },
+    answer: {
+      en: "No. Qira supports schools, offices, events, and working teams, with formats shaped around each setting.",
+      ar: "لا. تدعم قِرة المدارس، والمكاتب، والفعاليات، وفرق العمل، مع تصميم أسلوب الخدمة والوجبات ليناسب كل بيئة.",
+    },
+  },
+  {
+    question: {
+      en: "Can menus be customized?",
+      ar: "هل يمكن تخصيص القوائم والوجبات؟",
+    },
+    answer: {
+      en: "Yes. Menus can be adjusted by group, schedule, dietary need, cultural preference, and packaging format.",
+      ar: "نعم. يمكن تعديل القوائم والخيارات حسب الفئة المستهدفة، والجدول الزمني، والاحتياج الغذائي، والتفضيل الثقافي، وشكل التغليف.",
+    },
+  },
+  {
+    question: {
+      en: "How are meals packaged?",
+      ar: "كيف يتم تعبئة وتغليف الوجبات؟",
+    },
+    answer: {
+      en: "Packaging is chosen based on the serving environment, whether for daily school meals, office programs, or shared event service.",
+      ar: "يتم اختيار التغليف بناءً على بيئة الخدمة، سواء كان ذلك للوجبات المدرسية اليومية، أو برامج الشركات، أو بوفيهات الفعاليات المشتركة.",
+    },
+  },
+  {
+    question: {
+      en: "Do you support recurring meal programs?",
+      ar: "هل تدعمون برامج الوجبات المتكررة؟",
+    },
+    answer: {
+      en: "Yes. Qira can help structure ongoing meal programs with repeatable portions, delivery rhythm, and service consistency.",
+      ar: "نعم. يمكن لقيرة تنظيم برامج وجبات مستمرة بمواصفات ثابتة للحصص، ومواعيد توصيل منتظمة، واتساق دائم في الخدمة.",
+    },
+  },
+];
 
 function SectionHeading({
   eyebrow,
@@ -68,10 +117,16 @@ function SectionHeading({
 export default function App() {
   const [language, setLanguage] = useState<Language>("en");
   const [hash, setHash] = useState(() => window.location.hash);
+  const [activeQualityIndex, setActiveQualityIndex] = useState<number>(0);
+  const [activeMenuFilter, setActiveMenuFilter] = useState<string>("all");
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const reducedMotion = useReducedMotion();
   const rootRef = useRef<HTMLDivElement>(null);
   const activeMenuCategory = hash.startsWith(menuRoutePrefix)
     ? menuCategories.find((category) => category.id === hash.slice(menuRoutePrefix.length)) ?? null
+    : null;
+  const activeAudienceCategory = hash.startsWith(audienceRoutePrefix)
+    ? audiences.find((audience) => audience.id === hash.slice(audienceRoutePrefix.length)) ?? null
     : null;
 
   useGSAPAnimations(rootRef, reducedMotion);
@@ -84,7 +139,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (activeMenuCategory) {
+    if (activeMenuCategory || activeAudienceCategory) {
       window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
       return;
     }
@@ -101,7 +156,7 @@ export default function App() {
         block: "start",
       });
     });
-  }, [activeMenuCategory, hash, reducedMotion]);
+  }, [activeMenuCategory, activeAudienceCategory, hash, reducedMotion]);
 
   return (
     <div ref={rootRef} className="site-shell min-h-screen bg-[var(--background-soft)] text-[var(--text-primary)]">
@@ -112,7 +167,14 @@ export default function App() {
           reducedMotion={reducedMotion}
         />
         <main>
-          {activeMenuCategory ? (
+          {activeAudienceCategory ? (
+            <AudiencePage
+              audience={activeAudienceCategory}
+              audiences={audiences}
+              language={language}
+              reducedMotion={reducedMotion}
+            />
+          ) : activeMenuCategory ? (
             <MenuCategoryPage
               category={activeMenuCategory}
               categories={menuCategories}
@@ -123,16 +185,41 @@ export default function App() {
             <>
               <HeroCinematic language={language} reducedMotion={reducedMotion} />
 
-          <section className="relative z-10 bg-[var(--surface)] px-5 py-8 md:px-8">
-            <div className="mx-auto grid max-w-7xl gap-4 md:grid-cols-4">
-              {stats.map((stat) => (
-                <AnimatedStatCounter
-                  key={stat.label.en}
-                  value={stat.value}
-                  label={stat.label[language]}
-                  reducedMotion={reducedMotion}
-                />
-              ))}
+          <section
+            className="stats-overview section-band relative z-10 overflow-hidden px-5 py-20 md:px-8 md:py-24"
+            aria-labelledby="service-structure-title"
+          >
+            <div className="stats-palm-shadow" aria-hidden="true" />
+            <div className="stats-corner-motif stats-corner-motif-start" aria-hidden="true" />
+            <div className="stats-corner-motif stats-corner-motif-end" aria-hidden="true" />
+            <LineJarIcon className="stats-side-jar" aria-hidden="true" />
+            <RosetteIcon className="stats-side-rosette" aria-hidden="true" />
+
+            <div className="relative z-10 mx-auto max-w-7xl">
+              <div className="stats-overview-copy reveal max-w-3xl text-left rtl:text-right">
+                <span className="stats-badge">At a glance</span>
+                <h2 id="service-structure-title" className="stats-heading">
+                  A Clear Service Structure
+                </h2>
+                <p className="stats-accent-line">خدمة واضحة من الفئات إلى التشغيل</p>
+                <p className="stats-subtitle">
+                  Qira organizes daily hospitality through clear meal categories, program formats,
+                  operating stages, and service sectors.
+                </p>
+              </div>
+
+              <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                {stats.map((stat) => (
+                  <AnimatedStatCounter
+                    key={stat.label.en}
+                    value={stat.value}
+                    title={stat.label.en}
+                    arabicLabel={stat.label.ar}
+                    motif={stat.motif}
+                    reducedMotion={reducedMotion}
+                  />
+                ))}
+              </div>
             </div>
           </section>
 
@@ -593,25 +680,52 @@ export default function App() {
               </div>
 
               {/* Right Column: Cards Grid */}
-              <div className="grid gap-5 sm:grid-cols-2 w-full">
+              <div
+                className="grid gap-5 sm:grid-cols-2 w-full"
+                onMouseLeave={() => setActiveQualityIndex(0)}
+              >
                 {qualityPoints.map((point, index) => {
                   const Icon = point.icon;
+                  const isActive = activeQualityIndex === index;
                   return (
                     <article
                       key={point.title.en}
-                      className={`reveal group relative overflow-hidden rounded-[20px] border border-[#865D4B]/22 bg-gradient-to-br from-[#FAEDE6]/92 to-[#F4EADA]/78 p-[28px] min-h-[190px] shadow-[0_18px_45px_rgba(134,93,75,0.08)] transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-[#F19E38]/55 hover:shadow-[0_24px_65px_rgba(134,93,75,0.14)] ${
-                        index === 0 ? "border-t-[3px] border-t-[#F19E38]" : ""
-                      }`}
+                      onMouseEnter={() => setActiveQualityIndex(index)}
+                      className="reveal group relative overflow-hidden rounded-[20px] border border-[#865D4B]/22 bg-gradient-to-br from-[#FAEDE6]/92 to-[#F4EADA]/78 p-[28px] min-h-[190px] shadow-[0_18px_45px_rgba(134,93,75,0.08)] transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-[#F19E38]/55 hover:shadow-[0_24px_65px_rgba(134,93,75,0.14)]"
                     >
-                      {/* Icon wrapper inside clay-seal circle */}
+                      {/* Top Orange Outline */}
                       <div
-                        className={`mb-5 flex size-12 items-center justify-center rounded-full transition-all duration-300 ${
-                          index === 0
-                            ? "bg-gradient-to-br from-[#C98A61] to-[#A86543] border border-[rgba(111,75,59,0.35)] shadow-[0_8px_18px_rgba(134,93,75,0.18)] text-[#FFF8F1] group-hover:shadow-[0_12px_24px_rgba(134,93,75,0.24)]"
-                            : "bg-[#DEC9B2] border border-[rgba(134,93,75,0.28)] text-[#865D4B] group-hover:bg-[#865D4B] group-hover:text-[#FFF8F1] group-hover:border-[#865D4B]/40 group-hover:shadow-[0_8px_18px_rgba(134,93,75,0.18)]"
+                        className={`absolute top-0 left-0 right-0 h-[3px] bg-[#F19E38] transition-all duration-300 ease-out origin-center ${
+                          isActive ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"
                         }`}
-                      >
-                        <Icon className="size-[22px]" strokeWidth={2} />
+                      />
+
+                      {/* Icon wrapper inside clay-seal circle */}
+                      <div className="relative mb-5 w-12 h-12 flex items-center justify-center rounded-full transition-all duration-300">
+                        {/* Non-featured base (solid sand color) */}
+                        <div
+                          className={`absolute inset-0 bg-[#DEC9B2] border border-[rgba(134,93,75,0.28)] rounded-full transition-opacity duration-300 ${
+                            isActive ? "opacity-0" : "opacity-100"
+                          }`}
+                        />
+                        {/* Featured active layer (clay seal gradient) */}
+                        <div
+                          className="absolute inset-0 rounded-full border border-[rgba(111,75,59,0.35)] transition-opacity duration-300"
+                          style={{
+                            background: "linear-gradient(145deg, #C98A61, #A86543)",
+                            boxShadow: "0 8px 18px rgba(134, 93, 75, 0.18)",
+                            opacity: isActive ? 1 : 0,
+                          }}
+                        />
+                        {/* Icon */}
+                        <div className="relative z-10 flex items-center justify-center">
+                          <Icon
+                            className={`w-[21px] h-[21px] transition-colors duration-300 ${
+                              isActive ? "text-[#FFF8F1]" : "text-[#865D4B]"
+                            }`}
+                            strokeWidth={2}
+                          />
+                        </div>
                       </div>
 
                       <h3 className="font-display text-lg md:text-xl font-bold text-[#231F20] leading-snug">
@@ -637,95 +751,455 @@ export default function App() {
             </div>
           </section>
 
-          <section id="menu" className="section-band bg-[var(--background)] px-5 py-24 md:px-8">
-            <div className="mx-auto max-w-7xl">
-              <SectionHeading
-                eyebrow={language === "ar" ? "فئات الوجبات" : "Meal categories"}
-                title={language === "ar" ? "قائمة عملية وقابلة للتوسع" : "A Practical Menu That Can Scale"}
-                body={
-                  language === "ar"
-                    ? "ابدأ من فئة واضحة ثم خصص النكهة والحصة والتغليف حسب الجمهور."
-                    : "Start with clear categories, then tune flavor, portion, and packaging by audience."
-                }
-              />
-              <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {menuCategories.map((category) => {
-                  const Icon = category.icon;
+          <section id="menu" className="relative bg-[#F4EADA] px-5 py-24 md:px-8 overflow-hidden">
+            {/* Faint plaster paper texture */}
+            <div
+              className="absolute inset-0 pointer-events-none opacity-[0.035]"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+              }}
+            />
+
+            {/* Faint palm shadow top-left */}
+            <div className="absolute left-[-10%] top-[-10%] w-[45%] h-[45%] pointer-events-none opacity-[0.08] text-[#865D4B] mix-blend-multiply rotate-[-12deg] rtl:left-auto rtl:right-[-10%] rtl:rotate-[12deg]">
+              <svg viewBox="0 0 200 200" fill="currentColor" className="w-full h-full">
+                <path d="M10,90 C50,85 100,50 145,70 C120,95 105,130 90,175 C85,130 50,105 10,90 Z" />
+                <path d="M40,60 C80,55 120,20 155,50 C130,75 120,110 115,155 C110,110 80,85 40,60 Z" />
+                <path d="M145,70 Q155,140 105,180 Q120,140 145,70 Z" />
+              </svg>
+            </div>
+
+            {/* Faint Dallah line-art in bottom-left */}
+            <div className="absolute left-6 bottom-12 w-44 h-44 pointer-events-none opacity-[0.08] text-[#865D4B] rtl:left-auto rtl:right-6">
+              <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.25" className="w-full h-full">
+                <path d="M50 20 L53 10 L47 10 Z M45 10 L55 10" />
+                <path d="M46 20 C46 20 42 35 44 45 L56 45 C58 35 54 20 54 20" />
+                <path d="M44 45 C42 48 35 52 35 57 C35 65 40 85 50 85 C60 85 65 65 65 57 C65 52 58 48 56 45" />
+                <path d="M35 57 L65 57" strokeDasharray="1 3" />
+                <path d="M40 70 L60 70" />
+                <path d="M45 40 C45 40 40 32 30 35 C33 42 44 45 44 45" />
+                <path d="M56 25 C68 25 72 45 60 75" />
+              </svg>
+            </div>
+
+            {/* Subtle Hijazi-inspired vertical border pattern left/right */}
+            <div
+              className="absolute left-4 top-0 bottom-0 w-6 pointer-events-none opacity-20"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='24' viewBox='0 0 12 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 2L10 8L6 14L2 8Z' stroke='%23865D4B' stroke-width='0.75' fill='none'/%3E%3C/svg%3E")`,
+                backgroundRepeat: "repeat-y",
+                backgroundSize: "12px 24px",
+              }}
+            />
+            <div
+              className="absolute right-4 top-0 bottom-0 w-6 pointer-events-none opacity-20"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='24' viewBox='0 0 12 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 2L10 8L6 14L2 8Z' stroke='%23865D4B' stroke-width='0.75' fill='none'/%3E%3C/svg%3E")`,
+                backgroundRepeat: "repeat-y",
+                backgroundSize: "12px 24px",
+              }}
+            />
+
+            <div className="mx-auto max-w-7xl relative z-10">
+              {/* Center Title Block */}
+              <div className="mx-auto max-w-3xl text-center reveal flex flex-col items-center mb-10">
+                <Badge variant="warm" className="mb-5">
+                  {language === "ar" ? "فئات الوجبات" : "Meal categories"}
+                </Badge>
+                <h2
+                  className="font-display font-bold text-[#231F20] tracking-tight leading-[1.05]"
+                  style={{ fontSize: "clamp(34px, 4.5vw, 54px)", letterSpacing: "-0.02em" }}
+                >
+                  {language === "ar" ? "قائمة طعام لروتين يومكم" : "A Menu Built for Daily Rhythm"}
+                </h2>
+                {/* Arabic Accent Line */}
+                <p className="font-display text-[#865D4B] text-xl md:text-2xl mt-4 font-semibold">
+                  قائمة عملية تتكيّف مع يومكم
+                </p>
+
+                {/* Centered Delicate Divider Ornament */}
+                <div className="my-6 flex items-center justify-center gap-3 w-40">
+                  <div className="h-[1px] flex-1 bg-[#DEC9B2]/60" />
+                  <div className="size-1.5 rotate-45 bg-[#865D4B]" />
+                  <div className="h-[1px] flex-1 bg-[#DEC9B2]/60" />
+                </div>
+
+                <p className="max-w-2xl text-base leading-relaxed text-[#231F20]/75 md:text-lg">
+                  {language === "ar"
+                    ? "اختر الشكل والنوع أولاً، ثم دع قِرة تُشكل النكهة، والحصص، والتغليف حول المستفيدين."
+                    : "Choose the format first, then let Qira shape flavor, portions, and packaging around the people being served."}
+                </p>
+              </div>
+
+              {/* Filter Pills */}
+              <div className="flex flex-wrap justify-center items-center gap-3 mb-10">
+                {[
+                  { id: "all", en: "All", ar: "الكل" },
+                  { id: "daily", en: "Daily meals", ar: "وجبات يومية" },
+                  { id: "events", en: "Events", ar: "مناسبات" },
+                  { id: "beverages", en: "Beverages", ar: "مشروبات" },
+                  { id: "packed", en: "Packed options", ar: "خيارات مغلفة" },
+                ].map((filter) => {
+                  const isSelected = activeMenuFilter === filter.id;
                   return (
-                    <a
-                      key={category.id}
-                      href={`#/menu/${category.id}`}
-                      className="menu-card reveal group block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                      aria-label={
-                        language === "ar"
-                          ? `افتح صفحة ${category.title[language]}`
-                          : `Open ${category.title[language]} category page`
-                      }
+                    <button
+                      key={filter.id}
+                      onClick={() => setActiveMenuFilter(filter.id)}
+                      className={`px-5 py-2.5 rounded-full text-xs md:text-sm font-semibold tracking-wide border transition-all duration-300 ease-out ${
+                        isSelected
+                          ? "bg-[#865D4B] border-[#865D4B] text-[#FFF8F1] shadow-[0_6px_15px_rgba(134,93,75,0.18)] scale-[1.02]"
+                          : "bg-transparent border-[#DEC9B2] text-[#865D4B] hover:bg-[#FAEDE6] hover:border-[#865D4B]/40"
+                      }`}
                     >
-                      <img src={category.image} alt="" loading="lazy" />
-                      <div className="menu-card-overlay">
-                        <Icon className="size-5" />
-                        <h3>{category.title[language]}</h3>
-                        <ArrowUpRight className="ms-auto size-4 text-[var(--accent)] transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5 rtl:-rotate-90" />
-                      </div>
-                    </a>
+                      {language === "ar" ? filter.ar : filter.en}
+                    </button>
                   );
                 })}
               </div>
-            </div>
-          </section>
 
-          <section className="section-band bg-[var(--background-soft)] px-5 py-24 md:px-8">
-            <div className="mx-auto max-w-7xl">
-              <SectionHeading
-                eyebrow={language === "ar" ? "الثقة" : "Social proof"}
-                title={language === "ar" ? "مساحة لشهادات حقيقية" : "A Place for Real Proof"}
-                body={
-                  language === "ar"
-                    ? "لا نعرض ادعاءات غير معتمدة. هذه البطاقات مؤقتة بوضوح حتى تضاف شهادات حقيقية."
-                    : "No unapproved claims are presented as final. These cards are clearly replaceable until real testimonials are approved."
-                }
-              />
-              <div className="mt-12 grid gap-5 md:grid-cols-2">
-                {testimonials.map((testimonial) => (
-                  <LiquidGlassCard key={testimonial.name.en} className="border-[var(--border)] bg-[var(--surface-card)] p-6">
-                    <ShieldCheck className="mb-5 size-6 text-[var(--accent)]" />
-                    <blockquote className="text-lg leading-8 text-[var(--text-secondary)]">
-                      {testimonial.quote[language]}
-                    </blockquote>
-                    <p className="mt-6 text-sm font-semibold text-[var(--primary)]">
-                      {testimonial.name[language]}
-                    </p>
-                  </LiquidGlassCard>
-                ))}
+              {/* Cards Grid */}
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {menuCategories
+                  .filter((category) => {
+                    if (activeMenuFilter === "all") return true;
+                    if (activeMenuFilter === "daily") return ["breakfast-boxes", "lunch-meals", "healthy-snacks"].includes(category.id);
+                    if (activeMenuFilter === "events") return ["buffet-trays", "custom-packages"].includes(category.id);
+                    if (activeMenuFilter === "beverages") return ["beverages"].includes(category.id);
+                    if (activeMenuFilter === "packed") return ["breakfast-boxes", "healthy-snacks", "custom-packages"].includes(category.id);
+                    return true;
+                  })
+                  .map((category) => {
+                    const Icon = category.icon;
+                    return (
+                      <div
+                        key={category.id}
+                        className="reveal group relative overflow-hidden rounded-[24px] border border-[#865D4B]/22 bg-gradient-to-br from-[#FAEDE6]/92 to-[#F4EADA]/78 shadow-[0_18px_45px_rgba(134,93,75,0.08)] transition-all duration-500 ease-out hover:-translate-y-2 hover:border-[#F19E38]/55 hover:shadow-[0_24px_65px_rgba(134,93,75,0.14)] h-[340px]"
+                      >
+                        {/* Optional Daily Staple Tag */}
+                        {category.id === "lunch-meals" && (
+                          <div className="absolute top-4 right-4 rtl:left-4 rtl:right-auto z-20 rounded-full bg-[#F19E38] px-3.5 py-1 text-[11px] font-bold tracking-wider uppercase text-white shadow-[0_4px_10px_rgba(241,158,56,0.3)]">
+                            {language === "ar" ? "الأساس اليومي" : "Daily staple"}
+                          </div>
+                        )}
+
+                        <div className="absolute inset-0 w-full h-full">
+                          <img
+                            src={category.image}
+                            alt={category.title[language]}
+                            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                            style={{ filter: "sepia(0.12) contrast(1.02) brightness(0.98)" }}
+                            loading="lazy"
+                          />
+                          {/* Soft overlay gradient on top of the image to ensure text contrast is high */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent pointer-events-none" />
+                        </div>
+
+                        <div className="absolute inset-x-4 bottom-4 flex items-center gap-3 rounded-[16px] border border-[#865D4B]/24 bg-[#FAEDE6] bg-opacity-95 p-4 shadow-[0_8px_20px_rgba(134,93,75,0.08)] backdrop-blur-md transition-all duration-300 group-hover:shadow-[0_12px_28px_rgba(134,93,75,0.14)] z-10">
+                          {/* Icon circle (clay-seal style) */}
+                          <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#C98A61] to-[#A86543] border border-[rgba(111,75,59,0.3)] text-[#FFF8F1] shadow-[0_3px_8px_rgba(134,93,75,0.12)]">
+                            <Icon className="w-[18px] h-[18px]" strokeWidth={2} />
+                          </div>
+                          {/* Title & Subtitle */}
+                          <div className="flex-1 min-w-0 text-left rtl:text-right">
+                            <h3 className="font-display text-base font-bold text-[#231F20] leading-tight truncate">
+                              {category.title[language]}
+                            </h3>
+                            <p className="text-[12px] text-[#865D4B] font-medium leading-normal mt-0.5 opacity-90 truncate">
+                              {category.subtitle?.[language] || category.summary[language]}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
               </div>
             </div>
           </section>
 
-          <section className="section-band bg-[var(--surface)] px-5 py-20 md:px-8">
-            <div className="mx-auto max-w-4xl">
-              <Accordion type="single" collapsible className="reveal rounded-lg border border-[var(--border)] bg-[rgba(255,255,255,0.64)] px-5 shadow-sm">
-                <AccordionItem value="school">
-                  <AccordionTrigger>
-                    {language === "ar" ? "هل يناسب البرنامج المدارس فقط؟" : "Is the program only for schools?"}
-                  </AccordionTrigger>
-                  <AccordionContent>
+          <section className="relative bg-[#F4EADA] px-5 py-24 md:px-8 overflow-hidden border-t border-[#865D4B]/15">
+            {/* Faint plaster paper texture */}
+            <div
+              className="absolute inset-0 pointer-events-none opacity-[0.035]"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+              }}
+            />
+
+            {/* Faint palm shadow top-left */}
+            <div className="absolute left-[-10%] top-[-10%] w-[45%] h-[45%] pointer-events-none opacity-[0.08] text-[#865D4B] mix-blend-multiply rotate-[-12deg] rtl:left-auto rtl:right-[-10%] rtl:rotate-[12deg]">
+              <svg viewBox="0 0 200 200" fill="currentColor" className="w-full h-full">
+                <path d="M10,90 C50,85 100,50 145,70 C120,95 105,130 90,175 C85,130 50,105 10,90 Z" />
+                <path d="M40,60 C80,55 120,20 155,50 C130,75 120,110 115,155 C110,110 80,85 40,60 Z" />
+                <path d="M145,70 Q155,140 105,180 Q120,140 145,70 Z" />
+              </svg>
+            </div>
+
+            {/* Faint pottery jar line-art in top-right */}
+            <div className="absolute right-10 top-12 w-48 h-48 pointer-events-none opacity-[0.10] text-[#865D4B] rtl:right-auto rtl:left-10">
+              <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.25" className="w-full h-full">
+                <path d="M35 15h30v5H35z" />
+                <path d="M38 20v5c0 5-8 8-8 18v25c0 8 6 14 14 14h12c8 0 14-6 14-14V43c0-10-8-13-8-18v-5" />
+                <path d="M30 45h40" strokeDasharray="2 3" />
+                <path d="M35 65h30" />
+                <path d="M30 30c-5 0-8 4-8 10s3 10 8 10" />
+                <path d="M70 30c5 0 8 4 8 10s-3 10-8 10" />
+              </svg>
+            </div>
+
+            {/* Subtle Hijazi-inspired vertical border pattern left/right */}
+            <div
+              className="absolute left-4 top-0 bottom-0 w-6 pointer-events-none opacity-20"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='24' viewBox='0 0 12 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 2L10 8L6 14L2 8Z' stroke='%23865D4B' stroke-width='0.75' fill='none'/%3E%3C/svg%3E")`,
+                backgroundRepeat: "repeat-y",
+                backgroundSize: "12px 24px",
+              }}
+            />
+            <div
+              className="absolute right-4 top-0 bottom-0 w-6 pointer-events-none opacity-20"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='24' viewBox='0 0 12 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 2L10 8L6 14L2 8Z' stroke='%23865D4B' stroke-width='0.75' fill='none'/%3E%3C/svg%3E")`,
+                backgroundRepeat: "repeat-y",
+                backgroundSize: "12px 24px",
+              }}
+            />
+
+            <div className="mx-auto max-w-7xl relative z-10">
+              {/* Centered Heading */}
+              <div className="mx-auto max-w-3xl text-center reveal flex flex-col items-center mb-10">
+                <Badge variant="warm" className="mb-5">
+                  {language === "ar" ? "التزامات الخدمة" : "Service commitments"}
+                </Badge>
+                <h2
+                  className="font-display font-bold text-[#231F20] tracking-tight leading-[1.05]"
+                  style={{ fontSize: "clamp(34px, 4.5vw, 54px)", letterSpacing: "-0.02em" }}
+                >
+                  {language === "ar" ? "معايير واضحة قبل كل شيء" : "Clear Standards Before Claims"}
+                </h2>
+                {/* Arabic Accent Line */}
+                <p className="font-display text-[#865D4B] text-xl md:text-2xl mt-4 font-semibold">
+                  معايير واضحة قبل كل شيء
+                </p>
+
+                {/* Centered Divider Ornament */}
+                <div className="my-6 flex items-center justify-center gap-3 w-40">
+                  <div className="h-[1px] flex-1 bg-[#DEC9B2]/60" />
+                  <div className="size-1.5 rotate-45 bg-[#865D4B]" />
+                  <div className="h-[1px] flex-1 bg-[#DEC9B2]/60" />
+                </div>
+
+                <p className="max-w-2xl text-base leading-relaxed text-[#231F20]/75 md:text-lg">
+                  {language === "ar"
+                    ? "قبل أن تصلنا تقييمات العملاء، تبني قِرة الثقة من خلال معايير ملموسة: قوائم طعام واضحة، وتغليف موثوق، وإيقاع توصيل منتظم، وخدمة دقيقة."
+                    : "Before testimonials come in, Qira builds trust through visible standards: clear menus, reliable packaging, delivery rhythm, and careful service."}
+                </p>
+              </div>
+
+              {/* Two-card layout */}
+              <div className="grid gap-6 md:grid-cols-2 max-w-5xl mx-auto mt-12">
+                {/* Card 1: Built for repeat service */}
+                <article className="reveal group relative overflow-hidden rounded-[24px] border border-[#865D4B]/22 bg-gradient-to-br from-[#FAEDE6]/92 to-[#F4EADA]/78 p-8 shadow-[0_18px_45px_rgba(134,93,75,0.06)] transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-[#F19E38]/55 hover:shadow-[0_24px_65px_rgba(134,93,75,0.12)] min-h-[260px] text-left rtl:text-right">
+                  {/* Small clay-seal icon circle */}
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#C98A61] to-[#A86543] border border-[rgba(111,75,59,0.35)] shadow-[0_6px_15px_rgba(134,93,75,0.15)] flex items-center justify-center text-[#FFF8F1] mb-6">
+                    <ClipboardCheck className="w-[22px] h-[22px]" strokeWidth={2} />
+                  </div>
+
+                  <span className="inline-block px-3 py-1 rounded-full bg-[#DEC9B2]/40 text-[#865D4B] text-[11px] font-bold tracking-wide uppercase mb-3">
+                    {language === "ar" ? "وضوح تشغيلي" : "Operational clarity"}
+                  </span>
+
+                  <h3 className="font-display text-xl md:text-2xl font-bold text-[#231F20] leading-snug">
+                    {language === "ar" ? "مخصصة للخدمة المستمرة" : "Built for repeat service"}
+                  </h3>
+
+                  <p className="mt-3 text-[15px] md:text-base leading-[1.7] text-[#231F20]/72">
                     {language === "ar"
-                      ? "لا. يبدأ الموقع من منطق الوجبات المدرسية، لكنه مصمم أيضا للشركات والفنادق والمناسبات والمواقع التشغيلية."
-                      : "No. The structure starts with school-meal logic, but it also supports companies, hotels, events, and operational sites."}
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="custom">
-                  <AccordionTrigger>
-                    {language === "ar" ? "هل يمكن تخصيص القائمة؟" : "Can menus be customized?"}
-                  </AccordionTrigger>
-                  <AccordionContent>
+                      ? "تُخطط البرامج اليومية بعناية لتراعي الحصص، والتوقيت، والتغليف، ونوافذ الاستلام — لتعرف الفرق والجهات ما يمكن توقعه."
+                      : "Daily programs are planned around portions, timing, packaging, and receiving windows — so teams know what to expect."}
+                  </p>
+
+                  {/* Rosette Watermark */}
+                  <div className="absolute bottom-[-10px] right-[-10px] rtl:right-auto rtl:left-[-10px] w-24 h-24 opacity-[0.05] text-[#865D4B] pointer-events-none group-hover:scale-110 transition-transform duration-500">
+                    <RosetteIcon className="w-full h-full" />
+                  </div>
+                </article>
+
+                {/* Card 2: Prepared with care */}
+                <article className="reveal group relative overflow-hidden rounded-[24px] border border-[#865D4B]/22 bg-gradient-to-br from-[#FAEDE6]/92 to-[#F4EADA]/78 p-8 shadow-[0_18px_45px_rgba(134,93,75,0.06)] transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-[#F19E38]/55 hover:shadow-[0_24px_65px_rgba(134,93,75,0.12)] min-h-[260px] text-left rtl:text-right">
+                  {/* Small clay-seal icon circle */}
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#C98A61] to-[#A86543] border border-[rgba(111,75,59,0.35)] shadow-[0_6px_15px_rgba(134,93,75,0.15)] flex items-center justify-center text-[#FFF8F1] mb-6">
+                    <HeartHandshake className="w-[22px] h-[22px]" strokeWidth={2} />
+                  </div>
+
+                  <span className="inline-block px-3 py-1 rounded-full bg-[#DEC9B2]/40 text-[#865D4B] text-[11px] font-bold tracking-wide uppercase mb-3">
+                    {language === "ar" ? "معيار الضيافة" : "Hospitality standard"}
+                  </span>
+
+                  <h3 className="font-display text-xl md:text-2xl font-bold text-[#231F20] leading-snug">
+                    {language === "ar" ? "مُحضّرة بكل عناية" : "Prepared with care"}
+                  </h3>
+
+                  <p className="mt-3 text-[15px] md:text-base leading-[1.7] text-[#231F20]/72">
                     {language === "ar"
-                      ? "نعم، يمكن تخصيص القوائم حسب الجمهور والحصة والثقافة ونمط الخدمة."
-                      : "Yes. Menus can be shaped by audience, portion, cultural fit, and service format."}
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
+                      ? "تُعبأ الوجبات، وتُصنف، وتُرتب بعناية لتناسب المدارس، والمكاتب، والفعاليات، وفرق العمل دون أن تفقد دفئها وجودتها."
+                      : "Meals are packed, labeled, and arranged to suit schools, offices, events, and working teams without losing warmth."}
+                  </p>
+
+                  {/* Jar Watermark */}
+                  <div className="absolute bottom-[-10px] right-[-10px] rtl:right-auto rtl:left-[-10px] w-24 h-24 opacity-[0.05] text-[#865D4B] pointer-events-none group-hover:scale-110 transition-transform duration-500">
+                    <LineJarIcon className="w-full h-full" />
+                  </div>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <section id="faq" className="relative bg-[#F4EADA] px-5 py-24 md:px-8 overflow-hidden border-t border-[#865D4B]/15">
+            {/* Faint plaster paper texture */}
+            <div
+              className="absolute inset-0 pointer-events-none opacity-[0.035]"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+              }}
+            />
+
+            {/* Faint palm shadow top-left */}
+            <div className="absolute left-[-10%] top-[-10%] w-[45%] h-[45%] pointer-events-none opacity-[0.08] text-[#865D4B] mix-blend-multiply rotate-[-12deg] rtl:left-auto rtl:right-[-10%] rtl:rotate-[12deg]">
+              <svg viewBox="0 0 200 200" fill="currentColor" className="w-full h-full">
+                <path d="M10,90 C50,85 100,50 145,70 C120,95 105,130 90,175 C85,130 50,105 10,90 Z" />
+                <path d="M40,60 C80,55 120,20 155,50 C130,75 120,110 115,155 C110,110 80,85 40,60 Z" />
+                <path d="M145,70 Q155,140 105,180 Q120,140 145,70 Z" />
+              </svg>
+            </div>
+
+            {/* Faint pottery jar line-art in top-right */}
+            <div className="absolute right-10 top-12 w-48 h-48 pointer-events-none opacity-[0.09] text-[#865D4B] rtl:right-auto rtl:left-10">
+              <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.25" className="w-full h-full">
+                <path d="M35 15h30v5H35z" />
+                <path d="M38 20v5c0 5-8 8-8 18v25c0 8 6 14 14 14h12c8 0 14-6 14-14V43c0-10-8-13-8-18v-5" />
+                <path d="M30 45h40" strokeDasharray="2 3" />
+                <path d="M35 65h30" />
+                <path d="M30 30c-5 0-8 4-8 10s3 10 8 10" />
+                <path d="M70 30c5 0 8 4 8 10s-3 10-8 10" />
+              </svg>
+            </div>
+
+            {/* Subtle Hijazi-inspired vertical border pattern left/right */}
+            <div
+              className="absolute left-4 top-0 bottom-0 w-6 pointer-events-none opacity-20"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='24' viewBox='0 0 12 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 2L10 8L6 14L2 8Z' stroke='%23865D4B' stroke-width='0.75' fill='none'/%3E%3C/svg%3E")`,
+                backgroundRepeat: "repeat-y",
+                backgroundSize: "12px 24px",
+              }}
+            />
+            <div
+              className="absolute right-4 top-0 bottom-0 w-6 pointer-events-none opacity-20"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='24' viewBox='0 0 12 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 2L10 8L6 14L2 8Z' stroke='%23865D4B' stroke-width='0.75' fill='none'/%3E%3C/svg%3E")`,
+                backgroundRepeat: "repeat-y",
+                backgroundSize: "12px 24px",
+              }}
+            />
+
+            <div className="mx-auto max-w-[1100px] relative z-10">
+              {/* Centered Heading */}
+              <div className="mx-auto max-w-3xl text-center reveal flex flex-col items-center mb-10">
+                <Badge variant="warm" className="mb-5">
+                  {language === "ar" ? "أسئلة" : "Questions"}
+                </Badge>
+                <h2
+                  className="font-display font-bold text-[#231F20] tracking-tight leading-[1.05]"
+                  style={{ fontSize: "clamp(34px, 4.5vw, 54px)", letterSpacing: "-0.02em" }}
+                >
+                  {language === "ar" ? "إجابات واضحة قبل القرار" : "Clear Answers Before You Decide"}
+                </h2>
+                {/* Arabic Accent Line */}
+                <p className="font-display text-[#865D4B] text-xl md:text-2xl mt-4 font-semibold">
+                  إجابات واضحة قبل القرار
+                </p>
+
+                {/* Centered Divider Ornament */}
+                <div className="my-6 flex items-center justify-center gap-3 w-40">
+                  <div className="h-[1px] flex-1 bg-[#DEC9B2]/60" />
+                  <div className="size-1.5 rotate-45 bg-[#865D4B]" />
+                  <div className="h-[1px] flex-1 bg-[#DEC9B2]/60" />
+                </div>
+
+                <p className="max-w-2xl text-base leading-relaxed text-[#231F20]/75 md:text-lg">
+                  {language === "ar"
+                    ? "من البرامج المدرسية إلى تموين الشركات، إليك إجابات عن بعض الأسئلة الشائعة حول القوائم، والتخصيص، ونوع الخدمة."
+                    : "From school programs to office catering, here are a few common questions about menus, customization, and service format."}
+                </p>
+              </div>
+
+              {/* Accordion FAQ Grid */}
+              <div className="mx-auto max-w-[860px] flex flex-col gap-4">
+                {faqItems.map((item, index) => {
+                  const isOpen = openFaqIndex === index;
+                  return (
+                    <div
+                      key={index}
+                      className={`overflow-hidden rounded-[20px] border transition-all duration-300 ease-out ${
+                        isOpen
+                          ? "bg-[#FAEDE6] border-[#F19E38]/50 shadow-[0_12px_28px_rgba(134,93,75,0.08)]"
+                          : "bg-[#FAEDE6]/60 border-[#865D4B]/18 hover:border-[#865D4B]/35 shadow-[0_6px_18px_rgba(134,93,75,0.03)]"
+                      }`}
+                    >
+                      <button
+                        onClick={() => setOpenFaqIndex(isOpen ? null : index)}
+                        className="w-full flex items-center justify-between p-6 text-left rtl:text-right focus:outline-none"
+                      >
+                        <span className="font-display text-base md:text-lg font-bold text-[#231F20] pr-4 rtl:pr-0 rtl:pl-4">
+                          {item.question[language]}
+                        </span>
+                        {/* Plus/Minus Clay Seal Circle */}
+                        <div
+                          className={`size-8 shrink-0 flex items-center justify-center rounded-full transition-all duration-300 border ${
+                            isOpen
+                              ? "bg-gradient-to-br from-[#C98A61] to-[#A86543] border-[rgba(111,75,59,0.35)] shadow-[0_3px_8px_rgba(134,93,75,0.12)] text-[#FFF8F1]"
+                              : "bg-[#DEC9B2] border-[rgba(134,93,75,0.2)] text-[#865D4B]"
+                          }`}
+                        >
+                          {isOpen ? (
+                            <Minus className="w-3.5 h-3.5" strokeWidth={2.5} />
+                          ) : (
+                            <Plus className="w-3.5 h-3.5" strokeWidth={2.5} />
+                          )}
+                        </div>
+                      </button>
+
+                      {/* Collapsible Answer using CSS Grid Rows trick for smooth height animation */}
+                      <div
+                        className={`grid transition-all duration-300 ease-in-out ${
+                          isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                        }`}
+                      >
+                        <div className="overflow-hidden">
+                          <div className="px-6 pb-6 text-[15px] md:text-base leading-relaxed text-[#231F20]/72 border-t border-[#865D4B]/10 pt-4">
+                            {item.answer[language]}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Small CTA below Accordion */}
+              <div className="mx-auto max-w-[620px] text-center mt-12 p-6 rounded-[20px] border border-[#865D4B]/18 bg-[#FAEDE6]/50 shadow-[0_6px_18px_rgba(134,93,75,0.02)]">
+                <h3 className="font-display text-lg md:text-xl font-bold text-[#231F20]">
+                  {language === "ar" ? "هل لديك سؤال آخر؟" : "Still have a question?"}
+                </h3>
+                <p className="text-sm text-[#231F20]/70 mt-2 mb-4">
+                  {language === "ar"
+                    ? "دعنا نساعدك في تصميم البرنامج المناسب لمدرستك، أو مكتبك، أو فعاليتك."
+                    : "Let us help shape the right program for your school, office, or event."}
+                </p>
+                <LiquidButton href="#contact" reducedMotion={reducedMotion} className="h-10 px-6 text-sm mx-auto">
+                  {language === "ar" ? "ناقش احتياجاتك" : "Discuss your needs"}
+                </LiquidButton>
+              </div>
             </div>
           </section>
 

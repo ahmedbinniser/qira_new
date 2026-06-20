@@ -1,19 +1,25 @@
 import { useRef } from "react";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
+import { LineJarIcon, RosetteIcon } from "@/components/PotteryIcons";
 
 type AnimatedStatCounterProps = {
   value: number;
-  label: string;
+  title: string;
+  arabicLabel: string;
+  motif?: string;
   reducedMotion: boolean;
 };
 
 export function AnimatedStatCounter({
   value,
-  label,
+  title,
+  arabicLabel,
+  motif = "rosette",
   reducedMotion,
 }: AnimatedStatCounterProps) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLElement>(null);
   const valueRef = useRef<HTMLSpanElement>(null);
+  const MotifIcon = motif === "jar" ? LineJarIcon : RosetteIcon;
 
   useGSAP(
     () => {
@@ -52,12 +58,16 @@ export function AnimatedStatCounter({
   );
 
   return (
-    <div ref={ref} className="glass-card stat-card reveal relative isolate overflow-hidden">
-      <span className="liquid-card liquid-lens" aria-hidden="true" />
-      <span ref={valueRef} className="stat-value font-display text-5xl text-[var(--text-primary)]">
+    <article ref={ref} className="stat-card reveal relative isolate overflow-hidden">
+      <span className="stat-card-seal" aria-hidden="true">
+        <MotifIcon className="size-4" />
+      </span>
+      <MotifIcon className="stat-card-watermark" aria-hidden="true" />
+      <span ref={valueRef} className="stat-value">
         0
       </span>
-      <span className="mt-2 block text-sm text-[var(--text-secondary)]">{label}</span>
-    </div>
+      <span className="stat-title">{title}</span>
+      <span className="stat-arabic">{arabicLabel}</span>
+    </article>
   );
 }

@@ -34,11 +34,29 @@ export type Language = "en" | "ar";
 
 export type LocalizedText = Record<Language, string>;
 
+export type AudienceContentCollection = {
+  badge: LocalizedText;
+  title: LocalizedText;
+  intro: LocalizedText;
+  itemLabel: LocalizedText;
+  items: Array<{
+    title: LocalizedText;
+    description: LocalizedText;
+    details?: LocalizedText[];
+  }>;
+};
+
 export type ServiceAudience = {
+  id: string;
   title: LocalizedText;
   body: LocalizedText;
   image: string;
   icon: React.ComponentType<any>;
+  summary: LocalizedText;
+  story: LocalizedText;
+  highlights: LocalizedText[];
+  examples: LocalizedText[];
+  contentCollection?: AudienceContentCollection;
 };
 
 export type Program = {
@@ -54,6 +72,7 @@ export type MenuCategory = {
   id: string;
   image: string;
   title: LocalizedText;
+  subtitle: LocalizedText;
   summary: LocalizedText;
   story: LocalizedText;
   bestFor: LocalizedText;
@@ -94,14 +113,15 @@ export const trustBullets = [
 ];
 
 export const stats = [
-  { value: 6, label: { en: "Service sectors", ar: "قطاعات نخدمها" } },
-  { value: 5, label: { en: "Program formats", ar: "أنواع البرامج" } },
-  { value: 4, label: { en: "Process checkpoints", ar: "مراحل التشغيل" } },
-  { value: 6, label: { en: "Meal categories", ar: "فئات الوجبات" } },
+  { value: 6, label: { en: "Meal categories", ar: "فئات الوجبات" }, motif: "rosette" },
+  { value: 4, label: { en: "Operating stages", ar: "مراحل التشغيل" }, motif: "jar" },
+  { value: 5, label: { en: "Program types", ar: "أنواع البرامج" }, motif: "rosette" },
+  { value: 6, label: { en: "Sectors served", ar: "قطاعات نخدمها" }, motif: "jar" },
 ];
 
 export const audiences: ServiceAudience[] = [
   {
+    id: "schools",
     title: { en: "School Meals", ar: "وجبات المدارس" },
     body: {
       en: "Nourishing daily meals prepared with fresh ingredients, portioned carefully for children, and served with warmth.",
@@ -109,8 +129,70 @@ export const audiences: ServiceAudience[] = [
     },
     image: "/images/serve-schools.webp",
     icon: SchoolPot,
+    summary: {
+      en: "Dependable, nutritious meal programs designed specifically for school environments, ensuring children have the energy they need to learn and grow.",
+      ar: "برامج وجبات مغذية وموثوقة مصممة خصيصًا للبيئات المدرسية، لضمان حصول الأطفال على الطاقة التي يحتاجونها للتعلم والنمو."
+    },
+    story: {
+      en: "Feeding students requires a careful balance of nutrition, taste, and logistics. Our School Meals program is built around the daily rhythms of educational institutions, delivering fresh, child-friendly meals in practical, mess-free packaging.",
+      ar: "يتطلب إطعام الطلاب توازنًا دقيقًا بين التغذية والمذاق والخدمات اللوجستية. صُمم برنامج الوجبات المدرسية الخاص بنا حول الإيقاع اليومي للمؤسسات التعليمية، لتقديم وجبات طازجة ومناسبة للأطفال في عبوات عملية لا تسبب الفوضى."
+    },
+    highlights: [
+      { en: "Age-appropriate portion sizing", ar: "أحجام حصص مناسبة للأعمار" },
+      { en: "Nutritionally balanced menus", ar: "قوائم طعام متوازنة غذائيًا" },
+      { en: "Reliable delivery schedules", ar: "جداول توصيل موثوقة" }
+    ],
+    examples: [
+      { en: "Hot lunch trays with fresh sides", ar: "صواني غداء ساخنة مع أطباق جانبية طازجة" },
+      { en: "Nutritious morning snack boxes", ar: "صناديق وجبات خفيفة صباحية مغذية" },
+      { en: "Special dietary requirement options", ar: "خيارات للمتطلبات الغذائية الخاصة" }
+    ],
+    contentCollection: {
+      badge: { en: "From the school program", ar: "من البرنامج المدرسي" },
+      title: { en: "Zad Qira: A Meal That Carries a Story", ar: "زاد قِرى المدرسي" },
+      intro: {
+        en: "At Qira, a meal is more than food. It is a gentle opportunity to plant a beautiful meaning, revive an Arabic word, and open a small window onto our history and culture. A short weekly story can accompany the meal or be shared inside the school.",
+        ar: "في قِرى، الوجبة ليست طعامًا فحسب، بل فرصة لطيفة لغرس معنى جميل، وإحياء كلمة عربية، وفتح نافذة صغيرة على تاريخنا وثقافتنا. نقترح تقديم معلومة أسبوعية قصيرة للطلاب، تُرفق مع الوجبة أو تُعرض داخل المدرسة.",
+      },
+      itemLabel: { en: "Weekly theme", ar: "باب أسبوعي" },
+      items: [
+        {
+          title: { en: "Shades of Meaning", ar: "فروق المعاني" },
+          description: { en: "Introduce students to the precision of Arabic and show how words may be close in meaning without being identical.", ar: "نعرّف الطالب بدقّة العربية، وأن بعض الكلمات قد تتقارب في المعنى ولا تتطابق." },
+        },
+        {
+          title: { en: "A Word's Journey", ar: "رحلة كلمة" },
+          description: { en: "Trace familiar everyday words back to their origins and follow their journey between languages and cultures.", ar: "كلمات نستعملها كل يوم، لها حكاية في أصلها وانتقالها بين اللغات والثقافات." },
+        },
+        {
+          title: { en: "Arab Kunyas", ar: "كُنى العرب" },
+          description: { en: "Open a friendly window onto an authentic Arab custom and how the kunya became a sign of affection or renown.", ar: "نفتح بابًا لطيفًا على عادة عربية أصيلة، وكيف صارت الكنية علامة مودة أو شهرة." },
+        },
+        {
+          title: { en: "Arab Virtues", ar: "مكارم العرب" },
+          description: { en: "Explore history through generosity, loyalty, care for one's neighbor, and support for people in need.", ar: "نقدّم التاريخ من خلال القيم الجميلة: الكرم، والوفاء، وحماية الجار، ونصرة المحتاج." },
+        },
+        {
+          title: { en: "Makers of Civilization", ar: "علماء وصنّاع الحضارة" },
+          description: { en: "Meet Arab scholars in language, medicine, astronomy, and cuisine, including Al-Khalil ibn Ahmad, Ibn Sina, and Ibn Sayyar al-Warraq.", ar: "نعرّف الطلاب بعلماء العرب في اللغة والطب والفلك والطهي، ومنهم الخليل بن أحمد الفراهيدي، وابن سينا، وابن سيّار الورّاق." },
+        },
+        {
+          title: { en: "Why Is It Called That?", ar: "لِمَ سُمّي؟" },
+          description: { en: "Turn the names of familiar things around the student into short, enjoyable questions about language and origin.", ar: "نشرح سبب تسمية أشياء مألوفة حول الطالب، فنحوّل الاسم اليومي إلى سؤال ممتع." },
+        },
+        {
+          title: { en: "Say It in Sound Arabic", ar: "قلها بالعربية الصحيحة" },
+          description: { en: "Share one language rule in a minute and gently correct a common expression without making the lesson feel heavy.", ar: "نقدّم قاعدة في دقيقة، ونصحّح عبارة شائعة بلا ثقل مدرسي." },
+        },
+        {
+          title: { en: "The Arab Table", ar: "مائدة العرب" },
+          description: { en: "Discover historic Arab dishes and their names, connecting each story to food served to students.", ar: "نقدّم معلومات عن طعام العرب القديم وأسمائه، مع ربط جميل بما يُقدّم للطلاب من طعام." },
+        },
+      ],
+    },
   },
   {
+    id: "hotels",
     title: { en: "Hotel Hospitality", ar: "ضيافة الفنادق" },
     body: {
       en: "Consistent staff dining and back-of-house meal programs that match the hospitality standard of your brand.",
@@ -118,8 +200,129 @@ export const audiences: ServiceAudience[] = [
     },
     image: "/images/serve-hotels.webp",
     icon: HotelDallah,
+    summary: {
+      en: "Elevate your back-of-house operations with staff dining programs that reflect the care and quality your hotel extends to its guests.",
+      ar: "ارتقِ بعملياتك المساندة من خلال برامج طعام للموظفين تعكس الاهتمام والجودة التي يقدمها فندقك لضيوفه."
+    },
+    story: {
+      en: "Hospitality professionals deserve the same level of care they provide. We partner with hotels to deliver robust, high-quality staff meals that keep your team energized across all shifts, allowing you to focus on the guest experience.",
+      ar: "يستحق محترفو الضيافة نفس مستوى الرعاية الذي يقدمونه. نتعاون مع الفنادق لتقديم وجبات قوية وعالية الجودة للموظفين تحافظ على نشاط فريقك في جميع الورديات، مما يتيح لك التركيز على تجربة الضيف."
+    },
+    highlights: [
+      { en: "24/7 coverage for rotating shifts", ar: "تغطية على مدار الساعة للورديات المتعاقبة" },
+      { en: "Menu variety to combat fatigue", ar: "تنوع في القائمة لمكافحة الملل" },
+      { en: "Scalable volume for peak seasons", ar: "كميات قابلة للتطوير لمواسم الذروة" }
+    ],
+    examples: [
+      { en: "Hearty midnight shift meals", ar: "وجبات دسمة لورديات منتصف الليل" },
+      { en: "Executive team dining setups", ar: "تجهيزات طعام للفريق التنفيذي" },
+      { en: "Grab-and-go options for busy staff", ar: "خيارات سريعة للموظفين المشغولين" }
+    ],
+    contentCollection: {
+      badge: { en: "From the breakfast menu", ar: "من قائمة الإفطار" },
+      title: { en: "Bakour Qira: A Seven-Day Breakfast Rotation", ar: "بَكور قِرى — قائمة الإفطار الأسبوعية" },
+      intro: {
+        en: "A warm weekly breakfast rotation for hotel teams and hospitality operations, combining familiar regional flavors, fresh sides, and dependable daily variety.",
+        ar: "دورة إفطار أسبوعية دافئة لفرق الفنادق وعمليات الضيافة، تجمع النكهات الإقليمية المألوفة، والإضافات الطازجة، والتنوّع اليومي الموثوق.",
+      },
+      itemLabel: { en: "Daily menu", ar: "قائمة اليوم" },
+      items: [
+        {
+          title: { en: "Saturday", ar: "السبت" },
+          description: { en: "A Hijazi start with warm foul and simple home-style accompaniments.", ar: "بداية حجازية بفول دافئ وإضافات منزلية بسيطة." },
+          details: [
+            { en: "Qira Hijazi foul", ar: "فول قِرى الحجازي" },
+            { en: "Boiled eggs", ar: "بيض الدار المسلوق" },
+            { en: "Mini brioche manakish", ar: "ميني مناقيش بريوش" },
+            { en: "Fresh morning vegetables", ar: "خضار الصباح" },
+            { en: "Cheddar cheese", ar: "جبنة شيدر صفراء" },
+            { en: "Mulberry jam with fruit pieces", ar: "مربى الفرصاد مع قطع التوت" },
+            { en: "Qira mint tea", ar: "شاي قِرى بالنعناع" },
+          ],
+        },
+        {
+          title: { en: "Sunday", ar: "الأحد" },
+          description: { en: "A generous breakfast led by fresh liver and a soft milk omelet.", ar: "إفطار مشبع تتقدمه الكبدة الطازجة وعجة البيض بالحليب." },
+          details: [
+            { en: "Qira liver", ar: "كبدة قِرى" },
+            { en: "Milk omelet", ar: "عجة بيض بالحليب" },
+            { en: "Roasted potatoes", ar: "بطاطس مشوية" },
+            { en: "Fruit yogurt", ar: "زبادي بالفواكه" },
+            { en: "White feta cheese", ar: "جبنة فيتا بيضاء" },
+            { en: "Tahini halva", ar: "حلاوة طحينية" },
+            { en: "Qira mint tea", ar: "شاي قِرى بالنعناع" },
+          ],
+        },
+        {
+          title: { en: "Monday", ar: "الاثنين" },
+          description: { en: "A calm Arab morning with warm lentils and Moroccan shakshuka.", ar: "صباح عربي هادئ مع العدس الدافئ والشكشوكة المغربية." },
+          details: [
+            { en: "Abbasi lentils", ar: "عدس عباسي" },
+            { en: "Moroccan shakshuka", ar: "شكشوكة مغربية" },
+            { en: "Mini pizza", ar: "الأقراص الحمراء — ميني بيتزا" },
+            { en: "Labneh and olive oil", ar: "لبنة وزيت زيتون" },
+            { en: "Cheddar cheese", ar: "جبنة شيدر صفراء" },
+            { en: "Mulberry jam with fruit pieces", ar: "مربى الفرصاد مع قطع التوت" },
+            { en: "Qira mint tea", ar: "شاي قِرى بالنعناع" },
+          ],
+        },
+        {
+          title: { en: "Tuesday", ar: "الثلاثاء" },
+          description: { en: "A light Levantine table centered on creamy hummus and fresh sides.", ar: "مائدة شامية خفيفة تتمحور حول الحمص الناعم والإضافات الطازجة." },
+          details: [
+            { en: "Levantine hummus", ar: "حمص شامي" },
+            { en: "Boiled eggs", ar: "بيض الدار المسلوق" },
+            { en: "Mashed potatoes", ar: "بطاطس مهروسة" },
+            { en: "Fresh morning vegetables", ar: "خضار الصباح" },
+            { en: "White feta cheese", ar: "جبنة فيتا بيضاء" },
+            { en: "Tahini halva", ar: "حلاوة طحينية" },
+            { en: "Qira mint tea", ar: "شاي قِرى بالنعناع" },
+          ],
+        },
+        {
+          title: { en: "Wednesday", ar: "الأربعاء" },
+          description: { en: "Slow-cooked foul with a soft omelet and bright fruit yogurt.", ar: "فول مطهو على مهل مع عجة ناعمة وزبادي بالفواكه." },
+          details: [
+            { en: "Smoked foul", ar: "فول مبخّر" },
+            { en: "Milk omelet", ar: "عجة بيض بالحليب" },
+            { en: "Mini brioche manakish", ar: "ميني مناقيش بريوش" },
+            { en: "Fruit yogurt", ar: "زبادي بالفواكه" },
+            { en: "Cheddar cheese", ar: "جبنة شيدر صفراء" },
+            { en: "Mulberry jam with fruit pieces", ar: "مربى الفرصاد مع قطع التوت" },
+            { en: "Qira mint tea", ar: "شاي قِرى بالنعناع" },
+          ],
+        },
+        {
+          title: { en: "Thursday", ar: "الخميس" },
+          description: { en: "Warm lentils, creamy labneh, and easy favorites to close the workweek.", ar: "عدس دافئ ولبنة كريمية وخيارات محببة لختام أسبوع العمل." },
+          details: [
+            { en: "Abbasi lentils", ar: "عدس عباسي" },
+            { en: "Mashed potatoes", ar: "بطاطس مهروسة" },
+            { en: "Mini pizza", ar: "الأقراص الحمراء — ميني بيتزا" },
+            { en: "Labneh and olive oil", ar: "لبنة وزيت زيتون" },
+            { en: "White feta cheese", ar: "جبنة فيتا بيضاء" },
+            { en: "Tahini halva", ar: "حلاوة طحينية" },
+            { en: "Qira mint tea", ar: "شاي قِرى بالنعناع" },
+          ],
+        },
+        {
+          title: { en: "Friday", ar: "الجمعة" },
+          description: { en: "Vegetable foul and roasted potatoes for a warm, unhurried Friday table.", ar: "فول بالخضار وبطاطس مشوية لمائدة جمعة دافئة وهادئة." },
+          details: [
+            { en: "Foul with vegetables", ar: "فول بالخضار" },
+            { en: "Roasted potatoes", ar: "بطاطس مشوية" },
+            { en: "Mini brioche manakish", ar: "ميني مناقيش بريوش" },
+            { en: "Fresh morning vegetables", ar: "خضار الصباح" },
+            { en: "Cheddar cheese", ar: "جبنة شيدر صفراء" },
+            { en: "Mulberry jam with fruit pieces", ar: "مربى الفرصاد مع قطع التوت" },
+            { en: "Qira mint tea", ar: "شاي قِرى بالنعناع" },
+          ],
+        },
+      ],
+    },
   },
   {
+    id: "events",
     title: { en: "Gatherings & Events", ar: "اللقاءات والفعاليات" },
     body: {
       en: "Beautifully presented sharing trays, warm buffet spreads, and bespoke catering designed to elevate every gathering.",
@@ -127,8 +330,27 @@ export const audiences: ServiceAudience[] = [
     },
     image: "/images/serve-events.webp",
     icon: EventBowl,
+    summary: {
+      en: "From intimate gatherings to large-scale events, our catering combines authentic flavor with elegant presentation to make every occasion memorable.",
+      ar: "من اللقاءات الحميمة إلى الفعاليات الكبيرة، يجمع تقديم الطعام لدينا بين النكهة الأصيلة والعرض الأنيق لجعل كل مناسبة لا تُنسى."
+    },
+    story: {
+      en: "Food is the centerpiece of any successful gathering. We bring the warmth of Arabic hospitality to your events, providing meticulously curated buffets and beautifully arranged trays that invite connection and conversation among your guests.",
+      ar: "الطعام هو محور أي تجمع ناجح. نجلب دفء الضيافة العربية إلى مناسباتك، من خلال تقديم بوفيهات منسقة بدقة وصواني مرتبة بشكل جميل تدعو ضيوفك للتواصل والحديث."
+    },
+    highlights: [
+      { en: "Artisanal, eye-catching presentation", ar: "عروض تقديمية فنية ملفتة للنظر" },
+      { en: "Flexible setups for any venue", ar: "تجهيزات مرنة لأي مكان" },
+      { en: "Seamless service coordination", ar: "تنسيق سلس للخدمة" }
+    ],
+    examples: [
+      { en: "Elegant VIP reception buffets", ar: "بوفيهات استقبال أنيقة لكبار الشخصيات" },
+      { en: "Cultural and festive sharing trays", ar: "صواني مشاركة ثقافية واحتفالية" },
+      { en: "Customized event refreshment stations", ar: "محطات مرطبات مخصصة للمناسبات" }
+    ]
   },
   {
+    id: "worksite",
     title: { en: "Worksite Meals", ar: "وجبات مواقع العمل" },
     body: {
       en: "Hearty, reliable meals delivered to field teams, keeping them sustained and valued throughout the day.",
@@ -136,8 +358,27 @@ export const audiences: ServiceAudience[] = [
     },
     image: "/images/serve-construction.webp",
     icon: WorksiteJar,
+    summary: {
+      en: "Robust, high-energy meals designed specifically for the demanding environments of construction sites, remote locations, and field operations.",
+      ar: "وجبات قوية وعالية الطاقة مصممة خصيصًا للبيئات الصعبة في مواقع البناء والمواقع البعيدة والعمليات الميدانية."
+    },
+    story: {
+      en: "Field work requires serious fuel. Our Worksite Meals program focuses on delivering hearty, comforting food to teams working in challenging conditions. With durable packaging and punctual delivery, we ensure your crew gets the hot, satisfying meal they've earned.",
+      ar: "يتطلب العمل الميداني وقودًا حقيقيًا. يركز برنامج وجبات مواقع العمل الخاص بنا على تقديم طعام شهي ومريح للفرق العاملة في ظروف صعبة. بفضل التغليف المتين والتوصيل في الموعد المحدد، نضمن حصول طاقمك على الوجبة الساخنة والمرضية التي يستحقونها."
+    },
+    highlights: [
+      { en: "High-caloric, energizing menus", ar: "قوائم طعام عالية السعرات الحرارية ومنشطة" },
+      { en: "Durable, field-ready packaging", ar: "تغليف متين وجاهز للميدان" },
+      { en: "Logistics for hard-to-reach sites", ar: "خدمات لوجستية للمواقع التي يصعب الوصول إليها" }
+    ],
+    examples: [
+      { en: "Bulk hot meal deliveries", ar: "توصيل وجبات ساخنة بكميات كبيرة" },
+      { en: "Individual heavy-duty lunch boxes", ar: "صناديق غداء فردية متينة" },
+      { en: "Hydration and snack stations", ar: "محطات ترطيب ووجبات خفيفة" }
+    ]
   },
   {
+    id: "shift",
     title: { en: "Shift Meals", ar: "وجبات الورديات" },
     body: {
       en: "Comforting, warm meals timed perfectly for teams on rotating schedules, ensuring good food is always ready.",
@@ -145,8 +386,27 @@ export const audiences: ServiceAudience[] = [
     },
     image: "/images/serve-security.webp",
     icon: ShiftTagine,
+    summary: {
+      en: "Precise catering solutions for operations that run around the clock, providing timely sustenance for security, healthcare, and industrial teams.",
+      ar: "حلول تموين دقيقة للعمليات التي تعمل على مدار الساعة، لتوفير الغذاء في الوقت المناسب لفرق الأمن والرعاية الصحية والفرق الصناعية."
+    },
+    story: {
+      en: "Non-standard hours shouldn't mean a drop in food quality. Our Shift Meals program syncs with your operational tempo, bringing comforting, freshly prepared food to your teams exactly when their break starts, regardless of the time on the clock.",
+      ar: "ساعات العمل غير القياسية لا ينبغي أن تعني انخفاضًا في جودة الطعام. يتزامن برنامج وجبات الورديات الخاص بنا مع إيقاع عملياتك، ليقدم طعامًا مريحًا وطازجًا لفرقك في الوقت الذي تبدأ فيه استراحتهم، بغض النظر عن الوقت."
+    },
+    highlights: [
+      { en: "Punctual delivery to match breaks", ar: "توصيل دقيق ليتناسب مع أوقات الاستراحة" },
+      { en: "Menus designed for sustained energy", ar: "قوائم مصممة لطاقة مستدامة" },
+      { en: "Easy-to-handle individual packaging", ar: "تغليف فردي سهل التعامل معه" }
+    ],
+    examples: [
+      { en: "Late-night hot comfort meals", ar: "وجبات ساخنة مريحة في وقت متأخر من الليل" },
+      { en: "Early morning breakfast transitions", ar: "خيارات إفطار لانتقالات الصباح الباكر" },
+      { en: "Quick-consume nutritious wraps", ar: "لفائف مغذية سريعة الاستهلاك" }
+    ]
   },
   {
+    id: "office",
     title: { en: "Office Tables", ar: "موائد المكاتب" },
     body: {
       en: "Daily lunch tables and meeting platters that bring colleagues together over shared plates and genuine hospitality.",
@@ -154,7 +414,25 @@ export const audiences: ServiceAudience[] = [
     },
     image: "/images/serve-corporate.webp",
     icon: OfficeFinjan,
-  },
+    summary: {
+      en: "Transform your workplace culture with daily lunches and meeting platters that foster connection and boost morale.",
+      ar: "قم بتحويل ثقافة مكان عملك من خلال وجبات غداء يومية وأطباق اجتماعات تعزز التواصل وترفع المعنويات."
+    },
+    story: {
+      en: "The best ideas often happen over a shared meal. We provide corporate offices with beautifully arranged lunch tables and meeting platters that break up the workday with a moment of genuine hospitality and collegial connection.",
+      ar: "غالبًا ما تحدث أفضل الأفكار أثناء وجبة مشتركة. نوفر لمكاتب الشركات طاولات غداء وأطباق اجتماعات مرتبة بشكل جميل تكسر روتين يوم العمل بلحظة من الضيافة الأصيلة والتواصل بين الزملاء."
+    },
+    highlights: [
+      { en: "Professional, neat presentation", ar: "تقديم احترافي وأنيق" },
+      { en: "Light options to avoid afternoon slumps", ar: "خيارات خفيفة لتجنب خمول بعد الظهر" },
+      { en: "Seamless boardroom integration", ar: "تكامل سلس في قاعات الاجتماعات" }
+    ],
+    examples: [
+      { en: "Executive boardroom meeting spreads", ar: "تجهيزات لاجتماعات مجالس الإدارة التنفيذية" },
+      { en: "Daily team lunch buffets", ar: "بوفيهات غداء يومية للفرق" },
+      { en: "Friday team-building sharing platters", ar: "أطباق مشاركة لفعاليات بناء الفريق يوم الجمعة" }
+    ]
+  }
 ];
 
 export const programs: Program[] = [
@@ -321,6 +599,7 @@ export const menuCategories: MenuCategory[] = [
     id: "breakfast-boxes",
     image: "/images/menu-breakfast.webp",
     title: { en: "Breakfast boxes", ar: "صناديق الإفطار" },
+    subtitle: { en: "Early starts, neatly packed", ar: "بداية يوم نشيطة، معبأة بعناية" },
     summary: {
       en: "Balanced morning boxes for schools, offices, training days, and early-shift teams.",
       ar: "صناديق صباحية متوازنة للمدارس والمكاتب وأيام التدريب وفرق الورديات المبكرة.",
@@ -349,6 +628,7 @@ export const menuCategories: MenuCategory[] = [
     id: "lunch-meals",
     image: "/images/menu-lunch.webp",
     title: { en: "Lunch meals", ar: "وجبات الغداء" },
+    subtitle: { en: "Reliable daily service", ar: "خدمة يومية موثوقة" },
     summary: {
       en: "Dependable lunch programs with clear portions, practical service flow, and flexible menu rotation.",
       ar: "برامج غداء موثوقة بحصص واضحة وتدفق خدمة عملي وتدوير مرن للقوائم.",
@@ -377,6 +657,7 @@ export const menuCategories: MenuCategory[] = [
     id: "healthy-snacks",
     image: "/images/menu-snacks.webp",
     title: { en: "Healthy snacks", ar: "وجبات خفيفة صحية" },
+    subtitle: { en: "Light options for breaks", ar: "خيارات خفيفة لأوقات الاستراحة" },
     summary: {
       en: "Snack options for breaks, school days, meetings, and teams that need light fuel.",
       ar: "خيارات خفيفة للفسح وأيام المدرسة والاجتماعات والفرق التي تحتاج إلى طاقة بسيطة.",
@@ -405,6 +686,7 @@ export const menuCategories: MenuCategory[] = [
     id: "buffet-trays",
     image: "/images/menu-buffet.webp",
     title: { en: "Buffet trays", ar: "صواني البوفيه" },
+    subtitle: { en: "Shared tables, simple flow", ar: "طاولات مشتركة وتدفق بسيط" },
     summary: {
       en: "Generous trays for events, conferences, hosted meetings, and shared workplace meals.",
       ar: "صواني وفيرة للمناسبات والمؤتمرات والاجتماعات المستضافة ووجبات العمل المشتركة.",
@@ -433,6 +715,7 @@ export const menuCategories: MenuCategory[] = [
     id: "beverages",
     image: "/images/menu-beverages.webp",
     title: { en: "Beverages", ar: "المشروبات" },
+    subtitle: { en: "Hot and cold hospitality", ar: "ضيافة دافئة وباردة" },
     summary: {
       en: "Drink service for school programs, office days, meetings, and hospitality moments.",
       ar: "خدمة مشروبات للمدارس وأيام العمل والاجتماعات ولحظات الضيافة.",
@@ -461,6 +744,7 @@ export const menuCategories: MenuCategory[] = [
     id: "custom-packages",
     image: "/images/menu-custom.webp",
     title: { en: "Custom packages", ar: "باقات مخصصة" },
+    subtitle: { en: "Packed for teams and occasions", ar: "معبأة للفرق والمناسبات" },
     summary: {
       en: "Tailored packages that combine meals, snacks, drinks, packaging, and service rhythm.",
       ar: "باقات مصممة تجمع الوجبات والوجبات الخفيفة والمشروبات والتغليف وإيقاع الخدمة.",

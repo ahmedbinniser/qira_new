@@ -7,10 +7,9 @@
 @layer base {
   @font-face {
     font-family: "Harir AR";
-    src:
-      local("HarirAR-Regular"),
-      local("Harir Semibold"),
-      local("Harir");
+    src: url("/fonts/harir-bold.ttf") format("truetype");
+    font-weight: 400 800;
+    font-style: normal;
     font-display: swap;
   }
 
@@ -78,8 +77,8 @@
 
     --font-heading-en: "Cormorant Garamond", "Playfair Display", Georgia, serif;
     --font-body-en: "Inter", "Manrope", Telegraf, system-ui, sans-serif;
-    --font-heading-ar: "Noto Kufi Arabic", "Reem Kufi", "Aref Ruqaa", "Harir AR", sans-serif;
-    --font-body-ar: "IBM Plex Sans Arabic", "Tajawal", "Cairo", "Harir AR", sans-serif;
+    --font-heading-ar: "Harir AR", "Noto Kufi Arabic", "Reem Kufi", "Aref Ruqaa", sans-serif;
+    --font-body-ar: "Harir AR", "IBM Plex Sans Arabic", "Tajawal", "Cairo", sans-serif;
     --font-heading: var(--font-heading-en);
     --font-body: var(--font-body-en);
   }
@@ -96,6 +95,29 @@
   html {
     background: var(--background);
     scroll-behavior: auto;
+    /* Firefox support */
+    scrollbar-width: thin;
+    scrollbar-color: #DEC9B2 #F4EADA;
+  }
+
+  /* Chrome, Edge, Safari support */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #F4EADA;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #DEC9B2;
+    border-radius: 999px;
+    border: 2.5px solid #F4EADA;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #865D4B;
   }
 
   body {
@@ -154,6 +176,184 @@
 
   .section-heading {
     max-width: 860px;
+  }
+
+  .stats-overview {
+    background:
+      radial-gradient(circle at 8% 10%, rgba(250, 237, 230, 0.92), transparent 23rem),
+      radial-gradient(circle at 88% 18%, rgba(222, 201, 178, 0.34), transparent 24rem),
+      #F4EADA;
+  }
+
+  .stats-overview::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.42;
+    background:
+      linear-gradient(135deg, rgba(255, 255, 255, 0.26), transparent 36%),
+      repeating-linear-gradient(
+        0deg,
+        rgba(134, 93, 75, 0.035) 0,
+        rgba(134, 93, 75, 0.035) 1px,
+        transparent 1px,
+        transparent 9px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        rgba(255, 249, 240, 0.42) 0,
+        rgba(255, 249, 240, 0.42) 1px,
+        transparent 1px,
+        transparent 11px
+      );
+  }
+
+  .stats-overview::after {
+    content: "";
+    position: absolute;
+    inset-inline: clamp(1.25rem, 6vw, 5rem);
+    top: 1.25rem;
+    height: 10px;
+    opacity: 0.32;
+    pointer-events: none;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        rgba(134, 93, 75, 0.45) 0 10px,
+        transparent 10px 18px,
+        rgba(241, 158, 56, 0.42) 18px 22px,
+        transparent 22px 30px
+      );
+    border-radius: 999px;
+  }
+
+  .stats-palm-shadow {
+    position: absolute;
+    left: -7rem;
+    top: -7rem;
+    width: min(42rem, 84vw);
+    height: 30rem;
+    opacity: 0.13;
+    pointer-events: none;
+    transform: rotate(-16deg);
+    filter: blur(0.5px);
+    background:
+      radial-gradient(ellipse at 22% 42%, rgba(134, 93, 75, 0.5), transparent 9%),
+      repeating-conic-gradient(
+        from 210deg at 22% 42%,
+        rgba(134, 93, 75, 0.62) 0deg 4deg,
+        transparent 4deg 13deg
+      );
+    mask-image: radial-gradient(ellipse at 22% 42%, #000 0 58%, transparent 72%);
+  }
+
+  .stats-corner-motif {
+    position: absolute;
+    width: clamp(5.5rem, 12vw, 9rem);
+    height: clamp(5.5rem, 12vw, 9rem);
+    opacity: 0.28;
+    pointer-events: none;
+    color: #865D4B;
+  }
+
+  .stats-corner-motif::before,
+  .stats-corner-motif::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-color: currentColor;
+  }
+
+  .stats-corner-motif::before {
+    border-top: 1px solid;
+    border-inline-start: 1px solid;
+    border-start-start-radius: 22px;
+  }
+
+  .stats-corner-motif::after {
+    inset: 0.85rem;
+    border-top: 1px solid rgba(241, 158, 56, 0.72);
+    border-inline-start: 1px solid rgba(241, 158, 56, 0.72);
+    border-start-start-radius: 16px;
+  }
+
+  .stats-corner-motif-start {
+    left: clamp(1rem, 4vw, 3.25rem);
+    bottom: clamp(1rem, 4vw, 3.25rem);
+  }
+
+  .stats-corner-motif-end {
+    right: clamp(1rem, 4vw, 3.25rem);
+    top: clamp(1rem, 4vw, 3.25rem);
+    transform: rotate(180deg);
+  }
+
+  .stats-side-jar,
+  .stats-side-rosette {
+    position: absolute;
+    pointer-events: none;
+    color: #865D4B;
+  }
+
+  .stats-side-jar {
+    right: clamp(-4rem, -2vw, -1rem);
+    bottom: 2rem;
+    width: clamp(12rem, 24vw, 22rem);
+    height: auto;
+    opacity: 0.08;
+  }
+
+  .stats-side-rosette {
+    left: clamp(1rem, 5vw, 4rem);
+    bottom: 5rem;
+    width: clamp(5rem, 10vw, 9rem);
+    height: auto;
+    opacity: 0.09;
+  }
+
+  .stats-badge {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    min-height: 2.5rem;
+    border: 1px solid rgba(134, 93, 75, 0.22);
+    border-radius: 999px;
+    background: rgba(250, 237, 230, 0.72);
+    padding: 0.5rem 1rem;
+    color: #865D4B;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  }
+
+  .stats-heading {
+    margin-top: 1.25rem;
+    max-width: 760px;
+    color: #231F20;
+    font-family: var(--font-heading-en);
+    font-size: clamp(2.5rem, 5.4vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+
+  .stats-accent-line {
+    margin-top: 1rem;
+    color: #865D4B;
+    font-family: var(--font-heading-ar);
+    font-size: clamp(1.25rem, 2.2vw, 2rem);
+    font-weight: 700;
+    line-height: 1.45;
+  }
+
+  .stats-subtitle {
+    margin-top: 1rem;
+    max-width: 680px;
+    color: #5E4A40;
+    font-size: clamp(1rem, 1.5vw, 1.15rem);
+    line-height: 1.8;
   }
 
   .brand-logo-mark {
@@ -307,8 +507,7 @@
   html.webgl-active .glass-fallback,
   html.webgl-active .glass-card,
   html.webgl-active .glass-nav,
-  html.webgl-active .glass-panel,
-  html.webgl-active .stat-card {
+  html.webgl-active .glass-panel {
     background:
       linear-gradient(135deg, rgba(255, 255, 255, 0.58), rgba(255, 249, 240, 0.24)),
       var(--glass-bg) !important;
@@ -401,13 +600,115 @@
   }
 
   .stat-card {
-    min-height: 148px;
-    border: 1px solid var(--border);
-    border-radius: 0.5rem;
-    padding: 1.5rem;
-    background: var(--surface-card);
-    box-shadow: 0 16px 34px rgba(134, 93, 75, 0.1);
-    backdrop-filter: blur(18px);
+    min-height: 250px;
+    border: 1px solid rgba(134, 93, 75, 0.22);
+    border-radius: 22px;
+    background:
+      linear-gradient(145deg, #FAEDE6 0%, #F4EADA 70%),
+      #FAEDE6;
+    padding: clamp(1.35rem, 2.4vw, 1.75rem);
+    color: #231F20;
+    box-shadow: 0 20px 55px rgba(134, 93, 75, 0.08);
+    transition:
+      transform 240ms ease,
+      border-color 240ms ease,
+      box-shadow 240ms ease;
+  }
+
+  .stat-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background:
+      radial-gradient(circle at 82% 18%, rgba(241, 158, 56, 0.13), transparent 32%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.34), transparent 46%);
+    opacity: 0.82;
+    pointer-events: none;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(241, 158, 56, 0.62);
+    box-shadow: 0 26px 70px rgba(134, 93, 75, 0.14);
+  }
+
+  .stat-card-seal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid rgba(134, 93, 75, 0.22);
+    border-radius: 999px;
+    background: rgba(222, 201, 178, 0.36);
+    color: #865D4B;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 10px 24px rgba(134, 93, 75, 0.08);
+    transition:
+      background-color 240ms ease,
+      border-color 240ms ease,
+      color 240ms ease,
+      transform 240ms ease;
+  }
+
+  .stat-card:hover .stat-card-seal {
+    border-color: rgba(241, 158, 56, 0.68);
+    background: rgba(241, 158, 56, 0.2);
+    color: #64322E;
+    transform: translateY(-1px);
+  }
+
+  .stat-card-watermark {
+    position: absolute;
+    right: -1.6rem;
+    bottom: -1.65rem;
+    z-index: -1;
+    width: 8.5rem;
+    height: 8.5rem;
+    color: #865D4B;
+    opacity: 0.075;
+    transition: opacity 240ms ease, transform 240ms ease;
+  }
+
+  .stat-card:hover .stat-card-watermark {
+    opacity: 0.12;
+    transform: scale(1.04) rotate(-3deg);
+  }
+
+  .stat-value {
+    display: block;
+    margin-top: 1.35rem;
+    color: #231F20;
+    font-family: var(--font-heading-en);
+    font-size: clamp(4rem, 7vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+
+  .stat-title {
+    display: block;
+    margin-top: 0.8rem;
+    color: #231F20;
+    font-family: var(--font-heading-en);
+    font-size: clamp(1.35rem, 2.1vw, 1.85rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: 0;
+  }
+
+  .stat-arabic {
+    display: block;
+    margin-top: 0.55rem;
+    color: #865D4B;
+    font-family: var(--font-heading-ar);
+    font-size: clamp(1.02rem, 1.5vw, 1.22rem);
+    font-weight: 700;
+    line-height: 1.45;
+    letter-spacing: 0;
   }
 
   .service-card {
