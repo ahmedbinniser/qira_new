@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowUpRight, CheckCircle2, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, CheckCircle2, Sparkles, FileText, Download } from "lucide-react";
 import type { Language, ServiceAudience } from "@/data/content";
 import { Badge } from "@/components/ui/badge";
 import { LiquidButton } from "@/components/LiquidButton";
@@ -20,6 +20,10 @@ const copy = {
   highlights: { en: "Highlights", ar: "نقاط مهمة" },
   examples: { en: "Program examples", ar: "أمثلة للبرامج" },
   related: { en: "Explore other audiences", ar: "استكشف فئات أخرى" },
+  downloadsBtn: { en: "Program Materials", ar: "حقيبة ونماذج البرنامج" },
+  downloadsSectionTitle: { en: "Detailed Guides & Samples", ar: "كتيبات ونماذج البرنامج" },
+  downloadsSectionBadge: { en: "Program Kit", ar: "حقيبة البرنامج" },
+  downloadText: { en: "Download", ar: "تحميل" },
 };
 
 export function AudiencePage({
@@ -63,13 +67,45 @@ export function AudiencePage({
                 <LiquidButton href="#contact" reducedMotion={reducedMotion}>
                   {copy.primaryCta[language]}
                 </LiquidButton>
-                <LiquidButton
-                  href="#serve"
-                  variant="secondary"
-                  reducedMotion={reducedMotion}
-                >
-                  {copy.secondaryCta[language]}
-                </LiquidButton>
+                {audience.downloads && audience.downloads.length > 0 ? (
+                  <LiquidButton
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById("downloads-section")?.scrollIntoView({
+                        behavior: reducedMotion ? "auto" : "smooth",
+                        block: "start"
+                      });
+                    }}
+                    variant="secondary"
+                    reducedMotion={reducedMotion}
+                    showArrow={false}
+                  >
+                    <span className="flex items-center gap-2">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="size-4"
+                      >
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <polyline points="19 12 12 19 5 12"></polyline>
+                      </svg>
+                      {copy.downloadsBtn[language]}
+                    </span>
+                  </LiquidButton>
+                ) : (
+                  <LiquidButton
+                    href="#serve"
+                    variant="secondary"
+                    reducedMotion={reducedMotion}
+                  >
+                    {copy.secondaryCta[language]}
+                  </LiquidButton>
+                )}
               </div>
             </div>
 
@@ -170,6 +206,65 @@ export function AudiencePage({
                     </ul>
                   ) : null}
                 </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {audience.downloads && audience.downloads.length > 0 ? (
+        <section id="downloads-section" className="relative overflow-hidden border-t border-[var(--border)] bg-[var(--surface)] px-5 py-16 md:px-8 md:py-24">
+          <div
+            className="pointer-events-none absolute -left-24 top-8 size-72 rounded-full bg-[var(--primary-soft)] opacity-40 blur-3xl"
+            aria-hidden="true"
+          />
+          <div className="mx-auto max-w-7xl">
+            <div className="reveal max-w-2xl mb-12">
+              <Badge variant="outline" className="mb-5">
+                {copy.downloadsSectionBadge[language]}
+              </Badge>
+              <h2 className="font-display text-4xl leading-tight md:text-6xl text-[var(--text-primary)]">
+                {copy.downloadsSectionTitle[language]}
+              </h2>
+            </div>
+            <div className="grid gap-6 md:grid-cols-2">
+              {audience.downloads.map((pdf) => (
+                <div
+                  key={pdf.url}
+                  className="reveal flex flex-col justify-between rounded-[2rem] border border-[var(--border)] bg-[var(--surface-card)] p-8 shadow-[0_8px_30px_rgba(77,48,32,0.03)] transition-all duration-300 hover:translate-y-[-4px] hover:border-[var(--border-strong)] hover:shadow-[0_16px_40px_rgba(134,93,75,0.08)]"
+                >
+                  <div className="flex items-start gap-5">
+                    <div className="flex size-14 shrink-0 items-center justify-center rounded-[1.25rem] bg-[var(--primary-soft)] text-[var(--primary)] transition-all duration-300">
+                      <FileText className="size-7" />
+                    </div>
+                    <div>
+                      <h3 className="font-display text-xl font-bold text-[var(--text-primary)] md:text-2xl leading-snug">
+                        {pdf.title[language]}
+                      </h3>
+                      <p className="mt-2 text-sm text-[var(--text-muted)] flex items-center gap-2 font-medium">
+                        <span className="uppercase text-[var(--primary)] text-xs font-bold tracking-wider">PDF</span>
+                        <span className="text-[var(--border-strong)]">•</span>
+                        <span>{pdf.size || "1.5 MB"}</span>
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-8 flex justify-end">
+                    <LiquidButton
+                      href={pdf.url}
+                      download={pdf.filename}
+                      reducedMotion={reducedMotion}
+                      showArrow={false}
+                      className="w-full sm:w-auto"
+                    >
+                      <span className="flex items-center justify-center gap-2">
+                        <Download className="size-4" />
+                        <span>
+                          {pdf.buttonText ? pdf.buttonText[language] : copy.downloadText[language]}
+                        </span>
+                      </span>
+                    </LiquidButton>
+                  </div>
+                </div>
               ))}
             </div>
           </div>

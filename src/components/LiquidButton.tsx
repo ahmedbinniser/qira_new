@@ -13,6 +13,7 @@ type LiquidButtonProps = {
   onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
   showArrow?: boolean;
   reducedMotion?: boolean;
+  download?: boolean | string;
 };
 
 export function LiquidButton({
@@ -24,6 +25,7 @@ export function LiquidButton({
   onClick,
   showArrow = true,
   reducedMotion = false,
+  download,
 }: LiquidButtonProps) {
   const anchorClick = onClick as React.MouseEventHandler<HTMLAnchorElement> | undefined;
   const buttonClick = onClick as React.MouseEventHandler<HTMLButtonElement> | undefined;
@@ -50,7 +52,7 @@ export function LiquidButton({
   return (
     <MagneticCTA disabled={reducedMotion}>
       {href ? (
-        <a href={href} className={classes} onClick={anchorClick}>
+        <a href={href} className={classes} onClick={anchorClick} download={download}>
           {content}
         </a>
       ) : (

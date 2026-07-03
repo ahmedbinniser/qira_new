@@ -3,6 +3,7 @@ import {
   ArrowUpRight,
   ClipboardCheck,
   HeartHandshake,
+  Instagram,
   Mail,
   MapPin,
   Minus,
@@ -12,7 +13,6 @@ import {
 } from "lucide-react";
 import {
   audiences,
-  experiencePanels,
   menuCategories,
   qualityPoints,
   stats,
@@ -32,6 +32,7 @@ import { ProgramTabs } from "@/components/ProgramTabs";
 import { LineJarIcon, RosetteIcon } from "@/components/PotteryIcons";
 import { ProcessTimeline } from "@/components/ProcessTimeline";
 import { FinalCTA } from "@/components/FinalCTA";
+import { BranchLocation } from "@/components/BranchLocation";
 import { LiquidButton } from "@/components/LiquidButton";
 import { LiquidGlassCard } from "@/components/LiquidGlassCard";
 import { Badge } from "@/components/ui/badge";
@@ -47,6 +48,21 @@ import { Separator } from "@/components/ui/separator";
 const menuRoutePrefix = "#/menu/";
 const audienceRoutePrefix = "#/serve/";
 
+const statsSectionCopy = {
+  en: {
+    badge: "At a glance",
+    title: "A Clear Service Structure",
+    accent: "From categories to operations",
+    body: "Qira organizes daily hospitality through clear meal categories, program formats, operating stages, and service sectors.",
+  },
+  ar: {
+    badge: "نظرة سريعة",
+    title: "هيكل خدمات واضح",
+    accent: "من الفئات إلى التشغيل",
+    body: "تنظّم قرى الضيافة اليومية من خلال فئات وجبات واضحة، وصيغ برامج محددة، ومراحل تشغيل، وقطاعات خدمة.",
+  },
+};
+
 const faqItems = [
   {
     question: {
@@ -54,8 +70,8 @@ const faqItems = [
       ar: "هل يناسب البرنامج المدارس فقط؟",
     },
     answer: {
-      en: "No. Qira supports schools, offices, events, and working teams, with formats shaped around each setting.",
-      ar: "لا. تدعم قِرة المدارس، والمكاتب، والفعاليات، وفرق العمل، مع تصميم أسلوب الخدمة والوجبات ليناسب كل بيئة.",
+      en: "No. Qira supports schools, hotels, and events, with formats shaped around each setting.",
+      ar: "لا. تدعم قرى المدارس، والفنادق، والفعاليات، مع تصميم أسلوب الخدمة والوجبات ليناسب كل بيئة.",
     },
   },
   {
@@ -74,8 +90,8 @@ const faqItems = [
       ar: "كيف يتم تعبئة وتغليف الوجبات؟",
     },
     answer: {
-      en: "Packaging is chosen based on the serving environment, whether for daily school meals, office programs, or shared event service.",
-      ar: "يتم اختيار التغليف بناءً على بيئة الخدمة، سواء كان ذلك للوجبات المدرسية اليومية، أو برامج الشركات، أو بوفيهات الفعاليات المشتركة.",
+      en: "Packaging is chosen for daily school meals, hotel hospitality, or shared event service.",
+      ar: "يتم اختيار التغليف بما يناسب الوجبات المدرسية اليومية، أو ضيافة الفنادق، أو بوفيهات الفعاليات المشتركة.",
     },
   },
   {
@@ -85,7 +101,7 @@ const faqItems = [
     },
     answer: {
       en: "Yes. Qira can help structure ongoing meal programs with repeatable portions, delivery rhythm, and service consistency.",
-      ar: "نعم. يمكن لقيرة تنظيم برامج وجبات مستمرة بمواصفات ثابتة للحصص، ومواعيد توصيل منتظمة، واتساق دائم في الخدمة.",
+      ar: "نعم. يمكن لقرى تنظيم برامج وجبات مستمرة بمواصفات ثابتة للحصص، ومواعيد توصيل منتظمة، واتساق دائم في الخدمة.",
     },
   },
 ];
@@ -115,7 +131,7 @@ function SectionHeading({
 }
 
 export default function App() {
-  const [language, setLanguage] = useState<Language>("en");
+  const [language, setLanguage] = useState<Language>("ar");
   const [hash, setHash] = useState(() => window.location.hash);
   const [activeQualityIndex, setActiveQualityIndex] = useState<number>(0);
   const [activeMenuFilter, setActiveMenuFilter] = useState<string>("all");
@@ -197,14 +213,13 @@ export default function App() {
 
             <div className="relative z-10 mx-auto max-w-7xl">
               <div className="stats-overview-copy reveal max-w-3xl text-left rtl:text-right">
-                <span className="stats-badge">At a glance</span>
+                <span className="stats-badge">{statsSectionCopy[language].badge}</span>
                 <h2 id="service-structure-title" className="stats-heading">
-                  A Clear Service Structure
+                  {statsSectionCopy[language].title}
                 </h2>
-                <p className="stats-accent-line">خدمة واضحة من الفئات إلى التشغيل</p>
+                <p className="stats-accent-line">{statsSectionCopy[language].accent}</p>
                 <p className="stats-subtitle">
-                  Qira organizes daily hospitality through clear meal categories, program formats,
-                  operating stages, and service sectors.
+                  {statsSectionCopy[language].body}
                 </p>
               </div>
 
@@ -213,8 +228,7 @@ export default function App() {
                   <AnimatedStatCounter
                     key={stat.label.en}
                     value={stat.value}
-                    title={stat.label.en}
-                    arabicLabel={stat.label.ar}
+                    title={stat.label[language]}
                     motif={stat.motif}
                     reducedMotion={reducedMotion}
                   />
@@ -226,7 +240,7 @@ export default function App() {
           <section id="serve" className="section-band bg-[var(--background-soft)] px-5 pt-24 pb-32 md:px-8">
             <div className="mx-auto max-w-[1240px] w-full">
               <SectionHeading
-                eyebrow="من نخدم"
+                eyebrow={language === "ar" ? "من نخدم" : "Who We Serve"}
                 title={
                   language === "ar"
                     ? "ضيافة تُحضّر لكل مجلس"
@@ -234,8 +248,8 @@ export default function App() {
                 }
                 body={
                   language === "ar"
-                    ? "تقدم قيرة وجبات يومية، وصواني مشاركة، وضيافة دافئة بطابع الـ«دلي» للمدارس، والمكاتب، والفنادق، والفعاليات، وفرق العمل — تُحضّر بعناية، وتُورّد باتساق."
-                    : "Qira serves daily meals, trays, and warm deli-style hospitality for schools, offices, hotels, events, and working teams — prepared with care, delivered with consistency."
+                    ? "تقدم قرى وجبات يومية، وصواني مشاركة، وضيافة دافئة للمدارس والفنادق والفعاليات — تُحضّر بعناية، وتُورّد باتساق."
+                    : "Qira serves daily meals, sharing trays, and warm hospitality for schools, hotels, and events — prepared with care and delivered with consistency."
                 }
               />
               <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3 w-full">
@@ -343,136 +357,20 @@ export default function App() {
 
                 {/* Arabic Accent Line */}
                 <p className="font-display text-[#865D4B] text-xl md:text-2xl mt-4.5 font-medium">
-                  برامج ضيافة تُرتّب حول يومكم
+                  {language === "ar" ? "برامج ضيافة تُرتّب حول يومكم" : "Hospitality programs arranged around your day"}
                 </p>
 
                 {/* Subtitle */}
                 <p className="mt-4 max-w-[620px] text-base md:text-lg leading-relaxed text-[#231F20]/75">
                   {language === "ar"
-                    ? "اختر إيقاع الخدمة الذي يناسب ضيوفك، طلابك، فرق عملك، أو تجمعاتك — ودع قيرة تتكفل بتحضير الوجبات، وتغليفها، وتوصيلها بكل عناية."
-                    : "Choose the service rhythm that fits your guests, students, teams, or gatherings — then let Qira shape the meals, packaging, and delivery with care."}
+                    ? "اختر إيقاع الخدمة الذي يناسب طلابك أو تجمعاتك — ودع قرى تتكفل بتحضير الوجبات، وتغليفها، وتوصيلها بكل عناية."
+                    : "Choose the service rhythm that fits your students or gatherings — then let Qira shape the meals, packaging, and delivery with care."}
                 </p>
               </div>
 
               {/* Stateful Tabs & Card */}
               <div className="mt-12 w-full">
                 <ProgramTabs language={language} />
-              </div>
-            </div>
-          </section>
-
-          <section
-            className="section-band experience-section relative overflow-hidden px-5 py-28 md:px-8"
-            style={{
-              backgroundColor: "#F4EADA",
-              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E")`,
-            }}
-          >
-            {/* Very soft palm shadow in top-left */}
-            <div className="absolute left-[-120px] top-[-60px] w-[380px] h-[380px] pointer-events-none opacity-[0.15] blur-[16px] text-[#865D4B] rtl:hidden">
-              <svg viewBox="0 0 200 200" fill="currentColor" className="w-full h-full">
-                <path d="M10,10 Q60,90 190,190" stroke="currentColor" strokeWidth="4" fill="none" />
-                <path d="M40,35 Q100,25 150,45 Q100,55 40,35 Z" />
-                <path d="M55,50 Q125,40 175,65 Q125,75 55,50 Z" />
-                <path d="M70,65 Q150,55 195,85 Q150,95 70,65 Z" />
-                <path d="M25,20 Q15,70 45,120 Q40,70 25,20 Z" />
-                <path d="M40,45 Q30,105 70,150 Q60,105 40,45 Z" />
-                <path d="M55,70 Q45,140 95,180 Q80,140 55,70 Z" />
-              </svg>
-            </div>
-            <div className="absolute right-[-120px] top-[-60px] w-[380px] h-[380px] pointer-events-none opacity-[0.15] blur-[16px] text-[#865D4B] hidden rtl:block">
-              <svg viewBox="0 0 200 200" fill="currentColor" className="w-full h-full">
-                <path d="M190,10 Q140,90 10,190" stroke="currentColor" strokeWidth="4" fill="none" />
-                <path d="M160,35 Q100,25 50,45 Q100,55 160,35 Z" />
-                <path d="M145,50 Q75,40 25,65 Q75,75 145,50 Z" />
-                <path d="M130,65 Q50,55 5,85 Q50,95 130,65 Z" />
-                <path d="M175,20 Q185,70 155,120 Q160,70 175,20 Z" />
-                <path d="M160,45 Q170,105 130,150 Q140,105 160,45 Z" />
-                <path d="M145,70 Q155,140 105,180 Q120,140 145,70 Z" />
-              </svg>
-            </div>
-
-            {/* Faint pottery jar line-art in top-right */}
-            <div className="absolute right-10 top-12 w-48 h-48 pointer-events-none opacity-[0.24] text-[#865D4B] rtl:hidden">
-              <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full">
-                <path d="M35 15h30v5H35z" />
-                <path d="M38 20v5c0 5-8 8-8 18v25c0 8 6 14 14 14h12c8 0 14-6 14-14V43c0-10-8-13-8-18v-5" />
-                <path d="M30 45h40" strokeDasharray="2 3" />
-                <path d="M35 65h30" />
-                <path d="M30 30c-5 0-8 4-8 10s3 10 8 10" />
-                <path d="M70 30c5 0 8 4 8 10s-3 10-8 10" />
-              </svg>
-            </div>
-            <div className="absolute left-10 top-12 w-48 h-48 pointer-events-none opacity-[0.24] text-[#865D4B] hidden rtl:block">
-              <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-full h-full">
-                <path d="M35 15h30v5H35z" />
-                <path d="M38 20v5c0 5-8 8-8 18v25c0 8 6 14 14 14h12c8 0 14-6 14-14V43c0-10-8-13-8-18v-5" />
-                <path d="M30 45h40" strokeDasharray="2 3" />
-                <path d="M35 65h30" />
-                <path d="M30 30c-5 0-8 4-8 10s3 10 8 10" />
-                <path d="M70 30c5 0 8 4 8 10s-3 10-8 10" />
-              </svg>
-            </div>
-
-            {/* Subtle Hijazi-inspired vertical border pattern left/right */}
-            <div
-              className="absolute left-4 top-0 bottom-0 w-6 pointer-events-none opacity-55"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='24' viewBox='0 0 12 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 2L10 8L6 14L2 8Z' stroke='%23865D4B' stroke-width='0.75' fill='none'/%3E%3C/svg%3E")`,
-                backgroundRepeat: "repeat-y",
-                backgroundSize: "12px 24px",
-              }}
-            />
-            <div
-              className="absolute right-4 top-0 bottom-0 w-6 pointer-events-none opacity-55"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='24' viewBox='0 0 12 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 2L10 8L6 14L2 8Z' stroke='%23865D4B' stroke-width='0.75' fill='none'/%3E%3C/svg%3E")`,
-                backgroundRepeat: "repeat-y",
-                backgroundSize: "12px 24px",
-              }}
-            />
-
-            <div className="mx-auto max-w-[1240px] w-full relative z-10">
-              <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end w-full">
-                <div className="max-w-2xl reveal">
-                  {/* Badge */}
-                  <Badge variant="warm" className="mb-5">
-                    {language === "ar" ? "التجربة" : "Experience"}
-                  </Badge>
-                  {/* Heading */}
-                  <h2
-                    className="font-display font-bold text-[#231F20] tracking-tight leading-[1.05]"
-                    style={{ fontSize: "clamp(34px, 5vw, 68px)", letterSpacing: "-0.02em" }}
-                  >
-                    {language === "ar" ? "كل تفصيلة تحمل معنى الضيافة" : "Every Detail Carries the Welcome"}
-                  </h2>
-                  {/* Arabic Accent Line */}
-                  <p className="font-display text-[#865D4B] text-lg md:text-xl mt-3.5 font-medium">
-                    كل تفصيلة تحمل معنى الضيافة
-                  </p>
-                </div>
-                {/* Subtitle */}
-                <p className="reveal max-w-xl text-base md:text-lg leading-relaxed text-[#231F20]/75">
-                  {language === "ar"
-                    ? "من التحضير إلى التغليف، تُصيغ قيرة كل خطوة بحفاوة وعناية، وبإيقاع يناسب الأشخاص الذين نخدمهم."
-                    : "From preparation to packaging, Qira shapes each step with warmth, care, and a rhythm that fits the people being served."}
-                </p>
-              </div>
-
-              {/* Preservation of current 4-card gallery design */}
-              <div className="mt-12 grid gap-5 md:grid-cols-4">
-                {experiencePanels.map((panel, index) => (
-                  <figure
-                    key={panel.image}
-                    className={`parallax-panel reveal experience-panel ${index === 0 || index === 3 ? "md:mt-12" : ""}`}
-                  >
-                    <img src={panel.image} alt="" loading="lazy" />
-                    <figcaption className="flex items-center gap-2">
-                      <LineJarIcon className="size-4 shrink-0 text-[#865D4B]" />
-                      <span className="font-medium text-sm text-[#231F20]">{panel.title[language]}</span>
-                    </figcaption>
-                  </figure>
-                ))}
               </div>
             </div>
           </section>
@@ -562,7 +460,7 @@ export default function App() {
                 </h2>
                 {/* Arabic Accent Line */}
                 <p className="font-display text-[#865D4B] text-lg md:text-xl mt-3.5 font-medium">
-                  من الحاجة إلى ضيافة يومية
+                  {language === "ar" ? "من الحاجة إلى ضيافة يومية" : "From need to daily hospitality"}
                 </p>
                 <p className="mt-5 text-base md:text-lg leading-relaxed text-[#231F20]/75">
                   {language === "ar"
@@ -662,7 +560,7 @@ export default function App() {
                 </h2>
                 {/* Arabic Accent Line */}
                 <p className="font-display text-[#865D4B] text-xl md:text-2xl mt-4 font-semibold">
-                  ثقة تُبنى في كل تفصيلة
+                  {language === "ar" ? "ثقة تُبنى في كل تفصيلة" : "Trust built in every detail"}
                 </p>
 
                 {/* Delicate Divider Ornament */}
@@ -814,7 +712,7 @@ export default function App() {
                 </h2>
                 {/* Arabic Accent Line */}
                 <p className="font-display text-[#865D4B] text-xl md:text-2xl mt-4 font-semibold">
-                  قائمة عملية تتكيّف مع يومكم
+                  {language === "ar" ? "قائمة عملية تتكيّف مع يومكم" : "A practical menu that adapts to your day"}
                 </p>
 
                 {/* Centered Delicate Divider Ornament */}
@@ -826,7 +724,7 @@ export default function App() {
 
                 <p className="max-w-2xl text-base leading-relaxed text-[#231F20]/75 md:text-lg">
                   {language === "ar"
-                    ? "اختر الشكل والنوع أولاً، ثم دع قِرة تُشكل النكهة، والحصص، والتغليف حول المستفيدين."
+                    ? "اختر الشكل والنوع أولاً، ثم دع قرى تُشكل النكهة، والحصص، والتغليف حول المستفيدين."
                     : "Choose the format first, then let Qira shape flavor, portions, and packaging around the people being served."}
                 </p>
               </div>
@@ -978,7 +876,7 @@ export default function App() {
                 </h2>
                 {/* Arabic Accent Line */}
                 <p className="font-display text-[#865D4B] text-xl md:text-2xl mt-4 font-semibold">
-                  معايير واضحة قبل كل شيء
+                  {language === "ar" ? "معايير واضحة قبل كل شيء" : "Clear standards above all else"}
                 </p>
 
                 {/* Centered Divider Ornament */}
@@ -990,7 +888,7 @@ export default function App() {
 
                 <p className="max-w-2xl text-base leading-relaxed text-[#231F20]/75 md:text-lg">
                   {language === "ar"
-                    ? "قبل أن تصلنا تقييمات العملاء، تبني قِرة الثقة من خلال معايير ملموسة: قوائم طعام واضحة، وتغليف موثوق، وإيقاع توصيل منتظم، وخدمة دقيقة."
+                    ? "قبل أن تصلنا تقييمات العملاء، تبني قرى الثقة من خلال معايير ملموسة: قوائم طعام واضحة، وتغليف موثوق، وإيقاع توصيل منتظم، وخدمة دقيقة."
                     : "Before testimonials come in, Qira builds trust through visible standards: clear menus, reliable packaging, delivery rhythm, and careful service."}
                 </p>
               </div>
@@ -1041,8 +939,8 @@ export default function App() {
 
                   <p className="mt-3 text-[15px] md:text-base leading-[1.7] text-[#231F20]/72">
                     {language === "ar"
-                      ? "تُعبأ الوجبات، وتُصنف، وتُرتب بعناية لتناسب المدارس، والمكاتب، والفعاليات، وفرق العمل دون أن تفقد دفئها وجودتها."
-                      : "Meals are packed, labeled, and arranged to suit schools, offices, events, and working teams without losing warmth."}
+                      ? "تُعبأ الوجبات، وتُصنف، وتُرتب بعناية لتناسب المدارس والفنادق والفعاليات دون أن تفقد دفئها وجودتها."
+                      : "Meals are packed, labeled, and arranged to suit schools, hotels, and events without losing warmth."}
                   </p>
 
                   {/* Jar Watermark */}
@@ -1116,7 +1014,7 @@ export default function App() {
                 </h2>
                 {/* Arabic Accent Line */}
                 <p className="font-display text-[#865D4B] text-xl md:text-2xl mt-4 font-semibold">
-                  إجابات واضحة قبل القرار
+                  {language === "ar" ? "إجابات واضحة قبل القرار" : "Clear answers before deciding"}
                 </p>
 
                 {/* Centered Divider Ornament */}
@@ -1128,8 +1026,8 @@ export default function App() {
 
                 <p className="max-w-2xl text-base leading-relaxed text-[#231F20]/75 md:text-lg">
                   {language === "ar"
-                    ? "من البرامج المدرسية إلى تموين الشركات، إليك إجابات عن بعض الأسئلة الشائعة حول القوائم، والتخصيص، ونوع الخدمة."
-                    : "From school programs to office catering, here are a few common questions about menus, customization, and service format."}
+                    ? "من البرامج المدرسية إلى ضيافة الفنادق والفعاليات، إليك إجابات عن بعض الأسئلة الشائعة حول القوائم، والتخصيص، ونوع الخدمة."
+                    : "From school programs to hotel hospitality and events, here are a few common questions about menus, customization, and service format."}
                 </p>
               </div>
 
@@ -1193,8 +1091,8 @@ export default function App() {
                 </h3>
                 <p className="text-sm text-[#231F20]/70 mt-2 mb-4">
                   {language === "ar"
-                    ? "دعنا نساعدك في تصميم البرنامج المناسب لمدرستك، أو مكتبك، أو فعاليتك."
-                    : "Let us help shape the right program for your school, office, or event."}
+                    ? "دعنا نساعدك في تصميم البرنامج المناسب لمدرستك، أو فندقك، أو فعاليتك."
+                    : "Let us help shape the right program for your school, hotel, or event."}
                 </p>
                 <LiquidButton href="#contact" reducedMotion={reducedMotion} className="h-10 px-6 text-sm mx-auto">
                   {language === "ar" ? "ناقش احتياجاتك" : "Discuss your needs"}
@@ -1203,6 +1101,7 @@ export default function App() {
             </div>
           </section>
 
+              <BranchLocation language={language} reducedMotion={reducedMotion} />
               <FinalCTA language={language} reducedMotion={reducedMotion} />
             </>
           )}
@@ -1219,8 +1118,8 @@ export default function App() {
               />
               <p className="mt-4 max-w-sm leading-7 text-qira-cream/64">
                 {language === "ar"
-                  ? "وجبات مدرسية وتموين مؤسسي بروح الضيافة العربية ووضوح التشغيل."
-                  : "School meals and B2B catering rooted in Arabic hospitality and operational clarity."}
+                  ? "وجبات مدرسية وضيافة للفنادق والفعاليات بروح عربية ووضوح تشغيلي."
+                  : "School meals, hotel hospitality, and event catering rooted in Arabic warmth and operational clarity."}
               </p>
             </div>
             <div className="grid gap-8 sm:grid-cols-3">
@@ -1230,7 +1129,7 @@ export default function App() {
                 </h3>
                 <ul className="space-y-3 text-sm text-qira-cream/64">
                   <li>{language === "ar" ? "وجبات المدارس" : "School meals"}</li>
-                  <li>{language === "ar" ? "تموين الشركات" : "Corporate catering"}</li>
+                  <li>{language === "ar" ? "ضيافة الفنادق" : "Hotel hospitality"}</li>
                   <li>{language === "ar" ? "بوفيهات المناسبات" : "Event buffets"}</li>
                 </ul>
               </div>
@@ -1241,15 +1140,37 @@ export default function App() {
                 <ul className="space-y-3 text-sm text-qira-cream/64">
                   <li className="flex items-center gap-2">
                     <MapPin className="size-4 text-[var(--accent)]" />
-                    Jeddah, Saudi Arabia
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Mail className="size-4 text-[var(--accent)]" />
-                    hello@qira.example
+                    <a
+                      href="https://maps.app.goo.gl/KCSV4X1LWn4Vvom39?g_st=ic"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-[var(--accent)] transition-colors"
+                    >
+                      {language === "ar" ? "جدة - حي الروضة - شارع الكيال" : "Jeddah - Ar Rawdah - Al Kayal St."}
+                    </a>
                   </li>
                   <li className="flex items-center gap-2">
                     <Phone className="size-4 text-[var(--accent)]" />
-                    +966 00 000 0000
+                    <a href="tel:+966560718939" className="hover:text-[var(--accent)] transition-colors" dir="ltr">
+                      +966 56 071 8939
+                    </a>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Mail className="size-4 text-[var(--accent)]" />
+                    <a href="mailto:deliqira@gmail.com" className="hover:text-[var(--accent)] transition-colors">
+                      deliqira@gmail.com
+                    </a>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Instagram className="size-4 text-[var(--accent)]" />
+                    <a
+                      href="https://www.instagram.com/qira_deli?igsh=MWtlMHU0eGJ6c3A3Zg=="
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-[var(--accent)] transition-colors"
+                    >
+                      @qira_deli
+                    </a>
                   </li>
                 </ul>
               </div>

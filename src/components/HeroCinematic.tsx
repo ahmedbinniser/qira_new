@@ -17,7 +17,7 @@ export function HeroCinematic({ language, reducedMotion }: HeroCinematicProps) {
 
   const titleLines =
     language === "ar"
-      ? ["وجبات بروح الضيافة العربية", "مصممة للمدارس والشركات"]
+      ? ["وجبات بروح الضيافة العربية", "مصممة للمدارس والفنادق والمناسبات"]
       : ["Meals Rooted in Heritage,", "Built for Modern Operations"];
 
   return (

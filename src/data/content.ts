@@ -23,9 +23,6 @@ import {
   SchoolPot,
   HotelDallah,
   EventBowl,
-  WorksiteJar,
-  ShiftTagine,
-  OfficeFinjan,
   RosetteIcon,
 } from "@/components/PotteryIcons";
 import * as React from "react";
@@ -46,6 +43,14 @@ export type AudienceContentCollection = {
   }>;
 };
 
+export type DownloadItem = {
+  title: LocalizedText;
+  url: string;
+  filename: string;
+  size?: string;
+  buttonText?: LocalizedText;
+};
+
 export type ServiceAudience = {
   id: string;
   title: LocalizedText;
@@ -57,6 +62,7 @@ export type ServiceAudience = {
   highlights: LocalizedText[];
   examples: LocalizedText[];
   contentCollection?: AudienceContentCollection;
+  downloads?: DownloadItem[];
 };
 
 export type Program = {
@@ -91,16 +97,16 @@ export const navItems = [
 
 export const heroCopy = {
   badge: {
-    en: "School Meals • Corporate Catering • Events",
-    ar: "وجبات المدارس • تموين الشركات • المناسبات",
+    en: "School Meals • Hotel Hospitality • Events",
+    ar: "وجبات المدارس • ضيافة الفنادق • المناسبات",
   },
   title: {
     en: "Meals Rooted in Heritage, Built for Modern Operations",
-    ar: "وجبات بروح الضيافة العربية مصممة للمدارس والشركات",
+    ar: "وجبات بروح الضيافة العربية مصممة للمدارس والفنادق والمناسبات",
   },
   subtitle: {
-    en: "Qira delivers reliable school meals, corporate catering, and event food programs inspired by Arabic hospitality and designed for daily operations.",
-    ar: "تقدّم قِرى برامج وجبات موثوقة للمدارس والشركات والمناسبات، مستلهمة من كرم الضيافة العربية ومصممة للتشغيل اليومي.",
+    en: "Qira delivers reliable school meals, hotel hospitality, and event food programs inspired by Arabic hospitality and designed for daily operations.",
+    ar: "تقدّم قرى برامج وجبات موثوقة للمدارس والفنادق والمناسبات، مستلهمة من كرم الضيافة العربية ومصممة للتشغيل اليومي.",
   },
   primaryCta: { en: "Request a Catering Proposal", ar: "اطلب عرض توريد" },
   secondaryCta: { en: "Explore Programs", ar: "استكشف البرامج" },
@@ -115,8 +121,8 @@ export const trustBullets = [
 export const stats = [
   { value: 6, label: { en: "Meal categories", ar: "فئات الوجبات" }, motif: "rosette" },
   { value: 4, label: { en: "Operating stages", ar: "مراحل التشغيل" }, motif: "jar" },
-  { value: 5, label: { en: "Program types", ar: "أنواع البرامج" }, motif: "rosette" },
-  { value: 6, label: { en: "Sectors served", ar: "قطاعات نخدمها" }, motif: "jar" },
+  { value: 2, label: { en: "Program types", ar: "أنواع البرامج" }, motif: "rosette" },
+  { value: 3, label: { en: "Sectors served", ar: "قطاعات نخدمها" }, motif: "jar" },
 ];
 
 export const audiences: ServiceAudience[] = [
@@ -127,7 +133,7 @@ export const audiences: ServiceAudience[] = [
       en: "Nourishing daily meals prepared with fresh ingredients, portioned carefully for children, and served with warmth.",
       ar: "وجبات يومية مغذية تُحضّر بمكونات طازجة وحصص مدروسة بعناية تناسب الصغار، وتُقدم بكل حب.",
     },
-    image: "/images/serve-schools.webp",
+    image: "/images/serve-schools-1.png",
     icon: SchoolPot,
     summary: {
       en: "Dependable, nutritious meal programs designed specifically for school environments, ensuring children have the energy they need to learn and grow.",
@@ -149,10 +155,10 @@ export const audiences: ServiceAudience[] = [
     ],
     contentCollection: {
       badge: { en: "From the school program", ar: "من البرنامج المدرسي" },
-      title: { en: "Zad Qira: A Meal That Carries a Story", ar: "زاد قِرى المدرسي" },
+      title: { en: "Zad Qira: A Meal That Carries a Story", ar: "زاد قرى المدرسي" },
       intro: {
         en: "At Qira, a meal is more than food. It is a gentle opportunity to plant a beautiful meaning, revive an Arabic word, and open a small window onto our history and culture. A short weekly story can accompany the meal or be shared inside the school.",
-        ar: "في قِرى، الوجبة ليست طعامًا فحسب، بل فرصة لطيفة لغرس معنى جميل، وإحياء كلمة عربية، وفتح نافذة صغيرة على تاريخنا وثقافتنا. نقترح تقديم معلومة أسبوعية قصيرة للطلاب، تُرفق مع الوجبة أو تُعرض داخل المدرسة.",
+        ar: "في قرى، الوجبة ليست طعامًا فحسب، بل فرصة لطيفة لغرس معنى جميل، وإحياء كلمة عربية، وفتح نافذة صغيرة على تاريخنا وثقافتنا. نقترح تقديم معلومة أسبوعية قصيرة للطلاب، تُرفق مع الوجبة أو تُعرض داخل المدرسة.",
       },
       itemLabel: { en: "Weekly theme", ar: "باب أسبوعي" },
       items: [
@@ -190,6 +196,22 @@ export const audiences: ServiceAudience[] = [
         },
       ],
     },
+    downloads: [
+      {
+        title: { en: "Zad Qira School Presentation", ar: "عرض زاد قرى المدرسي" },
+        url: "/PDF/زاد_قِرَى_المدرسي_.pdf",
+        filename: "زاد_قِرَى_المدرسي_.pdf",
+        size: "51.6 MB",
+        buttonText: { en: "Download Brochure", ar: "تحميل البروشور" }
+      },
+      {
+        title: { en: "Thareed Day (Example Topic)", ar: "نموذج يوم الثريد (مثال للموضوعات)" },
+        url: "/PDF/يــوم الثريــــد_.pdf",
+        filename: "يــوم الثريــــد_.pdf",
+        size: "2.3 MB",
+        buttonText: { en: "Download Example", ar: "تحميل النموذج" }
+      }
+    ]
   },
   {
     id: "hotels",
@@ -220,7 +242,7 @@ export const audiences: ServiceAudience[] = [
     ],
     contentCollection: {
       badge: { en: "From the breakfast menu", ar: "من قائمة الإفطار" },
-      title: { en: "Bakour Qira: A Seven-Day Breakfast Rotation", ar: "بَكور قِرى — قائمة الإفطار الأسبوعية" },
+      title: { en: "Bakour Qira: A Seven-Day Breakfast Rotation", ar: "بَكور قرى — قائمة الإفطار الأسبوعية" },
       intro: {
         en: "A warm weekly breakfast rotation for hotel teams and hospitality operations, combining familiar regional flavors, fresh sides, and dependable daily variety.",
         ar: "دورة إفطار أسبوعية دافئة لفرق الفنادق وعمليات الضيافة، تجمع النكهات الإقليمية المألوفة، والإضافات الطازجة، والتنوّع اليومي الموثوق.",
@@ -231,26 +253,26 @@ export const audiences: ServiceAudience[] = [
           title: { en: "Saturday", ar: "السبت" },
           description: { en: "A Hijazi start with warm foul and simple home-style accompaniments.", ar: "بداية حجازية بفول دافئ وإضافات منزلية بسيطة." },
           details: [
-            { en: "Qira Hijazi foul", ar: "فول قِرى الحجازي" },
+            { en: "Qira Hijazi foul", ar: "فول قرى الحجازي" },
             { en: "Boiled eggs", ar: "بيض الدار المسلوق" },
             { en: "Mini brioche manakish", ar: "ميني مناقيش بريوش" },
             { en: "Fresh morning vegetables", ar: "خضار الصباح" },
             { en: "Cheddar cheese", ar: "جبنة شيدر صفراء" },
             { en: "Mulberry jam with fruit pieces", ar: "مربى الفرصاد مع قطع التوت" },
-            { en: "Qira mint tea", ar: "شاي قِرى بالنعناع" },
+            { en: "Qira mint tea", ar: "شاي قرى بالنعناع" },
           ],
         },
         {
           title: { en: "Sunday", ar: "الأحد" },
           description: { en: "A generous breakfast led by fresh liver and a soft milk omelet.", ar: "إفطار مشبع تتقدمه الكبدة الطازجة وعجة البيض بالحليب." },
           details: [
-            { en: "Qira liver", ar: "كبدة قِرى" },
+            { en: "Qira liver", ar: "كبدة قرى" },
             { en: "Milk omelet", ar: "عجة بيض بالحليب" },
             { en: "Roasted potatoes", ar: "بطاطس مشوية" },
             { en: "Fruit yogurt", ar: "زبادي بالفواكه" },
             { en: "White feta cheese", ar: "جبنة فيتا بيضاء" },
             { en: "Tahini halva", ar: "حلاوة طحينية" },
-            { en: "Qira mint tea", ar: "شاي قِرى بالنعناع" },
+            { en: "Qira mint tea", ar: "شاي قرى بالنعناع" },
           ],
         },
         {
@@ -263,7 +285,7 @@ export const audiences: ServiceAudience[] = [
             { en: "Labneh and olive oil", ar: "لبنة وزيت زيتون" },
             { en: "Cheddar cheese", ar: "جبنة شيدر صفراء" },
             { en: "Mulberry jam with fruit pieces", ar: "مربى الفرصاد مع قطع التوت" },
-            { en: "Qira mint tea", ar: "شاي قِرى بالنعناع" },
+            { en: "Qira mint tea", ar: "شاي قرى بالنعناع" },
           ],
         },
         {
@@ -276,7 +298,7 @@ export const audiences: ServiceAudience[] = [
             { en: "Fresh morning vegetables", ar: "خضار الصباح" },
             { en: "White feta cheese", ar: "جبنة فيتا بيضاء" },
             { en: "Tahini halva", ar: "حلاوة طحينية" },
-            { en: "Qira mint tea", ar: "شاي قِرى بالنعناع" },
+            { en: "Qira mint tea", ar: "شاي قرى بالنعناع" },
           ],
         },
         {
@@ -289,7 +311,7 @@ export const audiences: ServiceAudience[] = [
             { en: "Fruit yogurt", ar: "زبادي بالفواكه" },
             { en: "Cheddar cheese", ar: "جبنة شيدر صفراء" },
             { en: "Mulberry jam with fruit pieces", ar: "مربى الفرصاد مع قطع التوت" },
-            { en: "Qira mint tea", ar: "شاي قِرى بالنعناع" },
+            { en: "Qira mint tea", ar: "شاي قرى بالنعناع" },
           ],
         },
         {
@@ -302,7 +324,7 @@ export const audiences: ServiceAudience[] = [
             { en: "Labneh and olive oil", ar: "لبنة وزيت زيتون" },
             { en: "White feta cheese", ar: "جبنة فيتا بيضاء" },
             { en: "Tahini halva", ar: "حلاوة طحينية" },
-            { en: "Qira mint tea", ar: "شاي قِرى بالنعناع" },
+            { en: "Qira mint tea", ar: "شاي قرى بالنعناع" },
           ],
         },
         {
@@ -315,11 +337,20 @@ export const audiences: ServiceAudience[] = [
             { en: "Fresh morning vegetables", ar: "خضار الصباح" },
             { en: "Cheddar cheese", ar: "جبنة شيدر صفراء" },
             { en: "Mulberry jam with fruit pieces", ar: "مربى الفرصاد مع قطع التوت" },
-            { en: "Qira mint tea", ar: "شاي قِرى بالنعناع" },
+            { en: "Qira mint tea", ar: "شاي قرى بالنعناع" },
           ],
         },
       ],
     },
+    downloads: [
+      {
+        title: { en: "Bakour Qira Breakfast Menu", ar: "قائمة إفطار بكور قرى" },
+        url: "/PDF/بكور قرى.pdf",
+        filename: "بكور قرى.pdf",
+        size: "1.9 MB",
+        buttonText: { en: "Download Brochure", ar: "تحميل البروشور" }
+      }
+    ]
   },
   {
     id: "events",
@@ -348,90 +379,6 @@ export const audiences: ServiceAudience[] = [
       { en: "Cultural and festive sharing trays", ar: "صواني مشاركة ثقافية واحتفالية" },
       { en: "Customized event refreshment stations", ar: "محطات مرطبات مخصصة للمناسبات" }
     ]
-  },
-  {
-    id: "worksite",
-    title: { en: "Worksite Meals", ar: "وجبات مواقع العمل" },
-    body: {
-      en: "Hearty, reliable meals delivered to field teams, keeping them sustained and valued throughout the day.",
-      ar: "وجبات مشبعة وموثوقة تصل إلى طواقم العمل الميدانية، لتبقيهم في كامل نشاطهم وتشعرهم بالتقدير.",
-    },
-    image: "/images/serve-construction.webp",
-    icon: WorksiteJar,
-    summary: {
-      en: "Robust, high-energy meals designed specifically for the demanding environments of construction sites, remote locations, and field operations.",
-      ar: "وجبات قوية وعالية الطاقة مصممة خصيصًا للبيئات الصعبة في مواقع البناء والمواقع البعيدة والعمليات الميدانية."
-    },
-    story: {
-      en: "Field work requires serious fuel. Our Worksite Meals program focuses on delivering hearty, comforting food to teams working in challenging conditions. With durable packaging and punctual delivery, we ensure your crew gets the hot, satisfying meal they've earned.",
-      ar: "يتطلب العمل الميداني وقودًا حقيقيًا. يركز برنامج وجبات مواقع العمل الخاص بنا على تقديم طعام شهي ومريح للفرق العاملة في ظروف صعبة. بفضل التغليف المتين والتوصيل في الموعد المحدد، نضمن حصول طاقمك على الوجبة الساخنة والمرضية التي يستحقونها."
-    },
-    highlights: [
-      { en: "High-caloric, energizing menus", ar: "قوائم طعام عالية السعرات الحرارية ومنشطة" },
-      { en: "Durable, field-ready packaging", ar: "تغليف متين وجاهز للميدان" },
-      { en: "Logistics for hard-to-reach sites", ar: "خدمات لوجستية للمواقع التي يصعب الوصول إليها" }
-    ],
-    examples: [
-      { en: "Bulk hot meal deliveries", ar: "توصيل وجبات ساخنة بكميات كبيرة" },
-      { en: "Individual heavy-duty lunch boxes", ar: "صناديق غداء فردية متينة" },
-      { en: "Hydration and snack stations", ar: "محطات ترطيب ووجبات خفيفة" }
-    ]
-  },
-  {
-    id: "shift",
-    title: { en: "Shift Meals", ar: "وجبات الورديات" },
-    body: {
-      en: "Comforting, warm meals timed perfectly for teams on rotating schedules, ensuring good food is always ready.",
-      ar: "وجبات دافئة ومريحة تصل بدقة متناهية لتناسب جداول الورديات المختلفة، لتكون اللقمة الطيبة حاضرة دائماً.",
-    },
-    image: "/images/serve-security.webp",
-    icon: ShiftTagine,
-    summary: {
-      en: "Precise catering solutions for operations that run around the clock, providing timely sustenance for security, healthcare, and industrial teams.",
-      ar: "حلول تموين دقيقة للعمليات التي تعمل على مدار الساعة، لتوفير الغذاء في الوقت المناسب لفرق الأمن والرعاية الصحية والفرق الصناعية."
-    },
-    story: {
-      en: "Non-standard hours shouldn't mean a drop in food quality. Our Shift Meals program syncs with your operational tempo, bringing comforting, freshly prepared food to your teams exactly when their break starts, regardless of the time on the clock.",
-      ar: "ساعات العمل غير القياسية لا ينبغي أن تعني انخفاضًا في جودة الطعام. يتزامن برنامج وجبات الورديات الخاص بنا مع إيقاع عملياتك، ليقدم طعامًا مريحًا وطازجًا لفرقك في الوقت الذي تبدأ فيه استراحتهم، بغض النظر عن الوقت."
-    },
-    highlights: [
-      { en: "Punctual delivery to match breaks", ar: "توصيل دقيق ليتناسب مع أوقات الاستراحة" },
-      { en: "Menus designed for sustained energy", ar: "قوائم مصممة لطاقة مستدامة" },
-      { en: "Easy-to-handle individual packaging", ar: "تغليف فردي سهل التعامل معه" }
-    ],
-    examples: [
-      { en: "Late-night hot comfort meals", ar: "وجبات ساخنة مريحة في وقت متأخر من الليل" },
-      { en: "Early morning breakfast transitions", ar: "خيارات إفطار لانتقالات الصباح الباكر" },
-      { en: "Quick-consume nutritious wraps", ar: "لفائف مغذية سريعة الاستهلاك" }
-    ]
-  },
-  {
-    id: "office",
-    title: { en: "Office Tables", ar: "موائد المكاتب" },
-    body: {
-      en: "Daily lunch tables and meeting platters that bring colleagues together over shared plates and genuine hospitality.",
-      ar: "موائد غداء يومية وأطباق اجتماعات تجمع الزملاء حول لقمة تشاركية طيبة وضيافة أصيلة.",
-    },
-    image: "/images/serve-corporate.webp",
-    icon: OfficeFinjan,
-    summary: {
-      en: "Transform your workplace culture with daily lunches and meeting platters that foster connection and boost morale.",
-      ar: "قم بتحويل ثقافة مكان عملك من خلال وجبات غداء يومية وأطباق اجتماعات تعزز التواصل وترفع المعنويات."
-    },
-    story: {
-      en: "The best ideas often happen over a shared meal. We provide corporate offices with beautifully arranged lunch tables and meeting platters that break up the workday with a moment of genuine hospitality and collegial connection.",
-      ar: "غالبًا ما تحدث أفضل الأفكار أثناء وجبة مشتركة. نوفر لمكاتب الشركات طاولات غداء وأطباق اجتماعات مرتبة بشكل جميل تكسر روتين يوم العمل بلحظة من الضيافة الأصيلة والتواصل بين الزملاء."
-    },
-    highlights: [
-      { en: "Professional, neat presentation", ar: "تقديم احترافي وأنيق" },
-      { en: "Light options to avoid afternoon slumps", ar: "خيارات خفيفة لتجنب خمول بعد الظهر" },
-      { en: "Seamless boardroom integration", ar: "تكامل سلس في قاعات الاجتماعات" }
-    ],
-    examples: [
-      { en: "Executive boardroom meeting spreads", ar: "تجهيزات لاجتماعات مجالس الإدارة التنفيذية" },
-      { en: "Daily team lunch buffets", ar: "بوفيهات غداء يومية للفرق" },
-      { en: "Friday team-building sharing platters", ar: "أطباق مشاركة لفعاليات بناء الفريق يوم الجمعة" }
-    ]
   }
 ];
 
@@ -445,18 +392,7 @@ export const programs: Program[] = [
     },
     bestFor: { en: "Private schools, academies, and nurseries", ar: "المدارس الخاصة، والأكاديميات، والحضانات" },
     benefit: { en: "Predictable portions, neat packaging, and reliable delivery windows", ar: "حصص مدروسة، وتغليف أنيق، ونوافذ توصيل موثوقة" },
-    image: "/images/serve-schools.webp",
-  },
-  {
-    id: "corporate",
-    title: { en: "Corporate Catering", ar: "تموين الشركات" },
-    description: {
-      en: "Executive lunches, meeting platters, and training day spreads served with local warmth and care.",
-      ar: "وجبات غداء تنفيذية، وأطباق لقاءات، وموائد أيام التدريب تُقدّم بحفاوة محلية واهتمام بالغ.",
-    },
-    bestFor: { en: "Corporate headquarters, business gatherings, and boardrooms", ar: "المقار الرئيسية للشركات، واللقاءات المهنية، وقاعات الاجتماعات" },
-    benefit: { en: "Sophisticated styling, discrete service, and simplified scheduling", ar: "تقديم راقٍ، وخدمة لبقة، وجداول تشغيل مبسطة ومريحة" },
-    image: "/images/serve-corporate.webp",
+    image: "/images/serve-schools-3.png",
   },
   {
     id: "events",
@@ -468,47 +404,6 @@ export const programs: Program[] = [
     bestFor: { en: "Cultural receptions, large gatherings, and conferences", ar: "الاستقبالات الثقافية، واللقاءات الكبرى، والمؤتمرات" },
     benefit: { en: "Beautiful presentation, coordinated setup, and scalable menus", ar: "تقديم وحضور بهي، وتجهيز متكامل منسق، وقوائم مرنة تتسع للجميع" },
     image: "/images/serve-events.webp",
-  },
-  {
-    id: "staff",
-    title: { en: "Staff Meal Plans", ar: "خطط وجبات الموظفين" },
-    description: {
-      en: "Dependable bulk meal schedules for field operations, rotating shifts, and active teams.",
-      ar: "جداول وجبات جماعية يعتمد عليها للعمليات الميدانية، والورديات المتعاقبة، والفرق النشطة.",
-    },
-    bestFor: { en: "On-site operations, remote projects, and busy field teams", ar: "العمليات الميدانية، والمشاريع عن بُعد، وفرق العمل النشطة" },
-    benefit: { en: "Consistent daily catering, robust containers, and punctual logistics", ar: "إمداد يومي متسق، وتغليف عملي متين، ولوجستيات توصيل دقيقة" },
-    image: "/images/serve-construction.webp",
-  },
-  {
-    id: "cultural",
-    title: { en: "Custom Cultural Menus", ar: "قوائم ثقافية مخصصة" },
-    description: {
-      en: "Handcrafted Saudi and Hijazi themed dining menus customized for unique brand hospitality occasions.",
-      ar: "قوائم طعام مستلهمة من المطبخ السعودي والحجازي تُصاغ خصيصاً لمناسبات ضيافة العلامات التجارية الفريدة.",
-    },
-    bestFor: { en: "Themed gatherings, brand milestones, and VIP hospitality", ar: "اللقاءات ذات الطابع الخاص، وفعاليات العلامات التجارية، وضيافة كبار الشخصيات" },
-    benefit: { en: "Tailored Hijazi flavor profiles, artisanal layout, and custom detailing", ar: "نكهات حجازية أصيلة، وتنسيق يعكس الفن المحلي، وتفاصيل مخصصة لكل مناسبة" },
-    image: "/images/menu-custom.webp",
-  },
-];
-
-export const experiencePanels = [
-  {
-    image: "/images/experience-panel-01.webp",
-    title: { en: "Prepared with calm", ar: "تحضير صباحي هادئ" },
-  },
-  {
-    image: "/images/experience-panel-02.webp",
-    title: { en: "Packed with care", ar: "تغليف تشاركي أنيق" },
-  },
-  {
-    image: "/images/experience-panel-03.webp",
-    title: { en: "Served like a guest", ar: "ضيافة تشعر بحفاوتها" },
-  },
-  {
-    image: "/images/experience-panel-04.webp",
-    title: { en: "Made for the day’s rhythm", ar: "ملائمة لإيقاع يومك" },
   },
 ];
 
@@ -556,8 +451,8 @@ export const qualityPoints = [
     icon: PackageCheck,
     title: { en: "Packaging", ar: "التغليف" },
     body: {
-      en: "Packaging is selected for schools, offices, events, and field teams.",
-      ar: "يتم اختيار التغليف وتصميمه ليناسب المدارس، والمكاتب، والفعاليات، والفرق الميدانية.",
+      en: "Packaging is selected for schools, hotels, and events.",
+      ar: "يتم اختيار التغليف وتصميمه ليناسب المدارس والفنادق والفعاليات.",
     },
   },
   {
@@ -635,7 +530,7 @@ export const menuCategories: MenuCategory[] = [
     },
     story: {
       en: "Lunch meals form the backbone of many daily programs. Qira can shape the menu around repeat delivery windows, dietary needs, and receiving conditions so lunch stays calm and consistent.",
-      ar: "تشكل وجبات الغداء أساس كثير من البرامج اليومية. يمكن لقيرة تشكيل القائمة حول مواعيد تسليم متكررة واحتياجات غذائية وبيئة استلام واضحة حتى يبقى الغداء منظمًا وثابتًا.",
+      ar: "تشكل وجبات الغداء أساس كثير من البرامج اليومية. يمكن لقرى تشكيل القائمة حول مواعيد تسليم متكررة واحتياجات غذائية وبيئة استلام واضحة حتى يبقى الغداء منظمًا وثابتًا.",
     },
     bestFor: {
       en: "Schools, corporate staff lunches, long workdays, and recurring operational meal plans.",
@@ -796,7 +691,7 @@ export const ctaCopy = {
   },
   body: {
     en: "Tell us about your audience, volume, and service setting. Qira will help shape a practical catering proposal around your operations.",
-    ar: "أخبرنا عن جمهورك وحجم الطلب وبيئة الخدمة. ستساعدك قيرة في تشكيل عرض تموين عملي يناسب تشغيلك.",
+    ar: "أخبرنا عن جمهورك وحجم الطلب وبيئة الخدمة. ستساعدك قرى في تشكيل عرض تموين عملي يناسب تشغيلك.",
   },
   button: { en: "Start Your B2B Catering Request", ar: "ابدأ طلب التموين المؤسسي" },
 };

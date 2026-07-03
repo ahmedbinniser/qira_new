@@ -35,10 +35,7 @@ export function GlassNavbar({
             {/* Extracted from the 2025 Qira brand guide PDF; replace in public/logos when the master logo changes. */}
             <img src="/logos/qira-wordmark-ink.png" alt="Qira" className="brand-wordmark" />
           </span>
-          <span className="brand-copy min-w-0 leading-tight">
-            <span className="block text-sm font-semibold text-[var(--text-primary)]">
-              {language === "ar" ? "دكان أطعمة" : "Deli store"}
-            </span>
+          <span className="brand-copy flex min-w-0 items-center leading-tight">
             <span className="brand-subtitle block text-[11px] uppercase tracking-[0.18em] text-[var(--accent)]">
               Catering
             </span>

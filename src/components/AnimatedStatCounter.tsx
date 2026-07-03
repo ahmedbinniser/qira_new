@@ -5,7 +5,6 @@ import { LineJarIcon, RosetteIcon } from "@/components/PotteryIcons";
 type AnimatedStatCounterProps = {
   value: number;
   title: string;
-  arabicLabel: string;
   motif?: string;
   reducedMotion: boolean;
 };
@@ -13,7 +12,6 @@ type AnimatedStatCounterProps = {
 export function AnimatedStatCounter({
   value,
   title,
-  arabicLabel,
   motif = "rosette",
   reducedMotion,
 }: AnimatedStatCounterProps) {
@@ -67,7 +65,6 @@ export function AnimatedStatCounter({
         0
       </span>
       <span className="stat-title">{title}</span>
-      <span className="stat-arabic">{arabicLabel}</span>
     </article>
   );
 }
