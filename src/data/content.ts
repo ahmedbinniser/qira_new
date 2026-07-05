@@ -43,6 +43,19 @@ export type AudienceContentCollection = {
   }>;
 };
 
+export type AudienceMenuSection = {
+  title: LocalizedText;
+  items: LocalizedText[];
+};
+
+export type AudienceFeaturedMenu = {
+  badge: LocalizedText;
+  title: LocalizedText;
+  intro: LocalizedText;
+  note?: LocalizedText;
+  sections: AudienceMenuSection[];
+};
+
 export type DownloadItem = {
   title: LocalizedText;
   url: string;
@@ -62,6 +75,7 @@ export type ServiceAudience = {
   highlights: LocalizedText[];
   examples: LocalizedText[];
   contentCollection?: AudienceContentCollection;
+  featuredMenu?: AudienceFeaturedMenu;
   downloads?: DownloadItem[];
 };
 
@@ -193,6 +207,51 @@ export const audiences: ServiceAudience[] = [
         {
           title: { en: "The Arab Table", ar: "مائدة العرب" },
           description: { en: "Discover historic Arab dishes and their names, connecting each story to food served to students.", ar: "نقدّم معلومات عن طعام العرب القديم وأسمائه، مع ربط جميل بما يُقدّم للطلاب من طعام." },
+        },
+      ],
+    },
+    featuredMenu: {
+      badge: { en: "School menu", ar: "من قائمة المدرسة" },
+      title: { en: "School Breakfast Menu", ar: "قائمة الإفطار المدرسي" },
+      intro: {
+        en: "A simple breakfast format schools can shape by bread type, bread style, and filling. The selections below follow your shared menu reference and can be adjusted by age group and daily volume.",
+        ar: "صيغة إفطار مدرسية بسيطة يمكن تنسيقها حسب نوع الخبز، وشكل الرغيف، والحشوة. الخيارات التالية مبنية على المرجع المرفق وقابلة للتعديل بحسب المرحلة العمرية وعدد الوجبات اليومية.",
+      },
+      note: {
+        en: "Shelf life: up to 3 days from the production date.",
+        ar: "صالح لمدة 3 أيام من تاريخ التصنيع.",
+      },
+      sections: [
+        {
+          title: { en: "Bread type", ar: "نوع الخبز" },
+          items: [
+            { en: "Whole grain", ar: "حبة كاملة" },
+            { en: "White", ar: "أبيض" },
+          ],
+        },
+        {
+          title: { en: "Bread", ar: "الخبز" },
+          items: [
+            { en: "Loaf (manakish)", ar: "رغيف (مناقيش)" },
+            { en: "Brioche sandwich", ar: "ساندويش بريوش" },
+            { en: "Crescent croissant", ar: "كرواسون هلالي" },
+            { en: "Loaf (pizza)", ar: "رغيف (بيتزا)" },
+          ],
+        },
+        {
+          title: { en: "Fillings", ar: "الحشوات" },
+          items: [
+            { en: "White cheese", ar: "جبنة بيضاء" },
+            { en: "Yellow cheese", ar: "جبنة صفراء" },
+            { en: "Three-cheese blend", ar: "الأجبان الثلاثة" },
+            { en: "Cheese and olives", ar: "جبنة وزيتون" },
+            { en: "Cream cheese spread", ar: "جبنة سائلة" },
+            { en: "Jam and peanut butter", ar: "مربى وفول سوداني" },
+            { en: "Jam and yellow cheese", ar: "مربى وجبنة صفراء" },
+            { en: "Dates and tahini", ar: "تمر وطحينة" },
+            { en: "Tuna and olives", ar: "تونة وزيتون" },
+            { en: "Tuna and cheese", ar: "تونة وجبنة" },
+          ],
         },
       ],
     },

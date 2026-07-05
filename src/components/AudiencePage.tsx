@@ -2,6 +2,7 @@ import { ArrowLeft, ArrowUpRight, CheckCircle2, Sparkles, FileText, Download } f
 import type { Language, ServiceAudience } from "@/data/content";
 import { Badge } from "@/components/ui/badge";
 import { LiquidButton } from "@/components/LiquidButton";
+import { RosetteIcon } from "@/components/PotteryIcons";
 
 type AudiencePageProps = {
   audience: ServiceAudience;
@@ -26,6 +27,97 @@ const copy = {
   downloadText: { en: "Download", ar: "تحميل" },
 };
 
+function AudienceFeaturedMenuSection({
+  menu,
+  language,
+}: {
+  menu: NonNullable<ServiceAudience["featuredMenu"]>;
+  language: Language;
+}) {
+  const isArabic = language === "ar";
+
+  return (
+    <section className="relative overflow-hidden bg-[#CDA886] px-5 py-16 text-[#FFF8F1] md:px-8 md:py-24">
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-16 opacity-70"
+        aria-hidden="true"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg width='34' height='34' viewBox='0 0 34 34' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9 4H25V15H30V30H4V15H9V4Z' stroke='white' stroke-width='1.25'/%3E%3C/svg%3E\")",
+          backgroundRepeat: "repeat-x",
+          backgroundSize: "34px 34px",
+        }}
+      />
+      <div className="pointer-events-none absolute inset-y-10 -left-12 hidden w-40 opacity-20 md:block rtl:left-auto rtl:right-[-3rem]">
+        <RosetteIcon className="size-full" />
+      </div>
+      <div className="pointer-events-none absolute bottom-10 -left-10 hidden w-32 opacity-[0.16] md:block rtl:left-auto rtl:right-[-2.5rem]">
+        <RosetteIcon className="size-full" />
+      </div>
+      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+        <div className="reveal max-w-2xl text-left rtl:text-right">
+          <Badge className="mb-5 border border-white/20 bg-white/10 text-[#FFF8F1] hover:bg-white/10">
+            {menu.badge[language]}
+          </Badge>
+          <h2 className="font-display text-4xl leading-tight text-[#FFF8F1] md:text-6xl">
+            {menu.title[language]}
+          </h2>
+          <p className="mt-6 text-base leading-8 text-white/90 md:text-lg md:leading-9">
+            {menu.intro[language]}
+          </p>
+          {menu.note ? (
+            <div className="mt-8 inline-flex max-w-md rounded-[1.4rem] border border-white/[0.16] bg-white/10 px-5 py-4 text-sm leading-7 text-white/90 shadow-[0_18px_55px_rgba(88,55,33,0.12)]">
+              {menu.note[language]}
+            </div>
+          ) : null}
+        </div>
+
+        <div className="reveal rounded-[2.2rem] border border-white/[0.18] bg-white/10 p-5 shadow-[0_28px_80px_rgba(92,56,33,0.18)] backdrop-blur-[2px] md:p-8">
+          <div className="mb-8 hidden items-center justify-center gap-4 md:flex" aria-hidden="true">
+            <span className="h-px flex-1 bg-white/[0.28]" />
+            <span className="inline-flex size-3 rotate-45 rounded-[2px] bg-white/90" />
+            <span className="h-px flex-1 bg-white/[0.28]" />
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-2">
+            {menu.sections.map((section, index) => {
+              const isWideSection = index === menu.sections.length - 1;
+
+              return (
+                <article
+                  key={`${section.title.en}-${index}`}
+                  className={isWideSection ? "md:col-span-2" : undefined}
+                >
+                  <div className="inline-flex rounded-full bg-white px-5 py-2 text-sm font-semibold text-[#9E6D4E] shadow-[0_10px_28px_rgba(92,56,33,0.12)]">
+                    {section.title[language]}
+                  </div>
+                  <ul
+                    className={`mt-5 grid gap-3 ${isWideSection ? "sm:grid-cols-2" : ""}`}
+                    aria-label={section.title[language]}
+                  >
+                    {section.items.map((item) => (
+                      <li
+                        key={item.en}
+                        dir={isArabic ? "rtl" : "ltr"}
+                        className={`flex items-center gap-3 rounded-[1.2rem] border border-white/[0.12] bg-white/[0.08] px-4 py-3 text-sm leading-6 text-[#FFF8F1] shadow-[0_12px_30px_rgba(92,56,33,0.08)] ${
+                          isArabic ? "flex-row-reverse text-right" : "text-left"
+                        }`}
+                      >
+                        <span className="inline-flex size-5 shrink-0 rounded-[0.55rem] border border-white bg-white/95" aria-hidden="true" />
+                        <span className="flex-1">{item[language]}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function AudiencePage({
   audience,
   audiences,
@@ -34,6 +126,7 @@ export function AudiencePage({
 }: AudiencePageProps) {
   const Icon = audience.icon;
   const contentCollection = audience.contentCollection;
+  const featuredMenu = audience.featuredMenu;
   const relatedAudiences = audiences
     .filter((item) => item.id !== audience.id)
     .slice(0, 3);
@@ -210,6 +303,10 @@ export function AudiencePage({
             </div>
           </div>
         </section>
+      ) : null}
+
+      {featuredMenu ? (
+        <AudienceFeaturedMenuSection menu={featuredMenu} language={language} />
       ) : null}
 
       {audience.downloads && audience.downloads.length > 0 ? (
