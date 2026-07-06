@@ -418,7 +418,7 @@ export const audiences: ServiceAudience[] = [
       en: "Beautifully presented sharing trays, warm buffet spreads, and bespoke catering designed to elevate every gathering.",
       ar: "صواني مشاركة منسقة بعناية، وبوفيهات دافئة، وتموين مخصص يُعد ليزيد لقاءاتكم بهجة وحفاوة.",
     },
-    image: "/images/serve-events.webp",
+    image: "/images/serve-events-v2.png",
     icon: EventBowl,
     summary: {
       en: "From intimate gatherings to large-scale events, our catering combines authentic flavor with elegant presentation to make every occasion memorable.",
@@ -462,7 +462,7 @@ export const programs: Program[] = [
     },
     bestFor: { en: "Cultural receptions, large gatherings, and conferences", ar: "الاستقبالات الثقافية، واللقاءات الكبرى، والمؤتمرات" },
     benefit: { en: "Beautiful presentation, coordinated setup, and scalable menus", ar: "تقديم وحضور بهي، وتجهيز متكامل منسق، وقوائم مرنة تتسع للجميع" },
-    image: "/images/serve-events.webp",
+    image: "/images/serve-events-v2.png",
   },
 ];
 
